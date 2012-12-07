@@ -34,8 +34,17 @@
  */
 $GLOBALS['TL_LANG']['tl_module']['vb_archive']					= array('Votebox-Archiv', 'Wählen Sie das Votebox-Archiv aus für das dieses Modul gelten soll.');
 $GLOBALS['TL_LANG']['tl_module']['vb_reader_jumpTo']			= array('Weiterleitungsseite für den Leser', 'Wählen Sie die Seite aus auf der sich der Ideen-Leser befindet.');
+$GLOBALS['TL_LANG']['tl_module']['vb_orderBy']					= array('Sortierung', 'Wählen Sie die gewünschte Sortierung aus.');
 $GLOBALS['TL_LANG']['tl_module']['vb_list_tpl']					= array('Template', 'Wählen Sie hier ein Template aus.');
 $GLOBALS['TL_LANG']['tl_module']['vb_reader_tpl']				= array('Template', 'Wählen Sie hier ein Template aus.');
 $GLOBALS['TL_LANG']['tl_module']['vb_new_idea_tpl']				= array('Template', 'Wählen Sie hier ein Template aus.');
 $GLOBALS['TL_LANG']['tl_module']['vb_new_idea_jumpTo']			= array('Weiterleitungsseite', 'Wählen Sie die Seite aus auf die das Mitglied weitergeleitet werden soll, nachdem es eine neue Idee erstellt hat.');
 $GLOBALS['TL_LANG']['tl_module']['vb_new_idea_jumpTo']			= array('Weiterleitungsseite', 'Wählen Sie die Seite aus auf die das Mitglied weitergeleitet werden soll, nachdem es eine neue Idee erstellt hat.');
+
+/**
+ * Reference
+ */
+$GLOBALS['TL_LANG']['tl_module']['vb_orderBy']['votes_asc']		= 'Nach Stimmen aufsteigend';
+$GLOBALS['TL_LANG']['tl_module']['vb_orderBy']['votes_desc']	= 'Nach Stimmen absteigend';
+$GLOBALS['TL_LANG']['tl_module']['vb_orderBy']['date_asc']		= 'Nach Datum aufsteigend';
+$GLOBALS['TL_LANG']['tl_module']['vb_orderBy']['date_desc']		= 'Nach Datum absteigend';

@@ -73,7 +73,35 @@ class ModuleVoteboxList extends ModuleVotebox
 	 */
 	protected function compile()
 	{
-		$arrData = $this->getIdeas($this->vb_archive, false, $this->vb_reader_jumpTo);
+		// determine order
+		$strOrderBy = '';
+
+		switch ($this->vb_orderBy)
+		{
+			case 'votes_asc':
+				$strOrderBy = 'voteCount ASC';
+				break;
+			case 'votes_desc':
+				$strOrderBy = 'voteCount DESC';
+				break;
+			case 'date_asc':
+				$strOrderBy = 'creation_date ASC';
+				break;
+			case 'date_desc':
+				$strOrderBy = 'creation_date DESC';
+				break;
+			default:
+				if (isset($GLOBALS['TL_HOOKS']['voteBoxListOrderBy']) && is_array($GLOBALS['TL_HOOKS']['voteBoxListOrderBy']))
+				{
+					foreach ($GLOBALS['TL_HOOKS']['voteBoxListOrderBy'] as $callback)
+					{
+						$this->import($callback[0]);
+						$strOrderBy = $this->$callback[0]->$callback[1]($this->vb_orderBy);
+					}
+				}
+		}
+
+		$arrData = $this->getIdeas($this->vb_archive, false, $this->vb_reader_jumpTo, $strOrderBy);
 
 		if (!$arrData)
 		{

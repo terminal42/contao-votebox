@@ -77,12 +77,13 @@ abstract class ModuleVotebox extends Module
 
 	/**
 	 * Gets an array of ideas
-	 * @param int
-	 * @param int
-	 * @param int
+	 * @param int archive id
+	 * @param int idea id
+	 * @param int jumpTo page id
+	 * @param string ORDER BY definition
 	 * @return array|false
 	 */
-	public function getIdeas($intArchiveId, $intIdeaId=false, $intJumpToId=false)
+	public function getIdeas($intArchiveId, $intIdeaId=false, $intJumpToId=false, $strOrderBy=false)
 	{
 		$strWhere = ' WHERE vb.pid=? AND vb.published=?';
 		$arrExecute = array($intArchiveId, 1);
@@ -92,7 +93,16 @@ abstract class ModuleVotebox extends Module
 			$strWhere .= ' AND vb.id=? LIMIT 1';
 			$arrExecute[] = $intIdeaId;
 		}
-		
+
+		if (!$strOrderBy)
+		{
+			$strOrderBy = '';
+		}
+		else
+		{
+			$strOrderBy = ' ORDER BY ' . $strOrderBy;
+		}
+
 		// get ideas for this votebox
 		$objIdeas = $this->Database->prepare("SELECT
 												vb.id AS id,
@@ -109,7 +119,7 @@ abstract class ModuleVotebox extends Module
 											LEFT JOIN
 												tl_member AS m
 											ON
-												vb.member_id=m.id" . $strWhere)
+												vb.member_id=m.id" . $strWhere . $strOrderBy)
 								  ->execute($arrExecute);
 								  
 		if (!$objIdeas->numRows)
