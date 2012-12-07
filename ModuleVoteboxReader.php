@@ -104,29 +104,52 @@ class ModuleVoteboxReader extends ModuleVotebox
 			return;
 		}
 
+		// reset session data
+		unset($_SESSION['VOTEBOX_SUCCESSFULLY_VOTED'][$this->intIdeaId]);
+		unset($_SESSION['VOTEBOX_ALREADY_VOTED'][$this->intIdeaId]);
+
+		// check if the user has voted and store it
+		if ($_POST['FORM_SUBMIT'] == 'vote_form_' . $this->id)
+		{
+			$this->storeVote();
+		}
+
 		$this->Template->hasData = true;
 		
 		// detail template
-		$this->objDetailTemplate = new FrontendTemplate((strlen($this->vb_reader_tpl)) ? $this->vb_reader_tpl : 'votebox_reader_default');
-		
-		// hide error message by default
-		$this->objDetailTemplate->errorStyle = 'display:none;';
-		
-		// idea
+		$this->objDetailTemplate = new FrontendTemplate(($this->vb_reader_tpl) ? $this->vb_reader_tpl : 'votebox_reader_default');
+
+		// error and success messages
+		$this->objDetailTemplate->errorStyle = $this->objDetailTemplate->successStyle = 'display:none;';
+		if ($_SESSION['VOTEBOX_SUCCESSFULLY_VOTED'][$this->intIdeaId])
+		{
+			$this->objDetailTemplate->successStyle = '';
+		}
+		if ($_SESSION['VOTEBOX_ALREADY_VOTED'][$this->intIdeaId])
+		{
+			$this->objDetailTemplate->errorStyle = '';
+		}
+
+			// idea
 		$this->objDetailTemplate->arrIdea = array_shift($arrData);
-		// vote link
-		$this->objDetailTemplate->voteLink = $this->Environment->request . ((strpos($this->Environment->request, '?') !== false) ? '&' : '?') . 'vote=1';
+
+		// vote data
+		$this->objDetailTemplate->vote_formId = 'vote_form_' . $this->id;
+		$this->objDetailTemplate->vote_action = $this->Environment->request;
+
 		// labels
 		$this->objDetailTemplate->lblVote 				= $GLOBALS['TL_LANG']['MSC']['vb_vote'];
 		$this->objDetailTemplate->lblAlreadyVoted		= $GLOBALS['TL_LANG']['MSC']['vb_already_voted'];
 		$this->objDetailTemplate->lblSuccessfullyVoted	= $GLOBALS['TL_LANG']['MSC']['vb_successfully_voted'];
 		// member id
 		$this->objDetailTemplate->memberId = $this->intMemberId;
+
 		// check if the user has alredy voted (useful for e.g. CSS classes)
 		if (Votebox::hasVoted($this->intIdeaId, $this->intMemberId))
 		{
 			$this->objDetailTemplate->hasVoted = true;
 		}
+
 		// add a default CSS class to the container
 		if ($this->objDetailTemplate->hasVoted)
 		{
@@ -136,9 +159,6 @@ class ModuleVoteboxReader extends ModuleVotebox
 		{
 			$this->objDetailTemplate->class = 'notYetVoted';
 		}
-	
-		// check if the user has voted and store it
-		$this->checkForVote();
 
 		// add comments
 		$this->addComments();
@@ -147,23 +167,36 @@ class ModuleVoteboxReader extends ModuleVotebox
 		$this->Template->content = $this->objDetailTemplate->parse();
 	}
 
-	
+
 	/**
-	 * Check if there has been a vote and store it if everything is fine
+	 * Store vote (may also be an ajax request) if everything is fine
 	 */
-	protected function checkForVote()
+	protected function storeVote()
 	{
-		if ($this->Input->get('vote'))
+		if (!Votebox::hasVoted($this->intIdeaId, $this->intMemberId))
 		{
-			if (!Votebox::hasVoted($this->intIdeaId, $this->intMemberId))
+			Votebox::storeVote($this->intIdeaId, $this->intMemberId);
+
+			if ($this->Environment->isAjaxRequest)
 			{
-				Votebox::storeVote($this->intIdeaId, $this->intMemberId);
-				$this->redirect(preg_replace('/&|\?vote=[0-9]+&?/', '', $this->Environment->request));
+				echo 'successfully_voted';
+				exit;
 			}
-			// someone has tried to vote (link is hidden but people tend to be funny and modify the url's themselves *sigh*)
 			else
 			{
-				$this->objDetailTemplate->errorStyle = 'display:block;';
+				$_SESSION['VOTEBOX_SUCCESSFULLY_VOTED'][$this->intIdeaId] = true;
+			}
+		}
+		else
+		{
+			if ($this->Environment->isAjaxRequest)
+			{
+				echo 'already_voted';
+				exit;
+			}
+			else
+			{
+				$_SESSION['VOTEBOX_ALREADY_VOTED'][$this->intIdeaId] = true;
 			}
 		}
 	}

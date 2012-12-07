@@ -47,14 +47,14 @@ class Votebox extends Controller
 	public static function hasVoted($intIdeaId, $intMemberId)
 	{
 		$objVote = Database::getInstance()->prepare("SELECT id FROM tl_votebox_votes WHERE pid=? AND member_id=?")->limit(1)->executeUncached($intIdeaId, $intMemberId);
-		if($objVote->numRows)
+		if ($objVote->numRows)
 		{
 			return true;
 		}
 		
 		return false;
 	}
-	
+
 
 	/**
 	 * Store the vote
@@ -70,28 +70,6 @@ class Votebox extends Controller
 		$arrData['member_id']		= $intMemberId;
 		
 		Database::getInstance()->prepare("INSERT INTO tl_votebox_votes %s")->set($arrData)->execute();
-	}
-	
-	
-	/**
-	 * Store the vote via ajax
-	 * HOOKED: dispatchAjax
-	 * @return boolean
-	 */
-	public function dispatchAjax()
-	{
-		if($this->Input->get('action') == 'voteboxVote')
-		{
-			if(!self::hasVoted($this->Input->get('ideaId'), $this->Input->get('memberId')))
-			{
-				self::storeVote($this->Input->get('ideaId'), $this->Input->get('memberId'));
-				return 'successfully_voted';
-			}
-			
-			return 'already_voted';
-		}
-		
-		return false;
 	}
 }
 
