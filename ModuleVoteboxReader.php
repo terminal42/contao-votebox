@@ -93,7 +93,7 @@ class ModuleVoteboxReader extends ModuleVotebox
 	{
 		$this->import('FrontendUser', 'Member');
 		$this->intMemberId = $this->Member->id;
-		$this->intIdeaId = $this->Input->get('ideaId');
+		$this->intIdeaId = $this->Input->get('idea');
 		
 		$arrData = $this->getIdeas($this->vb_archive, $this->intIdeaId);
 

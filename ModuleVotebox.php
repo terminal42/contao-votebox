@@ -131,9 +131,9 @@ abstract class ModuleVotebox extends Module
 		{
 			$arrData[$k]['creation_date']	= $this->parseDate($GLOBALS['TL_CONFIG']['datimFormat'], $arrRow['creation_date']);
 			
-			if($intJumpToId)
+			if ($intJumpToId)
 			{
-				$arrData[$k]['reader_url']	= $this->generateFrontendUrl($objJumpTo->row(), '/ideaId/' . $arrRow['id']);
+				$arrData[$k]['reader_url']	= $this->generateFrontendUrl($objJumpTo->row(), '/idea/' . $arrRow['id']);
 			}
 		}
 		
