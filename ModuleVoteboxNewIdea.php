@@ -71,33 +71,6 @@ class ModuleVoteboxNewIdea extends ModuleVotebox {
 	 */
 	protected function compile()
 	{
-		$dca = array
-		(
-			'title' => array
-			(
-				'label'						=> &$GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['title'],
-				'inputType'					=> 'text',
-				'eval'						=> array('mandatory'=>true)
-			),
-			'text' => array
-			(
-				'label'						=> &$GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['text'],
-				'inputType'					=> 'textarea',
-				'eval'						=> array('rte'=>'tinyMCE', 'mandatory'=>true)
-			),	
-			'captcha' => array
-			(
-				'label'						=> &$GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['captcha'],
-				'inputType'					=> 'captcha',
-				'eval'						=> array('mandatory'=>true)	
-			),	
-			'submit' => array
-			(
-				'label'						=> &$GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['submit'],
-				'inputType'					=> 'submit'
-			)	
-		);
-			
 		$objForm = $this->prepareForm();
 
 		if ($objForm->validate())
