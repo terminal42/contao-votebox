@@ -74,16 +74,16 @@ class ModuleVoteboxList extends ModuleVotebox
 	protected function compile()
 	{
 		$arrData = $this->getIdeas($this->vb_archive, false, $this->vb_reader_jumpTo);
-								  
-		if(!$arrData)
+
+		if (!$arrData)
 		{
 			$this->Template->hasData = false;
 			$this->Template->lblNoContent = $GLOBALS['TL_LANG']['MSC']['vb_no_ideas'];
 			return;
 		}
-		
-		$this->Template->hasData = true;	
-		$objTemplate = new FrontendTemplate((strlen($this->vb_list_tpl)) ? $this->vb_list_tpl : 'votebox_list_default');
+
+		$this->Template->hasData = true;
+		$objTemplate = new FrontendTemplate(($this->vb_list_tpl) ? $this->vb_list_tpl : 'votebox_list_default');
 		$objTemplate->arrIdeas = $arrData;
 		$this->Template->content = $objTemplate->parse();
 	}

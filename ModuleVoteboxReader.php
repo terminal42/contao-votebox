@@ -84,7 +84,7 @@ class ModuleVoteboxReader extends ModuleVotebox
 
 		return parent::generate();
 	}
-	
+
 
 	/**
 	 * Generate module
@@ -97,12 +97,13 @@ class ModuleVoteboxReader extends ModuleVotebox
 		
 		$arrData = $this->getIdeas($this->vb_archive, $this->intIdeaId);
 
-		if(!$arrData)
+		if (!$arrData)
 		{
 			$this->Template->hasData = false;
 			$this->Template->lblNoContent = $GLOBALS['TL_LANG']['MSC']['vb_no_idea'];
 			return;
-		}		
+		}
+
 		$this->Template->hasData = true;
 		
 		// detail template
@@ -111,7 +112,7 @@ class ModuleVoteboxReader extends ModuleVotebox
 		// hide error message by default
 		$this->objDetailTemplate->errorStyle = 'display:none;';
 		
-		// idea		
+		// idea
 		$this->objDetailTemplate->arrIdea = array_shift($arrData);
 		// vote link
 		$this->objDetailTemplate->voteLink = $this->Environment->request . ((strpos($this->Environment->request, '?') !== false) ? '&' : '?') . 'vote=1';
@@ -122,12 +123,12 @@ class ModuleVoteboxReader extends ModuleVotebox
 		// member id
 		$this->objDetailTemplate->memberId = $this->intMemberId;
 		// check if the user has alredy voted (useful for e.g. CSS classes)
-		if(Votebox::hasVoted($this->intIdeaId, $this->intMemberId))
+		if (Votebox::hasVoted($this->intIdeaId, $this->intMemberId))
 		{
 			$this->objDetailTemplate->hasVoted = true;
 		}
 		// add a default CSS class to the container
-		if($this->objDetailTemplate->hasVoted)
+		if ($this->objDetailTemplate->hasVoted)
 		{
 			$this->objDetailTemplate->class = 'hasVoted';
 		}
@@ -152,9 +153,9 @@ class ModuleVoteboxReader extends ModuleVotebox
 	 */
 	protected function checkForVote()
 	{
-		if($this->Input->get('vote'))
+		if ($this->Input->get('vote'))
 		{
-			if(!Votebox::hasVoted($this->intIdeaId, $this->intMemberId))
+			if (!Votebox::hasVoted($this->intIdeaId, $this->intMemberId))
 			{
 				Votebox::storeVote($this->intIdeaId, $this->intMemberId);
 				$this->redirect(preg_replace('/&|\?vote=[0-9]+&?/', '', $this->Environment->request));
@@ -163,11 +164,11 @@ class ModuleVoteboxReader extends ModuleVotebox
 			else
 			{
 				$this->objDetailTemplate->errorStyle = 'display:block;';
-			}		
+			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Add comments to the template
 	 */
@@ -175,7 +176,7 @@ class ModuleVoteboxReader extends ModuleVotebox
 	{
 		$this->objDetailTemplate->allowComments = false;
 		
-		if($this->arrArchiveData['allowComments'] == 1)
+		if ($this->arrArchiveData['allowComments'] == 1)
 		{
 			$this->objDetailTemplate->allowComments = true;
 			$this->import('Comments');
@@ -207,7 +208,7 @@ class ModuleVoteboxReader extends ModuleVotebox
 			$objConfig->bbcode = $this->arrArchiveData['bbcode'];
 			$objConfig->moderate = $this->arrArchiveData['comments_moderate'];
 	
-			$this->Comments->addCommentsToTemplate($this->objDetailTemplate, $objConfig, 'tl_votebox_ideas', $this->intIdeaId, $arrNotifies);			
+			$this->Comments->addCommentsToTemplate($this->objDetailTemplate, $objConfig, 'tl_votebox_ideas', $this->intIdeaId, $arrNotifies);
 		}
 	}
 }

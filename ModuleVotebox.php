@@ -56,9 +56,9 @@ abstract class ModuleVotebox extends Module
 		// call parent constructor
 		parent::__construct($objModule, $strColumn);
 
-		if(TL_MODE == 'FE')
+		if (TL_MODE == 'FE')
 		{
-			if(!FE_USER_LOGGED_IN)
+			if (!FE_USER_LOGGED_IN)
 			{
 				$this->log('Votebox can only be accessed when logged in', 'ModuleVotebox __construct()', TL_ERROR);
 				return '';
@@ -66,17 +66,17 @@ abstract class ModuleVotebox extends Module
 			// check for the votebox
 			$objVoteBox = $this->Database->prepare("SELECT * FROM tl_votebox_archives WHERE id=?")->limit(1)->execute($this->vb_archive);
 			
-			if(!$objVoteBox->numRows)
+			if (!$objVoteBox->numRows)
 			{
-				$this->log('Votebox archive with ID "' . $this->vb_archive . '" does not exist', 'ModuleVotebox __construct()', TL_ERROR);
+				$this->log('Votebox archive with ID "' . $this->vb_archive . '" does not exist', __METHOD__, TL_ERROR);
 				return '';
 			}
 			
 			$this->arrArchiveData = $objVoteBox->fetchAssoc();
 		}
 	}
-	
-	
+
+
 	/**
 	 * Gets an array of ideas
 	 * @param int
@@ -89,7 +89,7 @@ abstract class ModuleVotebox extends Module
 		$strWhere = ' WHERE vb.pid=? AND vb.published=?';
 		$arrExecute = array($intArchiveId, 1);
 		
-		if($intIdeaId)
+		if ($intIdeaId)
 		{
 			$strWhere .= ' AND vb.id=? LIMIT 1';
 			$arrExecute[] = $intIdeaId;
@@ -114,7 +114,7 @@ abstract class ModuleVotebox extends Module
 												vb.member_id=m.id" . $strWhere)
 								  ->execute($arrExecute);
 								  
-		if(!$objIdeas->numRows)
+		if (!$objIdeas->numRows)
 		{
 			return false;
 		}
@@ -122,18 +122,18 @@ abstract class ModuleVotebox extends Module
 		$arrData = $objIdeas->fetchAllAssoc();
 		
 		// get jumpTo page data
-		if($intJumpToId)
+		if ($intJumpToId)
 		{
 			$objJumpTo = $this->Database->prepare("SELECT id,alias FROM tl_page WHERE id=?")->limit(1)->execute($this->vb_reader_jumpTo);
 		}
 		
-		foreach($arrData as $k => $arrRow)
+		foreach ($arrData as $k => $arrRow)
 		{
 			$arrData[$k]['creation_date']	= $this->parseDate($GLOBALS['TL_CONFIG']['datimFormat'], $arrRow['creation_date']);
 			
 			if($intJumpToId)
 			{
-				$arrData[$k]['reader_url']		= $this->generateFrontendUrl($objJumpTo->row(), '/ideaId/' . $arrRow['id']);
+				$arrData[$k]['reader_url']	= $this->generateFrontendUrl($objJumpTo->row(), '/ideaId/' . $arrRow['id']);
 			}
 		}
 		

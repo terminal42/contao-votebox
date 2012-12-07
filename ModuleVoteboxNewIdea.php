@@ -37,7 +37,8 @@ if (!defined('TL_ROOT'))
  * @author     Yanick Witschi <yanick.witschi@certo-net.ch>
  * @package    Controller
  */
-class ModuleVoteboxNewIdea extends ModuleVotebox {
+class ModuleVoteboxNewIdea extends ModuleVotebox
+{
 
 	/**
 	 * Template
@@ -66,6 +67,7 @@ class ModuleVoteboxNewIdea extends ModuleVotebox {
 		return parent::generate();
 	}
 
+
 	/**
 	 * Generate module
 	 */
@@ -86,8 +88,8 @@ class ModuleVoteboxNewIdea extends ModuleVotebox {
 		
 		$this->Template->content = $objTemplate->parse();
 	}
-	
-	
+
+
 	/**
 	 * Process the form data
 	 * @param array
