@@ -44,23 +44,19 @@ abstract class ModuleVotebox extends Module
 	 * @var array
 	 */
 	protected $arrArchiveData = array();
-	
+
 
 	/**
 	 * Make sure the module is only used when a user is logged in and check votebox archive id
-	 * @param Database_Result
-	 * @param string
+	 * @return string
 	 */
-	public function __construct(Database_Result $objModule, $strColumn='main')
+	public function generate()
 	{
-		// call parent constructor
-		parent::__construct($objModule, $strColumn);
-
 		if (TL_MODE == 'FE')
 		{
-			if (!FE_USER_LOGGED_IN)
+			if (FE_USER_LOGGED_IN !== true)
 			{
-				$this->log('Votebox can only be accessed when logged in', 'ModuleVotebox __construct()', TL_ERROR);
+				$this->log('Votebox can only be accessed when logged in', __METHOD__, TL_ERROR);
 				return '';
 			}
 			// check for the votebox
@@ -74,6 +70,8 @@ abstract class ModuleVotebox extends Module
 			
 			$this->arrArchiveData = $objVoteBox->fetchAssoc();
 		}
+
+		return parent::generate();
 	}
 
 
