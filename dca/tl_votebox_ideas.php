@@ -38,8 +38,9 @@ $GLOBALS['TL_DCA']['tl_votebox_ideas'] = array
 	// Config
 	'config' => array
 	(
-		'dataContainer'               => 'Table',
-		'ptable'					  => 'tl_votebox_archives'
+		'dataContainer'				=> 'Table',
+		'ptable'					=> 'tl_votebox_archives',
+		'ctable'					=> array('tl_votebox_votes')
 	),
 
 	// List
@@ -101,6 +102,12 @@ $GLOBALS['TL_DCA']['tl_votebox_ideas'] = array
 				'label'               => &$GLOBALS['TL_LANG']['tl_votebox_ideas']['show'],
 				'href'                => 'act=show',
 				'icon'                => 'show.gif'
+			),
+			'backers' => array
+			(
+				'label'               => &$GLOBALS['TL_LANG']['tl_votebox_ideas']['backers'],
+				'href'                => 'table=tl_votebox_votes',
+				'icon'                => 'member.gif'
 			)
 		)
 	),

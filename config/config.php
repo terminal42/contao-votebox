@@ -33,7 +33,7 @@
  */
 $GLOBALS['BE_MOD']['content']['votebox'] = array
 (
-	'tables'       => array('tl_votebox_archives', 'tl_votebox_ideas'),
+	'tables'       => array('tl_votebox_archives', 'tl_votebox_ideas', 'tl_votebox_votes'),
 	'icon'         => 'system/modules/votebox/html/be_mod_icon.png'
 );
 

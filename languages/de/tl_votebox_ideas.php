@@ -47,9 +47,10 @@ $GLOBALS['TL_LANG']['tl_votebox_ideas']['votebox_ideas_legend'] = 'Ideendetails'
 /**
  * Buttons
  */
-$GLOBALS['TL_LANG']['tl_votebox_ideas']['new']    = array('Neue Idee', 'Legen Sie eine neue Idee an.');
-$GLOBALS['TL_LANG']['tl_votebox_ideas']['edit']   = array('Idee editieren', 'Editieren Sie die Idee mit der ID %s.');
-$GLOBALS['TL_LANG']['tl_votebox_ideas']['copy']   = array('Idee duplizieren', 'Duplizieren Sie die Idee mit der ID %s.');
-$GLOBALS['TL_LANG']['tl_votebox_ideas']['delete'] = array('Idee löschen', 'Löschen Sie die Idee mit der ID %s.');
-$GLOBALS['TL_LANG']['tl_votebox_ideas']['toggle'] = array('Idee veröffentlichen/unveröffentlichen', 'Idee ID %s veröffentlichen/unveröffentlichen');
-$GLOBALS['TL_LANG']['tl_votebox_ideas']['show']   = array('Details zeigen', 'Zeigen Sie die Details der Idee mit der ID %s.');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['new'] 		= array('Neue Idee', 'Legen Sie eine neue Idee an.');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['edit']		= array('Idee editieren', 'Editieren Sie die Idee mit der ID %s.');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['copy']		= array('Idee duplizieren', 'Duplizieren Sie die Idee mit der ID %s.');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['delete']	= array('Idee löschen', 'Löschen Sie die Idee mit der ID %s.');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['toggle']	= array('Idee veröffentlichen/unveröffentlichen', 'Idee ID %s veröffentlichen/unveröffentlichen');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['show']		= array('Details zeigen', 'Details der Idee mit der ID %s anzeigen.');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['backers']	= array('Unterstützer anzeigen', 'Alle Unterstützer der Idee mit der ID %s anzeigen.');
