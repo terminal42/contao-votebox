@@ -18,7 +18,7 @@
 	<p class="votes">Votes: <span id="votebox_ajax_votecount"><?php echo $this->arrIdea['voteCount']; ?></span></p>
 	<p class="cr_date"><?php echo $this->arrIdea['creation_date']; ?></p>
 	<div class="text"><?php echo $this->arrIdea['text']; ?></div>
-	<p class="author"><?php echo $this->arrIdea['firstname']; ?> <?php echo $arrIdea['lastname']; ?></p>
+	<p class="author"><?php echo $this->arrIdea['firstname']; ?> <?php echo $this->arrIdea['lastname']; ?></p>
 </div>
 
 <?php if (!$this->hasVoted): ?>
