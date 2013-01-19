@@ -71,5 +71,16 @@ class Votebox extends Controller
 		
 		Database::getInstance()->prepare("INSERT INTO tl_votebox_votes %s")->set($arrData)->execute();
 	}
+
+
+	/**
+	 * Delete the vote
+	 * @param int | idea id
+	 * @param int | member id
+	 */
+	public static function deleteVote($intIdeaId, $intMemberId)
+	{
+		Database::getInstance()->prepare("DELETE FROM tl_votebox_votes WHERE pid=? AND member_id=?")->execute($intIdeaId, $intMemberId);
+	}
 }
 

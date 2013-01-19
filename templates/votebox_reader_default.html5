@@ -2,17 +2,16 @@
 <div class="idea">
 	<!-- indexer::stop -->
 	<div id="votebox_votes" class="<?php echo $this->class; ?>">
-		<p id="votebox_error" class="error" style="<?php echo $this->errorStyle; ?>"><?php echo $this->lblAlreadyVoted; ?></p>
 		<p id="votebox_success" class="success" style="<?php echo $this->successStyle; ?>"><?php echo $this->lblSuccessfullyVoted; ?></p>
-		<?php if (!$this->hasVoted): ?>
-			<form action="<?php echo $this->vote_action; ?>" id="<?php echo $this->vote_formId; ?>" method="post">
-				<div class="formbody">
-					<input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->vote_formId; ?>">
-					<input type="hidden" name="REQUEST_TOKEN" value="<?php echo REQUEST_TOKEN; ?>">
-					<input id="votebox_vote" type="submit" class="submit vote" value="<?php echo $this->lblVote; ?>">
-				</div>
-			</form>
-		<?php endif; ?>
+		<p id="votebox_unsuccess" class="unsuccess" style="<?php echo $this->unsuccessStyle; ?>"><?php echo $this->lblSuccessfullyUnvoted; ?></p>
+		<form action="<?php echo $this->vote_action; ?>" id="<?php echo $this->vote_formId; ?>" method="post">
+			<div class="formbody">
+				<input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->vote_formId; ?>">
+				<input type="hidden" name="REQUEST_TOKEN" value="<?php echo REQUEST_TOKEN; ?>">
+				<input id="votebox_vote" type="submit" class="submit vote<?php if ($this->hasVoted): ?> invisible<?php endif; ?>" value="<?php echo $this->lblVote; ?>">
+				<input id="votebox_unvote" type="submit" class="submit unvote<?php if (!$this->hasVoted): ?> invisible<?php endif; ?>" value="<?php echo $this->lblUnvote; ?>">
+			</div>
+		</form>
 	</div>
 	<!-- indexer::continue -->
 	<p class="votes">Votes: <span id="votebox_ajax_votecount"><?php echo $this->arrIdea['voteCount']; ?></span></p>
@@ -21,29 +20,44 @@
 	<p class="author"><?php echo $this->arrIdea['firstname']; ?> <?php echo $this->arrIdea['lastname']; ?></p>
 </div>
 
-<?php if (!$this->hasVoted): ?>
 <script>
 window.addEvent('domready', function() {
 	// register a request event on the ajax link
-	document.id('votebox_vote').addEvent('click', function(e) {
+	var hooked = false;
+	var sendRequest = function(e) {
 		e.preventDefault();
-		document.id('<?php echo $this->vote_formId; ?>').set('send', {
-			onComplete: function(response) {
-				if (response == 'successfully_voted') {
-					document.id('votebox_votes').removeClass('notYetVoted').addClass('hasVoted');
-					document.id('votebox_success').setStyle('display', 'block');
-					document.id('votebox_ajax_votecount').set('text', document.id('votebox_ajax_votecount').get('text').toInt() + 1);
+		if (!hooked) {
+			document.id('<?php echo $this->vote_formId; ?>').set('send', {
+				onComplete: function(response) {
+					if (response == 'successfully_voted') {
+						document.id('votebox_votes').removeClass('notYetVoted').addClass('hasVoted');
+						document.id('votebox_success').setStyle('display', 'block');
+						document.id('votebox_unsuccess').setStyle('display', 'none');
+						document.id('votebox_ajax_votecount').set('text', document.id('votebox_ajax_votecount').get('text').toInt() + 1);
+						document.id('votebox_unvote').removeClass('invisible');
+						document.id('votebox_vote').addClass('invisible');
+					}
+					else {
+						document.id('votebox_votes').removeClass('hasVoted').addClass('notYetVoted');
+						document.id('votebox_success').setStyle('display', 'none');
+						document.id('votebox_unsuccess').setStyle('display', 'block');
+						document.id('votebox_ajax_votecount').set('text', document.id('votebox_ajax_votecount').get('text').toInt() - 1);
+						document.id('votebox_unvote').addClass('invisible');
+						document.id('votebox_vote').removeClass('invisible');
+					}
 				}
-				else {
-					document.id('votebox_success').setStyle('display', 'none');
-					document.id('votebox_error').setStyle('display', 'block');
-				}
-			}
-		}).send();
-	});
+			});
+			
+			hooked = true;
+		}
+
+		document.id('<?php echo $this->vote_formId; ?>').send();
+	}
+
+	document.id('votebox_vote').addEvent('click', sendRequest);
+	document.id('votebox_unvote').addEvent('click', sendRequest);
 });
 </script>
-<?php endif; ?>
 
 
 <?php if ($this->allowComments && ($this->comments || !$this->requireLogin)): ?>

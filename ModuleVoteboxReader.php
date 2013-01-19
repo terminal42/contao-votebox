@@ -82,6 +82,11 @@ class ModuleVoteboxReader extends ModuleVotebox
 			return $objTemplate->parse();
 		}
 
+		if ($this->Input->get('idea') == '')
+		{
+			return '';
+		}
+
 		return parent::generate();
 	}
 
@@ -106,7 +111,7 @@ class ModuleVoteboxReader extends ModuleVotebox
 
 		// reset session data
 		unset($_SESSION['VOTEBOX_SUCCESSFULLY_VOTED'][$this->intIdeaId]);
-		unset($_SESSION['VOTEBOX_ALREADY_VOTED'][$this->intIdeaId]);
+		unset($_SESSION['VOTEBOX_SUCCESSFULLY_UNVOTED'][$this->intIdeaId]);
 
 		// check if the user has voted and store it
 		if ($_POST['FORM_SUBMIT'] == 'vote_form_' . $this->id)
@@ -119,15 +124,16 @@ class ModuleVoteboxReader extends ModuleVotebox
 		// detail template
 		$this->objDetailTemplate = new FrontendTemplate(($this->vb_reader_tpl) ? $this->vb_reader_tpl : 'votebox_reader_default');
 
-		// error and success messages
-		$this->objDetailTemplate->errorStyle = $this->objDetailTemplate->successStyle = 'display:none;';
+		// success messages
+		$this->objDetailTemplate->successStyle = 'display:none;';
+		$this->objDetailTemplate->unsuccessStyle = 'display:none;';
 		if ($_SESSION['VOTEBOX_SUCCESSFULLY_VOTED'][$this->intIdeaId])
 		{
 			$this->objDetailTemplate->successStyle = '';
 		}
-		if ($_SESSION['VOTEBOX_ALREADY_VOTED'][$this->intIdeaId])
+		if ($_SESSION['VOTEBOX_SUCCESSFULLY_UNVOTED'][$this->intIdeaId])
 		{
-			$this->objDetailTemplate->errorStyle = '';
+			$this->objDetailTemplate->unsuccessStyle = '';
 		}
 
 			// idea
@@ -139,8 +145,9 @@ class ModuleVoteboxReader extends ModuleVotebox
 
 		// labels
 		$this->objDetailTemplate->lblVote 				= $GLOBALS['TL_LANG']['MSC']['vb_vote'];
-		$this->objDetailTemplate->lblAlreadyVoted		= $GLOBALS['TL_LANG']['MSC']['vb_already_voted'];
+		$this->objDetailTemplate->lblUnvote = $GLOBALS['TL_LANG']['MSC']['vb_unvote'];
 		$this->objDetailTemplate->lblSuccessfullyVoted	= $GLOBALS['TL_LANG']['MSC']['vb_successfully_voted'];
+			$this->objDetailTemplate->lblSuccessfullyUnvoted = $GLOBALS['TL_LANG']['MSC']['vb_successfully_unvoted'];
 		// member id
 		$this->objDetailTemplate->memberId = $this->intMemberId;
 
@@ -169,7 +176,7 @@ class ModuleVoteboxReader extends ModuleVotebox
 
 
 	/**
-	 * Store vote (may also be an ajax request) if everything is fine
+	 * Store or delete vote (may also be an ajax request) if everything is fine
 	 */
 	protected function storeVote()
 	{
@@ -189,14 +196,16 @@ class ModuleVoteboxReader extends ModuleVotebox
 		}
 		else
 		{
+			Votebox::deleteVote($this->intIdeaId, $this->intMemberId);
+
 			if ($this->Environment->isAjaxRequest)
 			{
-				echo 'already_voted';
+				echo 'successfully_unvoted';
 				exit;
 			}
 			else
 			{
-				$_SESSION['VOTEBOX_ALREADY_VOTED'][$this->intIdeaId] = true;
+				$_SESSION['VOTEBOX_SUCCESSFULLY_UNVOTED'][$this->intIdeaId] = true;
 			}
 		}
 	}
