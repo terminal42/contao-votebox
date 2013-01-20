@@ -69,6 +69,7 @@ abstract class ModuleVotebox extends Module
 			}
 			
 			$this->arrArchiveData = $objVoteBox->fetchAssoc();
+			$this->import('FrontendUser', 'Member');
 		}
 
 		return parent::generate();
@@ -138,6 +139,7 @@ abstract class ModuleVotebox extends Module
 		foreach ($arrData as $k => $arrRow)
 		{
 			$arrData[$k]['creation_date']	= $this->parseDate($GLOBALS['TL_CONFIG']['datimFormat'], $arrRow['creation_date']);
+			$arrData[$k]['hasVoted'] = Votebox::hasVoted($arrRow['id'], $this->Member->id);
 			
 			if ($intJumpToId)
 			{
