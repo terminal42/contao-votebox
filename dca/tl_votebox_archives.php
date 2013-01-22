@@ -101,7 +101,7 @@ $GLOBALS['TL_DCA']['tl_votebox_archives'] = array
 	'palettes' => array
 	(
 		'__selector__'				  => array('moderate','allowComments'),
-		'default'                     => '{archive_legend},title,moderate;{comments_legend},allowComments;'
+		'default'                     => '{archive_legend},title,numberOfVotes,moderate;{comments_legend},allowComments;'
 	),
 
 	// Subpalettes
@@ -120,6 +120,13 @@ $GLOBALS['TL_DCA']['tl_votebox_archives'] = array
 			'exclude'                 => true,
 			'inputType'               => 'text',
 			'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50')
+		),
+		'numberOfVotes' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_votebox_archives']['numberOfVotes'],
+			'exclude'                 => true,
+			'inputType'               => 'text',
+			'eval'                    => array('mandatory'=>true, 'maxlength'=>5, 'rgxp'=>'digit', 'tl_class'=>'w50')
 		),
 		'moderate' => array
 		(

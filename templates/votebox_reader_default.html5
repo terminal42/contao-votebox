@@ -1,6 +1,7 @@
 <h1><?php echo $this->arrIdea['title']; ?></h1>
 <div class="idea">
 	<!-- indexer::stop -->
+	<?php if (!$this->hideForm): ?>
 	<div id="votebox_votes" class="<?php echo $this->class; ?>">
 		<p id="votebox_success" class="success" style="<?php echo $this->successStyle; ?>"><?php echo $this->lblSuccessfullyVoted; ?></p>
 		<p id="votebox_unsuccess" class="unsuccess" style="<?php echo $this->unsuccessStyle; ?>"><?php echo $this->lblSuccessfullyUnvoted; ?></p>
@@ -13,6 +14,7 @@
 			</div>
 		</form>
 	</div>
+	<?php endif; ?>
 	<!-- indexer::continue -->
 	<p class="votes">Votes: <span id="votebox_ajax_votecount"><?php echo $this->arrIdea['voteCount']; ?></span></p>
 	<p class="cr_date"><?php echo $this->arrIdea['creation_date']; ?></p>
@@ -29,6 +31,10 @@ window.addEvent('domready', function() {
 		if (!hooked) {
 			document.id('<?php echo $this->vote_formId; ?>').set('send', {
 				onComplete: function(response) {
+					if (response == 'error') {
+						return;
+					}
+
 					if (response == 'successfully_voted') {
 						document.id('votebox_votes').removeClass('notYetVoted').addClass('hasVoted');
 						document.id('votebox_success').setStyle('display', 'block');

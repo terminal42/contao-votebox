@@ -33,6 +33,7 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['tl_votebox_archives']['title']				= array('Titel', 'Geben Sie einen Titel für dieses Archiv ein.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['numberOfVotes']		= array('Maximum number of votes', 'Here you can eneter a maximum number of votes per question.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['moderate']			= array('Archiv moderieren', 'Aktivieren Sie diese Checkbox wenn Sie die Ideen bei Erstellung nicht direkt veröffentlichen möchten.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['receiver_mail']		= array('E-Mail-Adresse Benachrichtigter', 'Wählen Sie die E-Mail-Adresse an die eine Benachrichtigung gesendet werden soll, wenn eine neue Idee freizuschalten ist.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['allowComments']  	= array('Kommentare aktivieren', 'Besuchern das Kommentieren von Nachrichtenbeiträgen erlauben.');

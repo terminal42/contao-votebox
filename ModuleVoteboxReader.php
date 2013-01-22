@@ -144,10 +144,11 @@ class ModuleVoteboxReader extends ModuleVotebox
 		$this->objDetailTemplate->vote_action = $this->Environment->request;
 
 		// labels
-		$this->objDetailTemplate->lblVote 				= $GLOBALS['TL_LANG']['MSC']['vb_vote'];
+		$this->objDetailTemplate->lblVote = $GLOBALS['TL_LANG']['MSC']['vb_vote'];
 		$this->objDetailTemplate->lblUnvote = $GLOBALS['TL_LANG']['MSC']['vb_unvote'];
 		$this->objDetailTemplate->lblSuccessfullyVoted	= $GLOBALS['TL_LANG']['MSC']['vb_successfully_voted'];
-			$this->objDetailTemplate->lblSuccessfullyUnvoted = $GLOBALS['TL_LANG']['MSC']['vb_successfully_unvoted'];
+		$this->objDetailTemplate->lblSuccessfullyUnvoted = $GLOBALS['TL_LANG']['MSC']['vb_successfully_unvoted'];
+
 		// member id
 		$this->objDetailTemplate->memberId = $this->intMemberId;
 
@@ -155,6 +156,14 @@ class ModuleVoteboxReader extends ModuleVotebox
 		if (Votebox::hasVoted($this->intIdeaId, $this->intMemberId))
 		{
 			$this->objDetailTemplate->hasVoted = true;
+		}
+
+		$this->objDetailTemplate->hideForm = false;
+
+		// Hide the form if member hasn't voted but the limit is exceeded
+		if (!$this->objDetailTemplate->hasVoted && !Votebox::canMemberVote($this->intIdeaId, $this->intMemberId))
+		{
+			$this->objDetailTemplate->hideForm = true;
 		}
 
 		// add a default CSS class to the container
@@ -182,6 +191,17 @@ class ModuleVoteboxReader extends ModuleVotebox
 	{
 		if (!Votebox::hasVoted($this->intIdeaId, $this->intMemberId))
 		{
+			if (!Votebox::canMemberVote($this->intIdeaId, $this->intMemberId))
+			{
+				if ($this->Environment->isAjaxRequest)
+				{
+					echo 'error';
+					exit;
+				}
+
+				return;
+			}
+
 			Votebox::storeVote($this->intIdeaId, $this->intMemberId);
 
 			if ($this->Environment->isAjaxRequest)

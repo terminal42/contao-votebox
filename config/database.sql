@@ -18,6 +18,7 @@ CREATE TABLE `tl_votebox_archives` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `tstamp` int(10) unsigned NOT NULL default '0',
   `title` varchar(255) NOT NULL default '',
+  `numberOfVotes` smallint(5) unsigned NOT NULL default '0',
   `moderate` char(1) NOT NULL default '',
   `receiver_mail` varchar(255) NOT NULL default '',
   `allowComments` char(1) NOT NULL default '',
