@@ -49,5 +49,5 @@ $GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['submit']	= 'Senden';
 $GLOBALS['TL_LANG']['MSC']['vb_vote']					= 'Für diese Idee stimmen';
 $GLOBALS['TL_LANG']['MSC']['vb_already_voted']			= 'Für diese Idee haben Sie bereits abgestimmt!';
 $GLOBALS['TL_LANG']['MSC']['vb_successfully_voted']		= 'Ihre Stimme wurde gespeichert!';
-$GLOBALS['TL_LANG']['MSC']['vb_unvote']					= 'Für diese Idee stimmen UNVOTE';
-$GLOBALS['TL_LANG']['MSC']['vb_successfully_unvoted']	= 'Ihre Stimme wurde gespeichert UNVOTED!';
+$GLOBALS['TL_LANG']['MSC']['vb_unvote']					= 'Dieser Idee die Stimme entziehen';
+$GLOBALS['TL_LANG']['MSC']['vb_successfully_unvoted']	= 'Ihre Stimme wurde erfolgreich entzogen!';

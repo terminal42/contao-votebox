@@ -32,20 +32,25 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_votebox_ideas'][''] = array('', '');
-
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['title']						= array('Title', 'Enter a title for the idea.');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['creation_date']				= array('Creation date', 'Please choose creation date and time.');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['member_id']					= array('Author', 'Choose an author.');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['published']					= array('Publish idea', 'Publishes this idea.');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['text']							= array('Idea text', 'Present your idea.');
 
 /**
- * Reference
+ * Legends
  */
-$GLOBALS['TL_LANG']['tl_votebox_ideas'][''] = '';
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['votebox_ideas_legend'] = 'Details of the idea';
 
 
 /**
  * Buttons
  */
-$GLOBALS['TL_LANG']['tl_votebox_ideas']['new']    = array('', '');
-$GLOBALS['TL_LANG']['tl_votebox_ideas']['edit']   = array('', '');
-$GLOBALS['TL_LANG']['tl_votebox_ideas']['copy']   = array('', '');
-$GLOBALS['TL_LANG']['tl_votebox_ideas']['delete'] = array('', '');
-$GLOBALS['TL_LANG']['tl_votebox_ideas']['show']   = array('', '');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['new'] 		= array('New idea', 'Add a new idea.');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['edit']		= array('Edit idea', 'Edit idea ID %s.');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['copy']		= array('Duplicate idea', 'Duplicate idea ID %s.');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['delete']	= array('Delete idea', 'Delete idea ID %s.');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['toggle']	= array('Publish/Unpublish idea', 'Publish/Unpublish idea ID %s.');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['show']		= array('Show details', 'Show details of idea ID %s.');
+$GLOBALS['TL_LANG']['tl_votebox_ideas']['backers']	= array('Show backers', 'Show all backers of idea ID %s.');

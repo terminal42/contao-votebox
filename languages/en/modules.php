@@ -32,10 +32,13 @@
 /**
  * Back end modules
  */
-$GLOBALS['TL_LANG']['MOD'][''] = array('', '');
+$GLOBALS['TL_LANG']['MOD']['votebox'] = array('Votebox', 'Let your members vote on ideas.');
 
 
 /**
  * Front end modules
  */
-$GLOBALS['TL_LANG']['FMD'][''] = array('', '');
+$GLOBALS['TL_LANG']['FMD']['votebox']			= 'Votebox';
+$GLOBALS['TL_LANG']['FMD']['votebox_list']		= array('Votebox list', 'Displays a list of all ideas of a votebox archive.');
+$GLOBALS['TL_LANG']['FMD']['votebox_reader']	= array('Votebox reader', 'Shows details of a certain idea.');
+$GLOBALS['TL_LANG']['FMD']['votebox_new_idea']	= array('Votebox New ideas', 'Provides the form to add a new idea.');

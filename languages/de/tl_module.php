@@ -39,7 +39,6 @@ $GLOBALS['TL_LANG']['tl_module']['vb_list_tpl']					= array('Template', 'Wählen
 $GLOBALS['TL_LANG']['tl_module']['vb_reader_tpl']				= array('Template', 'Wählen Sie hier ein Template aus.');
 $GLOBALS['TL_LANG']['tl_module']['vb_new_idea_tpl']				= array('Template', 'Wählen Sie hier ein Template aus.');
 $GLOBALS['TL_LANG']['tl_module']['vb_new_idea_jumpTo']			= array('Weiterleitungsseite', 'Wählen Sie die Seite aus auf die das Mitglied weitergeleitet werden soll, nachdem es eine neue Idee erstellt hat.');
-$GLOBALS['TL_LANG']['tl_module']['vb_new_idea_jumpTo']			= array('Weiterleitungsseite', 'Wählen Sie die Seite aus auf die das Mitglied weitergeleitet werden soll, nachdem es eine neue Idee erstellt hat.');
 
 /**
  * Reference

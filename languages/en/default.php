@@ -32,4 +32,22 @@
 /**
  * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MSC'][''] = '';
+$GLOBALS['TL_LANG']['MSC']['vb_no_ideas']	= 'There are no ideas for this votebox archive yet.';
+$GLOBALS['TL_LANG']['MSC']['vb_no_idea']	= 'This ID does not exist in this votebox archive.';
+
+/**
+ * Votebox new idea form labels
+ */
+$GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['title']	= 'Title';
+$GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['text']		= 'Idea';
+$GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['captcha']	= 'Security question';
+$GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['submit']	= 'Send';
+
+/**
+ * Votebox reader
+ */
+$GLOBALS['TL_LANG']['MSC']['vb_vote']					= 'Vote for this idea';
+$GLOBALS['TL_LANG']['MSC']['vb_already_voted']			= 'You have already voted for this idea!';
+$GLOBALS['TL_LANG']['MSC']['vb_successfully_voted']		= 'Your vote has been saved!';
+$GLOBALS['TL_LANG']['MSC']['vb_unvote']					= 'Withdraw vote from this idea';
+$GLOBALS['TL_LANG']['MSC']['vb_successfully_unvoted']	= 'Your vote has been withdrawn from this idea!';
