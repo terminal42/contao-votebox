@@ -109,10 +109,6 @@ class ModuleVoteboxReader extends ModuleVotebox
 			return;
 		}
 
-		// reset session data
-		unset($_SESSION['VOTEBOX_SUCCESSFULLY_VOTED'][$this->intIdeaId]);
-		unset($_SESSION['VOTEBOX_SUCCESSFULLY_UNVOTED'][$this->intIdeaId]);
-
 		// check if the user has voted and store it
 		if ($_POST['FORM_SUBMIT'] == 'vote_form_' . $this->id)
 		{
@@ -140,6 +136,11 @@ class ModuleVoteboxReader extends ModuleVotebox
 		{
 			$this->objDetailTemplate->tooManyVotesStyle = '';
 		}
+
+        // reset session data
+        unset($_SESSION['VOTEBOX_SUCCESSFULLY_VOTED'][$this->intIdeaId]);
+        unset($_SESSION['VOTEBOX_SUCCESSFULLY_UNVOTED'][$this->intIdeaId]);
+        unset($_SESSION['VOTEBOX_TOO_MANY_VOTES'][$this->intIdeaId]);
 
 			// idea
 		$this->objDetailTemplate->arrIdea = array_shift($arrData);
