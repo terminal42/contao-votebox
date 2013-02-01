@@ -271,6 +271,11 @@ class tl_votebox_ideas extends Backend
     public function cleanUpVoteTable()
     {
         $arrIdeas = $this->Database->query('SELECT id FROM tl_votebox_ideas')->fetchEach('id');
+        if (empty($arrIdeas))
+        {
+            return;
+        }
+
         $this->Database->query('DELETE FROM tl_votebox_votes WHERE pid NOT IN (' . implode(',', $arrIdeas) . ')');
     }
 }
