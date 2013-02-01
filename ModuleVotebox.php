@@ -82,9 +82,10 @@ abstract class ModuleVotebox extends Module
 	 * @param int idea id
 	 * @param int jumpTo page id
 	 * @param string ORDER BY definition
+     * @param array limit in style array('offset'=>0,'limit'=>10)
 	 * @return array|false
 	 */
-	public function getIdeas($intArchiveId, $intIdeaId=false, $intJumpToId=false, $strOrderBy=false)
+	public function getIdeas($intArchiveId, $intIdeaId=false, $intJumpToId=false, $strOrderBy=false, $arrLimit=false)
 	{
 		$strWhere = ' WHERE vb.pid=? AND vb.published=?';
 		$arrExecute = array($intArchiveId, 1);
@@ -120,9 +121,15 @@ abstract class ModuleVotebox extends Module
 											LEFT JOIN
 												tl_member AS m
 											ON
-												vb.member_id=m.id" . $strWhere . $strOrderBy)
-								  ->execute($arrExecute);
-								  
+												vb.member_id=m.id" . $strWhere . $strOrderBy);
+
+        if ($arrLimit)
+        {
+            $objIdeas->limit($arrLimit['limit'], $arrLimit['offset']);
+        }
+
+        $objIdeas = $objIdeas->execute($arrExecute);
+
 		if (!$objIdeas->numRows)
 		{
 			return false;

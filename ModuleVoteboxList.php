@@ -73,42 +73,81 @@ class ModuleVoteboxList extends ModuleVotebox
 	 */
 	protected function compile()
 	{
-		// determine order
-		$strOrderBy = '';
+        // determine order
+        $strOrderBy = '';
 
-		switch ($this->vb_orderBy)
-		{
-			case 'votes_asc':
-				$strOrderBy = 'voteCount ASC';
-				break;
-			case 'votes_desc':
-				$strOrderBy = 'voteCount DESC';
-				break;
-			case 'date_asc':
-				$strOrderBy = 'creation_date ASC';
-				break;
-			case 'date_desc':
-				$strOrderBy = 'creation_date DESC';
-				break;
-			default:
-				if (isset($GLOBALS['TL_HOOKS']['voteBoxListOrderBy']) && is_array($GLOBALS['TL_HOOKS']['voteBoxListOrderBy']))
-				{
-					foreach ($GLOBALS['TL_HOOKS']['voteBoxListOrderBy'] as $callback)
-					{
-						$this->import($callback[0]);
-						$strOrderBy = $this->$callback[0]->$callback[1]($this->vb_orderBy);
-					}
-				}
-		}
+        switch ($this->vb_orderBy)
+        {
+            case 'votes_asc':
+                $strOrderBy = 'voteCount ASC';
+                break;
+            case 'votes_desc':
+                $strOrderBy = 'voteCount DESC';
+                break;
+            case 'date_asc':
+                $strOrderBy = 'creation_date ASC';
+                break;
+            case 'date_desc':
+                $strOrderBy = 'creation_date DESC';
+                break;
+            default:
+                if (isset($GLOBALS['TL_HOOKS']['voteBoxListOrderBy']) && is_array($GLOBALS['TL_HOOKS']['voteBoxListOrderBy']))
+                {
+                    foreach ($GLOBALS['TL_HOOKS']['voteBoxListOrderBy'] as $callback)
+                    {
+                        $this->import($callback[0]);
+                        $strOrderBy = $this->$callback[0]->$callback[1]($this->vb_orderBy);
+                    }
+                }
+        }
 
-		$arrData = $this->getIdeas($this->vb_archive, false, $this->vb_reader_jumpTo, $strOrderBy);
+        $arrData = $this->getIdeas($this->vb_archive, false, $this->vb_reader_jumpTo, $strOrderBy);
 
-		if (!$arrData)
-		{
-			$this->Template->hasData = false;
-			$this->Template->lblNoContent = $GLOBALS['TL_LANG']['MSC']['vb_no_ideas'];
-			return;
-		}
+        if (!$arrData)
+        {
+            $this->Template->hasData = false;
+            $this->Template->lblNoContent = $GLOBALS['TL_LANG']['MSC']['vb_no_ideas'];
+            return;
+        }
+
+        $total = count($arrData);
+        $offset = 0;
+        $limit = null;
+
+        // Split the results
+        if ($this->perPage > 0)
+        {
+            // Get the current page
+            $page = $this->Input->get('page') ? $this->Input->get('page') : 1;
+
+            // Do not index or cache the page if the page number is outside the range
+            if ($page < 1 || $page > ceil($total/$this->perPage))
+            {
+                global $objPage;
+                $objPage->noSearch = 1;
+                $objPage->cache = 0;
+
+                // Send a 404 header
+                header('HTTP/1.1 404 Not Found');
+                return;
+            }
+
+            // Set limit and offset
+            $limit = $this->perPage;
+            $offset = (max($page, 1) - 1) * $this->perPage;
+
+            // Overall limit
+            if ($offset + $limit > $total)
+            {
+                $limit = $total - $offset;
+            }
+
+            // Add the pagination menu
+            $objPagination = new Pagination($total, $this->perPage);
+            $this->Template->pagination = $objPagination->generate("\n  ");
+        }
+
+        $arrData = $this->getIdeas($this->vb_archive, false, $this->vb_reader_jumpTo, $strOrderBy, array('offset'=>$offset,'limit'=>$limit));
 
 		$this->Template->hasData = true;
 		$objTemplate = new FrontendTemplate(($this->vb_list_tpl) ? $this->vb_list_tpl : 'votebox_list_default');
