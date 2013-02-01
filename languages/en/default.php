@@ -51,3 +51,4 @@ $GLOBALS['TL_LANG']['MSC']['vb_already_voted']			= 'You have already voted for t
 $GLOBALS['TL_LANG']['MSC']['vb_successfully_voted']		= 'Your vote has been saved!';
 $GLOBALS['TL_LANG']['MSC']['vb_unvote']					= 'Withdraw vote from this idea';
 $GLOBALS['TL_LANG']['MSC']['vb_successfully_unvoted']	= 'Your vote has been withdrawn from this idea!';
+$GLOBALS['TL_LANG']['MSC']['vb_too_many_votes']         = 'You have used up all of your votes for this archive.';

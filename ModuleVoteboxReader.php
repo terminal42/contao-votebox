@@ -127,6 +127,7 @@ class ModuleVoteboxReader extends ModuleVotebox
 		// success messages
 		$this->objDetailTemplate->successStyle = 'display:none;';
 		$this->objDetailTemplate->unsuccessStyle = 'display:none;';
+		$this->objDetailTemplate->tooManyVotesStyle = 'display:none;';
 		if ($_SESSION['VOTEBOX_SUCCESSFULLY_VOTED'][$this->intIdeaId])
 		{
 			$this->objDetailTemplate->successStyle = '';
@@ -134,6 +135,10 @@ class ModuleVoteboxReader extends ModuleVotebox
 		if ($_SESSION['VOTEBOX_SUCCESSFULLY_UNVOTED'][$this->intIdeaId])
 		{
 			$this->objDetailTemplate->unsuccessStyle = '';
+		}
+        if ($_SESSION['VOTEBOX_TOO_MANY_VOTES'][$this->intIdeaId])
+		{
+			$this->objDetailTemplate->tooManyVotesStyle = '';
 		}
 
 			// idea
@@ -148,6 +153,7 @@ class ModuleVoteboxReader extends ModuleVotebox
 		$this->objDetailTemplate->lblUnvote = $GLOBALS['TL_LANG']['MSC']['vb_unvote'];
 		$this->objDetailTemplate->lblSuccessfullyVoted	= $GLOBALS['TL_LANG']['MSC']['vb_successfully_voted'];
 		$this->objDetailTemplate->lblSuccessfullyUnvoted = $GLOBALS['TL_LANG']['MSC']['vb_successfully_unvoted'];
+		$this->objDetailTemplate->lblTooManyVotes = $GLOBALS['TL_LANG']['MSC']['vb_too_many_votes'];
 
 		// member id
 		$this->objDetailTemplate->memberId = $this->intMemberId;
@@ -195,10 +201,13 @@ class ModuleVoteboxReader extends ModuleVotebox
 			{
 				if ($this->Environment->isAjaxRequest)
 				{
-					echo 'error';
+					echo 'too_many_votes';
 					exit;
 				}
-
+                else
+                {
+                    $_SESSION['VOTEBOX_TOO_MANY_VOTES'][$this->intIdeaId] = true;
+                }
 				return;
 			}
 

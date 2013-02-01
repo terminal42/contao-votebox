@@ -51,3 +51,4 @@ $GLOBALS['TL_LANG']['MSC']['vb_already_voted']			= 'Für diese Idee haben Sie be
 $GLOBALS['TL_LANG']['MSC']['vb_successfully_voted']		= 'Ihre Stimme wurde gespeichert!';
 $GLOBALS['TL_LANG']['MSC']['vb_unvote']					= 'Dieser Idee die Stimme entziehen';
 $GLOBALS['TL_LANG']['MSC']['vb_successfully_unvoted']	= 'Ihre Stimme wurde erfolgreich entzogen!';
+$GLOBALS['TL_LANG']['MSC']['vb_too_many_votes']         = 'Sie haben das Maximum an Stimmen für dieses Archiv bereits aufgebraucht.';

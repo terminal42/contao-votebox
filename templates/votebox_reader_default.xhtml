@@ -5,6 +5,7 @@
 <div id="votebox_votes" class="<?php echo $this->class; ?>">
 <p id="votebox_success" class="success" style="<?php echo $this->successStyle; ?>"><?php echo $this->lblSuccessfullyVoted; ?></p>
 <p id="votebox_unsuccess" class="unsuccess" style="<?php echo $this->unsuccessStyle; ?>"><?php echo $this->lblSuccessfullyUnvoted; ?></p>
+<p id="votebox_too_many_votes" class="too_many_votes" style="<?php echo $this->tooManyVotesStyle; ?>"><?php echo $this->lblTooManyVotes; ?></p>
 <form action="<?php echo $this->vote_action; ?>" id="<?php echo $this->vote_formId; ?>" method="post">
 <div class="formbody">
     <input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->vote_formId; ?>" />
@@ -32,14 +33,16 @@ window.addEvent('domready', function() {
         if (!hooked) {
             document.id('<?php echo $this->vote_formId; ?>').set('send', {
                 onComplete: function(response) {
-                    if (response == 'error') {
-                        return;
+                    if (response == 'too_many_votes') {
+                        document.id('votebox_too_many_votes').setStyle('display', 'block');
+                        document.id('votebox_success').setStyle('display', 'none');
+                        document.id('votebox_unsuccess').setStyle('display', 'none');
                     }
-
-                    if (response == 'successfully_voted') {
+                    else if (response == 'successfully_voted') {
                         document.id('votebox_votes').removeClass('notYetVoted').addClass('hasVoted');
                         document.id('votebox_success').setStyle('display', 'block');
                         document.id('votebox_unsuccess').setStyle('display', 'none');
+                        document.id('votebox_too_many_votes').setStyle('display', 'none');
                         document.id('votebox_ajax_votecount').set('text', document.id('votebox_ajax_votecount').get('text').toInt() + 1);
                         document.id('votebox_unvote').removeClass('invisible');
                         document.id('votebox_vote').addClass('invisible');
@@ -47,6 +50,7 @@ window.addEvent('domready', function() {
                     else {
                         document.id('votebox_votes').removeClass('hasVoted').addClass('notYetVoted');
                         document.id('votebox_success').setStyle('display', 'none');
+                        document.id('votebox_too_many_votes').setStyle('display', 'none');
                         document.id('votebox_unsuccess').setStyle('display', 'block');
                         document.id('votebox_ajax_votecount').set('text', document.id('votebox_ajax_votecount').get('text').toInt() - 1);
                         document.id('votebox_unvote').addClass('invisible');
