@@ -113,6 +113,7 @@ class ModuleVoteboxList extends ModuleVotebox
 		$this->Template->hasData = true;
 		$objTemplate = new FrontendTemplate(($this->vb_list_tpl) ? $this->vb_list_tpl : 'votebox_list_default');
 		$objTemplate->arrIdeas = $arrData;
+        $objTemplate->readOn = $GLOBALS['TL_LANG']['MSC']['more'];
 		$this->Template->content = $objTemplate->parse();
 	}
 }
