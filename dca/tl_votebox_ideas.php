@@ -40,7 +40,11 @@ $GLOBALS['TL_DCA']['tl_votebox_ideas'] = array
 	(
 		'dataContainer'				=> 'Table',
 		'ptable'					=> 'tl_votebox_archives',
-		'ctable'					=> array('tl_votebox_votes')
+		'ctable'					=> array('tl_votebox_votes'),
+        'onload_callback'           => array
+        (
+            array('tl_votebox_ideas', 'cleanUpVoteTable')
+        )
 	),
 
 	// List
@@ -259,4 +263,14 @@ class tl_votebox_ideas extends Backend
 
 		$this->createNewVersion('tl_votebox_ideas', $intId);
 	}
+
+
+    /**
+     * Clean up the vote table for ideas that don't exist anymore
+     */
+    public function cleanUpVoteTable()
+    {
+        $arrIdeas = $this->Database->query('SELECT id FROM tl_votebox_ideas')->fetchEach('id');
+        $this->Database->query('DELETE FROM tl_votebox_votes WHERE pid NOT IN (' . implode(',', $arrIdeas) . ')');
+    }
 }
