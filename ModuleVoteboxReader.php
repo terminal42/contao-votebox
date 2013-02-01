@@ -159,18 +159,15 @@ class ModuleVoteboxReader extends ModuleVotebox
 		// member id
 		$this->objDetailTemplate->memberId = $this->intMemberId;
 
-		// check if the user has alredy voted (useful for e.g. CSS classes)
+		// check if the user has already voted (useful for e.g. CSS classes)
 		if (Votebox::hasVoted($this->intIdeaId, $this->intMemberId))
 		{
 			$this->objDetailTemplate->hasVoted = true;
 		}
-
-		$this->objDetailTemplate->hideForm = false;
-
-		// Hide the form if member hasn't voted but the limit is exceeded
-		if (!$this->objDetailTemplate->hasVoted && !Votebox::canMemberVote($this->intIdeaId, $this->intMemberId))
+		// check if the user can't vote anymore (limit exceeded)
+		if (Votebox::canMemberVote($this->intIdeaId, $this->intMemberId))
 		{
-			$this->objDetailTemplate->hideForm = true;
+			$this->objDetailTemplate->tooManyVotes = true;
 		}
 
 		// add a default CSS class to the container
