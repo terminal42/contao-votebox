@@ -165,7 +165,7 @@ class ModuleVoteboxReader extends ModuleVotebox
 			$this->objDetailTemplate->hasVoted = true;
 		}
 		// check if the user can't vote anymore (limit exceeded)
-		if (Votebox::canMemberVote($this->intIdeaId, $this->intMemberId))
+		if (!Votebox::canMemberVote($this->intIdeaId, $this->intMemberId))
 		{
 			$this->objDetailTemplate->tooManyVotes = true;
 		}
