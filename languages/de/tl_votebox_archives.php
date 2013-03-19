@@ -10,12 +10,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation, either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program. If not, please visit the Free
  * Software Foundation website at <http://www.gnu.org/licenses/>.
@@ -23,8 +23,8 @@
  * PHP version 5
  * @copyright  terminal42 gmbh 2012
  * @author     Yanick Witschi <yanick.witschi@terminal42.ch>
- * @package    votebox 
- * @license    LGPL 
+ * @package    votebox
+ * @license    LGPL
  * @filesource
  */
 
@@ -62,8 +62,9 @@ $GLOBALS['TL_LANG']['tl_votebox_archives']['notify']['notify_both']   = 'Autor u
 /**
  * Buttons
  */
-$GLOBALS['TL_LANG']['tl_votebox_archives']['new']    = array('Neues Archiv', 'Legen Sie ein neues Archiv an.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['edit']   = array('Archiv editieren', 'Editieren Sie das Archiv mit der ID %s.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['copy']   = array('Archiv duplizieren', 'Duplizieren Sie das Archiv mit der ID %s.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['delete'] = array('Archiv löschen', 'Löschen Sie das Archiv mit der ID %s.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['show']   = array('Details zeigen', 'Zeigen Sie die Details des Archivs mit der ID %s.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['new']           = array('Neues Archiv', 'Legen Sie ein neues Archiv an.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['edit']          = array('Archiv editieren', 'Editieren Sie das Archiv mit der ID %s.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['editheader']    = array('Archiveinstellungen bearbeiten', 'Einstellungen des Archivs ID %s bearbeiten');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['copy']          = array('Archiv duplizieren', 'Duplizieren Sie das Archiv mit der ID %s.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['delete']        = array('Archiv löschen', 'Löschen Sie das Archiv mit der ID %s.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['show']          = array('Details zeigen', 'Zeigen Sie die Details des Archivs mit der ID %s.');

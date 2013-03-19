@@ -10,12 +10,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation, either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program. If not, please visit the Free
  * Software Foundation website at <http://www.gnu.org/licenses/>.
@@ -23,14 +23,14 @@
  * PHP version 5
  * @copyright  terminal42 gmbh 2012
  * @author     Yanick Witschi <yanick.witschi@terminal42.ch>
- * @package    votebox 
- * @license    LGPL 
+ * @package    votebox
+ * @license    LGPL
  * @filesource
  */
 
 
 /**
- * Table tl_votebox_archives 
+ * Table tl_votebox_archives
  */
 $GLOBALS['TL_DCA']['tl_votebox_archives'] = array
 (
@@ -73,7 +73,15 @@ $GLOBALS['TL_DCA']['tl_votebox_archives'] = array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['tl_votebox_archives']['edit'],
 				'href'                => 'table=tl_votebox_ideas',
-				'icon'                => 'edit.gif'
+				'icon'                => 'edit.gif',
+				'attributes'          => 'class="contextmenu"'
+			),
+			'editheader' => array
+			(
+				'label'					=> &$GLOBALS['TL_LANG']['tl_votebox_archives']['editheader'],
+				'href'					=> 'act=edit',
+				'icon'					=> 'header.gif',
+				'attributes'			=> 'class="edit-header"'
 			),
 			'copy' => array
 			(

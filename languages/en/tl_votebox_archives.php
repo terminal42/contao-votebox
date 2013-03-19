@@ -10,12 +10,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation, either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program. If not, please visit the Free
  * Software Foundation website at <http://www.gnu.org/licenses/>.
@@ -23,8 +23,8 @@
  * PHP version 5
  * @copyright  terminal42 gmbh 2012
  * @author     Yanick Witschi <yanick.witschi@terminal42.ch>
- * @package    votebox 
- * @license    LGPL 
+ * @package    votebox
+ * @license    LGPL
  * @filesource
  */
 
@@ -63,8 +63,9 @@ $GLOBALS['TL_LANG']['tl_votebox_archives']['notify_both']   = 'Author and system
 /**
  * Buttons
  */
-$GLOBALS['TL_LANG']['tl_votebox_archives']['new']    = array('New archive', 'Add a new archive.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['edit']   = array('Edit archive', 'Edit archive ID %s.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['copy']   = array('Duplicate archive', 'Duplicate archive ID %s.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['delete'] = array('Delete archive', 'Delete archive ID %s.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['show']   = array('Show details', 'Show details of archive ID %s.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['new']           = array('New archive', 'Add a new archive.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['edit']          = array('Edit archive', 'Edit archive ID %s.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['editheader']    = array('Edit archive settings', 'Edit the settings of archive ID %s');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['copy']          = array('Duplicate archive', 'Duplicate archive ID %s.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['delete']        = array('Delete archive', 'Delete archive ID %s.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['show']          = array('Show details', 'Show details of archive ID %s.');
