@@ -10,12 +10,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation, either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program. If not, please visit the Free
  * Software Foundation website at <http://www.gnu.org/licenses/>.
@@ -23,14 +23,14 @@
  * PHP version 5
  * @copyright  terminal42 gmbh 2012
  * @author     Yanick Witschi <yanick.witschi@terminal42.ch>
- * @package    votebox 
- * @license    LGPL 
+ * @package    votebox
+ * @license    LGPL
  * @filesource
  */
 
 
 /**
- * Class ModuleVoteboxReader 
+ * Class ModuleVoteboxReader
  *
  * @copyright  terminal42 gmbh 2012
  * @author     Yanick Witschi <yanick.witschi@terminal42.ch>
@@ -99,7 +99,7 @@ class ModuleVoteboxReader extends ModuleVotebox
 		$this->import('FrontendUser', 'Member');
 		$this->intMemberId = $this->Member->id;
 		$this->intIdeaId = $this->Input->get('idea');
-		
+
 		$arrData = $this->getIdeas($this->vb_archive, $this->intIdeaId);
 
 		if (!$arrData)
@@ -116,7 +116,7 @@ class ModuleVoteboxReader extends ModuleVotebox
 		}
 
 		$this->Template->hasData = true;
-		
+
 		// detail template
 		$this->objDetailTemplate = new FrontendTemplate(($this->vb_reader_tpl) ? $this->vb_reader_tpl : 'votebox_reader_default');
 
@@ -181,8 +181,8 @@ class ModuleVoteboxReader extends ModuleVotebox
 		}
 
 		// add comments
-		$this->addComments();
-		
+		$this->addComments($arrData);
+
 		// parse the detail template
 		$this->Template->content = $this->objDetailTemplate->parse();
 	}
@@ -241,33 +241,33 @@ class ModuleVoteboxReader extends ModuleVotebox
 	/**
 	 * Add comments to the template
 	 */
-	protected function addComments()
+	protected function addComments($arrIdea)
 	{
 		$this->objDetailTemplate->allowComments = false;
-		
+
 		if ($this->arrArchiveData['allowComments'] == 1)
 		{
 			$this->objDetailTemplate->allowComments = true;
 			$this->import('Comments');
 			$arrNotifies = array();
-			
+
 			// Notify system administrator
 			if ($this->arrArchiveData['notify'] != 'notify_author')
 			{
 				$arrNotifies[] = $GLOBALS['TL_ADMIN_EMAIL'];
 			}
-	
+
 			// Notify author
 			if ($this->arrArchiveData['notify'] != 'notify_admin')
 			{
-				$this->import('FrontendUser', 'Member');
-				$arrNotifies[] = $this->Member->email;
+				$objMember = $this->Database->prepare("SELECT * FROM tl_member WHERE id=?")->execute($arrIdea['member_id']);
+				$arrNotifies[] = $objMember->email;
 			}
-			
+
 			// Adjust the comments headline level
 			$intHl = min(intval(str_replace('h', '', $this->hl)), 5);
 			$this->objDetailTemplate->hlc = 'h' . ($intHl + 1);
-	
+
 			$objConfig = new stdClass();
 			$objConfig->requireLogin = true;
 			$objConfig->perPage = $this->arrArchiveData['perPage'];
@@ -276,7 +276,7 @@ class ModuleVoteboxReader extends ModuleVotebox
 			$objConfig->disableCaptcha = $this->arrArchiveData['disableCaptcha'];
 			$objConfig->bbcode = $this->arrArchiveData['bbcode'];
 			$objConfig->moderate = $this->arrArchiveData['comments_moderate'];
-	
+
 			$this->Comments->addCommentsToTemplate($this->objDetailTemplate, $objConfig, 'tl_votebox_ideas', $this->intIdeaId, $arrNotifies);
 		}
 	}
