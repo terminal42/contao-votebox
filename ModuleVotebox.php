@@ -10,12 +10,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation, either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program. If not, please visit the Free
  * Software Foundation website at <http://www.gnu.org/licenses/>.
@@ -23,8 +23,8 @@
  * PHP version 5
  * @copyright  terminal42 gmbh 2012
  * @author     Yanick Witschi <yanick.witschi@terminal42.ch>
- * @package    votebox 
- * @license    LGPL 
+ * @package    votebox
+ * @license    LGPL
  * @filesource
  */
 
@@ -38,7 +38,7 @@
  */
 abstract class ModuleVotebox extends Module
 {
-	
+
 	/**
 	 * Votebox archive data
 	 * @var array
@@ -61,13 +61,13 @@ abstract class ModuleVotebox extends Module
 			}
 			// check for the votebox
 			$objVoteBox = $this->Database->prepare("SELECT * FROM tl_votebox_archives WHERE id=?")->limit(1)->execute($this->vb_archive);
-			
+
 			if (!$objVoteBox->numRows)
 			{
 				$this->log('Votebox archive with ID "' . $this->vb_archive . '" does not exist', __METHOD__, TL_ERROR);
 				return '';
 			}
-			
+
 			$this->arrArchiveData = $objVoteBox->fetchAssoc();
 			$this->import('FrontendUser', 'Member');
 		}
@@ -89,7 +89,7 @@ abstract class ModuleVotebox extends Module
 	{
 		$strWhere = ' WHERE vb.pid=? AND vb.published=?';
 		$arrExecute = array($intArchiveId, 1);
-		
+
 		if ($intIdeaId)
 		{
 			$strWhere .= ' AND vb.id=? LIMIT 1';
@@ -113,6 +113,7 @@ abstract class ModuleVotebox extends Module
 												vb.text AS text,
 												m.firstname AS firstname,
 												m.lastname AS lastname,
+												m.email AS email,
 												(
 													SELECT COUNT(id) FROM tl_votebox_votes AS votes WHERE vb.id=votes.pid
 												) AS voteCount
@@ -134,26 +135,26 @@ abstract class ModuleVotebox extends Module
 		{
 			return false;
 		}
-		
+
 		$arrData = $objIdeas->fetchAllAssoc();
-		
+
 		// get jumpTo page data
 		if ($intJumpToId)
 		{
 			$objJumpTo = $this->Database->prepare("SELECT id,alias FROM tl_page WHERE id=?")->limit(1)->execute($this->vb_reader_jumpTo);
 		}
-		
+
 		foreach ($arrData as $k => $arrRow)
 		{
 			$arrData[$k]['creation_date']	= $this->parseDate($GLOBALS['TL_CONFIG']['datimFormat'], $arrRow['creation_date']);
 			$arrData[$k]['hasVoted'] = Votebox::hasVoted($arrRow['id'], $this->Member->id);
-			
+
 			if ($intJumpToId)
 			{
 				$arrData[$k]['reader_url']	= $this->generateFrontendUrl($objJumpTo->row(), '/idea/' . $arrRow['id']);
 			}
 		}
-		
+
 		return $arrData;
 	}
 }

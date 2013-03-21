@@ -181,7 +181,7 @@ class ModuleVoteboxReader extends ModuleVotebox
 		}
 
 		// add comments
-		$this->addComments($arrData);
+		$this->addComments($this->objDetailTemplate->arrIdea);
 
 		// parse the detail template
 		$this->Template->content = $this->objDetailTemplate->parse();
@@ -258,10 +258,9 @@ class ModuleVoteboxReader extends ModuleVotebox
 			}
 
 			// Notify author
-			if ($this->arrArchiveData['notify'] != 'notify_admin')
+			if ($this->arrArchiveData['notify'] != 'notify_admin' && $arrIdea['email'] != '' && !$this->isValidEmailAddress($arrIdea['email']))
 			{
-				$objMember = $this->Database->prepare("SELECT * FROM tl_member WHERE id=?")->execute($arrIdea['member_id']);
-				$arrNotifies[] = $objMember->email;
+				$arrNotifies[] = $arrIdea['email'];
 			}
 
 			// Adjust the comments headline level
