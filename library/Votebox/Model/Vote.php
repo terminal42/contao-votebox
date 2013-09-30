@@ -40,8 +40,6 @@ class Vote extends \Model
      */
     protected static $strTable = 'tl_votebox_votes';
 
-
-
     /**
      * Set IP if not already done
      * @param   array The data array
@@ -55,4 +53,38 @@ class Vote extends \Model
 
         return $arrSet;
     }
+
+    /**
+     * Find by idea and user
+     * @param   Idea
+     * @param   array
+     * @return  Vote
+     */
+    public static function findByIdeaAndUser(Idea $objIdea, $arrOptions=array())
+    {
+        $t = static::$strTable;
+        $arrColumns = array();
+        $arrValues = array();
+
+        $arrColumns[] = "$t.pid=?";
+        $arrValues[] = $objIdea->id;
+
+        if (FE_USER_LOGGED_IN === true) {
+            $arrColumns[] = "$t.member_id=?";
+            $arrValues[] = \FrontendUser::getInstance()->id;
+        } else {
+            $arrColumns[] = "$t.ip=?";
+            $arrValues[] = \Environment::get('ip');
+        }
+
+        $arrOptions = array_merge(
+            array(
+                'return' => 'Model'
+            ),
+            $arrOptions
+        );
+
+        return static::findBy($arrColumns, $arrValues, $arrOptions);
+    }
+
 }
