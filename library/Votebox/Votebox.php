@@ -29,7 +29,9 @@
  */
 
 
-class Votebox extends Controller
+namespace Votebox;
+
+class Votebox extends \Controller
 {	
 	/**
 	 * Check if a member has already voted for a certain idea

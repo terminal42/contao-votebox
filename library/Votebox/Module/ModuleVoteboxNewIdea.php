@@ -28,8 +28,9 @@
  * @filesource
  */
 
+namespace Votebox\Module;
 
-class ModuleVoteboxNewIdea extends ModuleVotebox
+class NewIdea extends Votebox
 {
 
 	/**
