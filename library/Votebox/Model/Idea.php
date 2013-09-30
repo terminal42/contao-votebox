@@ -65,6 +65,33 @@ class Idea extends \Model
      * @param   array
      * @return  \Collection
      */
+    public static function findPublishedByArchiveAndPk(Archive $objArchive, $intPk, $arrOptions=array())
+    {
+        $t = static::$strTable;
+        $arrColumns[] = "$t.id=?";
+        $arrColumns[] = "$t.pid=?";
+
+        if (!BE_USER_LOGGED_IN) {
+            $arrColumns[] = "$t.published=1";
+        }
+
+        $arrOptions = array_merge(
+            array(
+                'return' => 'Model'
+            ),
+            $arrOptions
+        );
+
+        return static::findBy($arrColumns, array($intPk, $objArchive->id), $arrOptions);
+    }
+
+
+    /**
+     * Find by archive
+     * @param   Archive
+     * @param   array
+     * @return  \Collection
+     */
     public static function findPublishedByArchive(Archive $objArchive, $arrOptions=array())
     {
         $t = static::$strTable;
