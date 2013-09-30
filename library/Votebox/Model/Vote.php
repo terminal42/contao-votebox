@@ -41,7 +41,7 @@ class Vote extends \Model
     protected static $strTable = 'tl_votebox_votes';
 
     /**
-     * Set IP if not already done
+     * Set IP and member id if not already done
      * @param   array The data array
      * @return  array The modified data array
      */
@@ -49,6 +49,10 @@ class Vote extends \Model
     {
         if (!$arrSet['ip']) {
             $arrSet['ip'] = \Environment::get('ip');
+        }
+
+        if (FE_USER_LOGGED_IN === true && !$arrSet['member_id']) {
+            $arrSet['member_id'] = \FrontendUser::getInstance()->id;
         }
 
         return $arrSet;
