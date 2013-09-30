@@ -40,10 +40,10 @@ NamespaceClassLoader::add('Votebox', 'system/modules/votebox/library');
  */
 TemplateLoader::addFiles(array
 (
-    'mod_votebox_list'              => 'system/modules/isotope/templates/backend',
-    'mod_votebox_new_idea'          => 'system/modules/isotope/templates/backend',
-    'mod_votebox_reader'            => 'system/modules/isotope/templates/checkout',
-    'votebox_list_default'          => 'system/modules/isotope/templates/checkout',
-    'votebox_new_idea_default'      => 'system/modules/isotope/templates/checkout',
-    'votebox_reader_default'        => 'system/modules/isotope/templates/checkout',
+    'mod_votebox_list'              => 'system/modules/votebox/templates',
+    'mod_votebox_new_idea'          => 'system/modules/votebox/templates',
+    'mod_votebox_reader'            => 'system/modules/votebox/templates',
+    'votebox_list_default'          => 'system/modules/votebox/templates',
+    'votebox_new_idea_default'      => 'system/modules/votebox/templates',
+    'votebox_reader_default'        => 'system/modules/votebox/templates',
 ));

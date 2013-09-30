@@ -43,7 +43,7 @@ $GLOBALS['BE_MOD']['content']['votebox'] = array
  */
 $GLOBALS['FE_MOD']['votebox'] = array
 (
-    'votebox_list'		=> 'Votebox\Module\IdeaList',
-    'votebox_new_idea'	=> 'Votebox\Module\NewIdea',
-    'votebox_reader'	=> 'Votebox\Module\Reader',
+    'votebox_list'          => 'Votebox\Module\IdeaList',
+    'votebox_new_idea'      => 'Votebox\Module\NewIdea',
+    'votebox_reader'        => 'Votebox\Module\Reader'
 );

@@ -33,125 +33,122 @@ namespace Votebox\Module;
 class NewIdea extends Votebox
 {
 
-	/**
-	 * Template
-	 * @var string
-	 */
-	protected $strTemplate = 'mod_votebox_new_idea';
+    /**
+     * Template
+     * @var string
+     */
+    protected $strTemplate = 'mod_votebox_new_idea';
 
-	/**
-	 * Display a wildcard in the back end
-	 * @return string
-	 */
-	public function generate()
-	{
-		if (TL_MODE == 'BE')
-		{
-			$objTemplate = new \BackendTemplate('be_wildcard');
-			$objTemplate->wildcard = '### VOTEBOX: NEW IDEA ###';
-			$objTemplate->title = $this->headline;
-			$objTemplate->id = $this->id;
-			$objTemplate->link = $this->name;
-			$objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+    /**
+     * Display a wildcard in the back end
+     * @return string
+     */
+    public function generate()
+    {
+        if (TL_MODE == 'BE') {
+            $objTemplate = new \BackendTemplate('be_wildcard');
+            $objTemplate->wildcard = '### VOTEBOX: NEW IDEA ###';
+            $objTemplate->title = $this->headline;
+            $objTemplate->id = $this->id;
+            $objTemplate->link = $this->name;
+            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
 
-			return $objTemplate->parse();
-		}
+            return $objTemplate->parse();
+        }
 
-		return parent::generate();
-	}
-
-
-	/**
-	 * Generate module
-	 */
-	protected function compile()
-	{
-		$objForm = $this->prepareForm();
-
-		if ($objForm->validate())
-		{
-			$this->processData($objForm->fetchAll());
-			
-			// redirect or reload
-			$this->jumpToOrReload($this->vb_new_idea_jumpTo);
-		}
-		
-		$objTemplate = new FrontendTemplate(($this->vb_new_idea_tpl) ? $this->vb_new_idea_tpl : 'votebox_new_idea_default');
-		$objTemplate->form	= $objForm->generateForm();
-		
-		$this->Template->content = $objTemplate->parse();
-	}
+        return parent::generate();
+    }
 
 
-	/**
-	 * Process the form data
-	 * @param array
-	 */
-	protected function processData($arrFormData)
-	{
-		$this->import('FrontendUser', 'Member');
-		
-		$arrData = array();
-		$arrData['pid']				= $this->vb_archive;
-		$arrData['tstamp']			= time();
-		$arrData['title']			= $arrFormData['title'];
-		$arrData['creation_date']	= time();
-		$arrData['member_id']		= $this->Member->id;
-		$arrData['text']			= $arrFormData['text'];
-		
-		// send notification if it is moderated
-		if ($this->arrArchiveData['moderate'] == 1)
-		{
-			// @todo replace with mailtemplates
-			/*$objEmail = new Email();
-			$objEmail->from = $GLOBALS['TL_ADMIN_EMAIL'];
-			$objEmail->fromName = $GLOBALS['TL_ADMIN_NAME'];
-			$objEmail->subject = 'New idea in votebox to moderate!';
-			$objEmail->text = 'There\'s been a new idea submitted to your votebox. Because this votebox is moderated, you should go and see whether you want to publish this idea or not.';
-			$objEmail->sendTo($this->arrArchiveData['receiver_mail']);*/
-		}
-		// only publish it directly if it is not moderated
-		else
-		{
-			$arrData['published']	= 1;
-		}
+    /**
+     * Generate module
+     */
+    protected function compile()
+    {
+        $objForm = $this->prepareForm();
+
+        if ($objForm->validate()) {
+            $this->processData($objForm->fetchAll());
+            
+            // redirect or reload
+            $this->jumpToOrReload($this->vb_new_idea_jumpTo);
+        }
+
+        $objTemplate = new \FrontendTemplate(($this->vb_new_idea_tpl) ? $this->vb_new_idea_tpl : 'votebox_new_idea_default');
+        $objTemplate->form    = $objForm->generate();
+        
+        $this->Template->content = $objTemplate->parse();
+    }
+
+
+    /**
+     * Process the form data
+     * @param array
+     */
+    protected function processData($arrFormData)
+    {
+        $this->import('FrontendUser', 'Member');
+        
+        $arrData = array();
+        $arrData['pid']                = $this->vb_archive;
+        $arrData['tstamp']            = time();
+        $arrData['title']            = $arrFormData['title'];
+        $arrData['creation_date']    = time();
+        $arrData['member_id']        = $this->Member->id;
+        $arrData['text']            = $arrFormData['text'];
+        
+        // send notification if it is moderated
+        if ($this->arrArchiveData['moderate'] == 1)
+        {
+            // @todo replace with mailtemplates
+            /*$objEmail = new Email();
+            $objEmail->from = $GLOBALS['TL_ADMIN_EMAIL'];
+            $objEmail->fromName = $GLOBALS['TL_ADMIN_NAME'];
+            $objEmail->subject = 'New idea in votebox to moderate!';
+            $objEmail->text = 'There\'s been a new idea submitted to your votebox. Because this votebox is moderated, you should go and see whether you want to publish this idea or not.';
+            $objEmail->sendTo($this->arrArchiveData['receiver_mail']);*/
+        }
+        // only publish it directly if it is not moderated
+        else
+        {
+            $arrData['published']    = 1;
+        }
 
         \Database::getInstance()->prepare("INSERT INTO tl_votebox_ideas %s")
-					   ->set($arrData)
-					   ->execute();
-	}
+                       ->set($arrData)
+                       ->execute();
+    }
 
 
-	/**
-	 * Prepare form
-	 * @return HasteForm
-	 */
-	protected function prepareForm()
-	{
-		$arrFields = array();
+    /**
+     * Prepare form
+     * @return HasteForm
+     */
+    protected function prepareForm()
+    {
+        $arrFields = array();
 
-		$arrFields['title'] = array
-		(
-			'label'						=> &$GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['title'],
-			'inputType'					=> 'text',
-			'eval'						=> array('mandatory'=>true)
-		);
-		$arrFields['text'] = array
-		(
-			'label'						=> &$GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['text'],
-			'inputType'					=> 'textarea',
-			'eval'						=> array('rte'=>'tinyMCE', 'mandatory'=>true)
-		);
-		$arrFields['captcha'] = array
-		(
-			'label'						=> &$GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['captcha'],
-			'inputType'					=> 'captcha',
-			'eval'						=> array('mandatory'=>true)
-		);
+        $arrFields['title'] = array
+        (
+            'label'                        => &$GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['title'],
+            'inputType'                    => 'text',
+            'eval'                        => array('mandatory'=>true)
+        );
+        $arrFields['text'] = array
+        (
+            'label'                        => &$GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['text'],
+            'inputType'                    => 'textarea',
+            'eval'                        => array('rte'=>'tinyMCE', 'mandatory'=>true)
+        );
 
-		$objForm = new \HasteForm('vb_new_idea', $arrFields);
-		$objForm->submit = $GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['submit'];
+        $objForm = new \Haste\Form('vb_new_idea', 'POST', function($objHaste) {
+            return \Input::post('FORM_SUBMIT') === $objHaste->getFormId();
+        });
 
-		return $objForm;
-	}
+        $objForm->addFormFields($arrFields);
+        $objForm->addCaptchaFormField('captcha');
+        $objForm->addSubmitFormField('submit', $GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['submit']);
+
+        return $objForm;
+    }
 }
