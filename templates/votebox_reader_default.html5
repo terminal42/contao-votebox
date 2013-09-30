@@ -12,8 +12,8 @@
                 <div class="formbody">
                     <input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->vote_formId; ?>">
                     <input type="hidden" name="REQUEST_TOKEN" value="<?php echo REQUEST_TOKEN; ?>">
-                    <input type="submit" class="submit vote<?php if ($this->hasVoted): ?> invisible<?php endif; ?>" value="<?php echo $this->lblVote; ?>">
-                    <input type="submit" class="submit unvote<?php if (!$this->hasVoted): ?> invisible<?php endif; ?>" value="<?php echo $this->lblUnvote; ?>">
+                    <input type="submit" name="vote" class="submit vote<?php if ($this->hasVoted): ?> invisible<?php endif; ?>" value="<?php echo $this->lblVote; ?>">
+                    <input type="submit" name="unvote" class="submit unvote<?php if (!$this->hasVoted): ?> invisible<?php endif; ?>" value="<?php echo $this->lblUnvote; ?>">
                 </div>
             </form>
         </div>
