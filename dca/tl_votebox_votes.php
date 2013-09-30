@@ -85,7 +85,9 @@ $GLOBALS['TL_DCA']['tl_votebox_votes'] = array
         ),
         'pid' => array
         (
+            'foreignKey'                => 'tl_votebox_ideas.title',
             'sql'                       =>  "int(10) unsigned NOT NULL default '0'",
+            'relation'                  => array('type'=>'belongsTo', 'load'=>'lazy')
         ),
         'tstamp' => array
         (
@@ -124,8 +126,15 @@ class tl_votebox_votes extends \Backend
      */
     public function getLabel($row, $label)
     {
-        // @todo adjust
-        $objMember = \Database::getInstance()->prepare('SELECT firstname,lastname,username FROM tl_member WHERE id=?')->execute($row['member_id']);
-        return $objMember->lastname . ', ' . $objMember->firstname . ' <span style="color:#ccc">[' . $objMember->username . ']</span>';
+        // Get archive settings
+        $objArchive = \Votebox\Model\Vote::findByPk($row['id'])->getRelated('pid')->getRelated('pid');
+
+        if ($objArchive->mode == 'member') {
+            $objMember = \Database::getInstance()->prepare('SELECT firstname,lastname,username FROM tl_member WHERE id=?')
+                                                 ->execute($row['member_id']);
+            return $objMember->lastname . ', ' . $objMember->firstname . ' <span style="color:#ccc">[' . $objMember->username . ']</span>';
+        } else {
+            return \System::anonymizeIp($row['ip']);
+        }
     }
 }
