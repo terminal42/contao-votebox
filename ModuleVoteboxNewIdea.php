@@ -1,6 +1,4 @@
 <?php
-if (!defined('TL_ROOT'))
-	die('You cannot access this file directly!');
 
 /**
  * Contao Open Source CMS
@@ -23,20 +21,14 @@ if (!defined('TL_ROOT'))
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  terminal42 gmbh 2012
- * @author     Yanick Witschi <yanick.witschi@certo-net.ch>
+ * @copyright  terminal42 gmbh 2012-2013
+ * @author     Yanick Witschi <yanick.witschi@terminal42.ch>
  * @package    votebox
  * @license    LGPL
  * @filesource
  */
 
-/**
- * Class ModuleVoteboxNewIdea
- *
- * @copyright  terminal42 gmbh 2012
- * @author     Yanick Witschi <yanick.witschi@certo-net.ch>
- * @package    Controller
- */
+
 class ModuleVoteboxNewIdea extends ModuleVotebox
 {
 

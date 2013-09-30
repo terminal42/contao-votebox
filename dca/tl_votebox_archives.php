@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You cannot access this file directly!');
+<?php
 
 /**
  * Contao Open Source CMS
@@ -21,7 +21,7 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  terminal42 gmbh 2012
+ * @copyright  terminal42 gmbh 2012-2013
  * @author     Yanick Witschi <yanick.witschi@terminal42.ch>
  * @package    votebox
  * @license    LGPL
