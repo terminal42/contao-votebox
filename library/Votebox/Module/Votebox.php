@@ -33,89 +33,89 @@ namespace Votebox\Module;
 abstract class Votebox extends \Module
 {
 
-	/**
-	 * Votebox archive data
-	 * @var array
-	 */
-	protected $arrArchiveData = array();
+    /**
+     * Votebox archive data
+     * @var array
+     */
+    protected $arrArchiveData = array();
 
 
-	/**
-	 * Make sure the module is only used when a user is logged in and check votebox archive id
-	 * @return string
-	 */
-	public function generate()
-	{
-		if (TL_MODE == 'FE')
-		{
-			if (FE_USER_LOGGED_IN !== true)
-			{
-				$this->log('Votebox can only be accessed when logged in', __METHOD__, TL_ERROR);
-				return '';
-			}
-			// check for the votebox
-			$objVoteBox = \Database::getInstance()->prepare("SELECT * FROM tl_votebox_archives WHERE id=?")->limit(1)->execute($this->vb_archive);
+    /**
+     * Make sure the module is only used when a user is logged in and check votebox archive id
+     * @return string
+     */
+    public function generate()
+    {
+        if (TL_MODE == 'FE')
+        {
+            if (FE_USER_LOGGED_IN !== true)
+            {
+                $this->log('Votebox can only be accessed when logged in', __METHOD__, TL_ERROR);
+                return '';
+            }
+            // check for the votebox
+            $objVoteBox = \Database::getInstance()->prepare("SELECT * FROM tl_votebox_archives WHERE id=?")->limit(1)->execute($this->vb_archive);
 
-			if (!$objVoteBox->numRows)
-			{
-				$this->log('Votebox archive with ID "' . $this->vb_archive . '" does not exist', __METHOD__, TL_ERROR);
-				return '';
-			}
+            if (!$objVoteBox->numRows)
+            {
+                $this->log('Votebox archive with ID "' . $this->vb_archive . '" does not exist', __METHOD__, TL_ERROR);
+                return '';
+            }
 
-			$this->arrArchiveData = $objVoteBox->fetchAssoc();
-		}
+            $this->arrArchiveData = $objVoteBox->fetchAssoc();
+        }
 
-		return parent::generate();
-	}
+        return parent::generate();
+    }
 
 
-	/**
-	 * Gets an array of ideas
-	 * @param int archive id
-	 * @param int idea id
-	 * @param int jumpTo page id
-	 * @param string ORDER BY definition
+    /**
+     * Gets an array of ideas
+     * @param int archive id
+     * @param int idea id
+     * @param int jumpTo page id
+     * @param string ORDER BY definition
      * @param array limit in style array('offset'=>0,'limit'=>10)
-	 * @return array|false
-	 */
-	public function getIdeas($intArchiveId, $intIdeaId=false, $intJumpToId=false, $strOrderBy=false, $arrLimit=false)
-	{
-		$strWhere = ' WHERE vb.pid=? AND vb.published=?';
-		$arrExecute = array($intArchiveId, 1);
+     * @return array|false
+     */
+    public function getIdeas($intArchiveId, $intIdeaId=false, $intJumpToId=false, $strOrderBy=false, $arrLimit=false)
+    {
+        $strWhere = ' WHERE vb.pid=? AND vb.published=?';
+        $arrExecute = array($intArchiveId, 1);
 
-		if ($intIdeaId)
-		{
-			$strWhere .= ' AND vb.id=? LIMIT 1';
-			$arrExecute[] = $intIdeaId;
-		}
+        if ($intIdeaId)
+        {
+            $strWhere .= ' AND vb.id=? LIMIT 1';
+            $arrExecute[] = $intIdeaId;
+        }
 
-		if (!$strOrderBy)
-		{
-			$strOrderBy = '';
-		}
-		else
-		{
-			$strOrderBy = ' ORDER BY ' . $strOrderBy;
-		}
+        if (!$strOrderBy)
+        {
+            $strOrderBy = '';
+        }
+        else
+        {
+            $strOrderBy = ' ORDER BY ' . $strOrderBy;
+        }
 
-		// get ideas for this votebox
-		$objIdeas = \Database::getInstance()->prepare("SELECT
-												vb.id AS id,
-												vb.title AS title,
-												vb.creation_date AS creation_date,
-												vb.text AS text,
-												m.firstname AS firstname,
-												m.lastname AS lastname,
-												m.email AS email,
-												(
-													SELECT COUNT(id) FROM tl_votebox_votes AS votes WHERE vb.id=votes.pid
-												) AS voteCount
-											FROM
-												tl_votebox_ideas AS vb
-											LEFT JOIN
-												tl_member AS m
-											ON
-												vb.member_id=m.id" . $strWhere . $strOrderBy);
+        // get ideas for this votebox
+        $objIdeas = \Database::getInstance()->prepare("SELECT
+                                                vb.id AS id,
+                                                vb.title AS title,
+                                                vb.creation_date AS creation_date,
+                                                vb.text AS text,
+                                                m.firstname AS firstname,
+                                                m.lastname AS lastname,
+                                                m.email AS email,
+                                                (
+                                                    SELECT COUNT(id) FROM tl_votebox_votes AS votes WHERE vb.id=votes.pid
+                                                ) AS voteCount
+                                            FROM
+                                                tl_votebox_ideas AS vb
+                                            LEFT JOIN
+                                                tl_member AS m
+                                            ON
+                                                vb.member_id=m.id" . $strWhere . $strOrderBy);
 
         if ($arrLimit)
         {
@@ -124,31 +124,31 @@ abstract class Votebox extends \Module
 
         $objIdeas = $objIdeas->execute($arrExecute);
 
-		if (!$objIdeas->numRows)
-		{
-			return false;
-		}
+        if (!$objIdeas->numRows)
+        {
+            return false;
+        }
 
-		$arrData = $objIdeas->fetchAllAssoc();
+        $arrData = $objIdeas->fetchAllAssoc();
 
-		// get jumpTo page data
-		if ($intJumpToId)
-		{
-			$objJumpTo = \Database::getInstance()->prepare("SELECT id,alias FROM tl_page WHERE id=?")->limit(1)->execute($this->vb_reader_jumpTo);
-		}
+        // get jumpTo page data
+        if ($intJumpToId)
+        {
+            $objJumpTo = \Database::getInstance()->prepare("SELECT id,alias FROM tl_page WHERE id=?")->limit(1)->execute($this->vb_reader_jumpTo);
+        }
 
-		foreach ($arrData as $k => $arrRow)
-		{
-			$arrData[$k]['creation_date']	= \System::parseDate($GLOBALS['TL_CONFIG']['datimFormat'], $arrRow['creation_date']);
-			$arrData[$k]['hasVoted'] = \Votebox\Votebox::hasVoted($arrRow['id'], \FrontendUser::getInstance()->id);
+        foreach ($arrData as $k => $arrRow)
+        {
+            $arrData[$k]['creation_date']    = \System::parseDate($GLOBALS['TL_CONFIG']['datimFormat'], $arrRow['creation_date']);
+            $arrData[$k]['hasVoted'] = \Votebox\Votebox::hasVoted($arrRow['id'], \FrontendUser::getInstance()->id);
 
-			if ($intJumpToId)
-			{
-				$arrData[$k]['reader_url']	= \Controller::generateFrontendUrl($objJumpTo->row(), '/idea/' . $arrRow['id']);
-			}
-		}
+            if ($intJumpToId)
+            {
+                $arrData[$k]['reader_url']    = \Controller::generateFrontendUrl($objJumpTo->row(), '/idea/' . $arrRow['id']);
+            }
+        }
 
-		return $arrData;
-	}
+        return $arrData;
+    }
 }
 
