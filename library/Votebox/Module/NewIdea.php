@@ -30,6 +30,8 @@
 
 namespace Votebox\Module;
 
+use Votebox\Model\Idea;
+
 class NewIdea extends Votebox
 {
 
@@ -87,19 +89,19 @@ class NewIdea extends Votebox
      */
     protected function processData($arrFormData)
     {
-        $this->import('FrontendUser', 'Member');
-        
-        $arrData = array();
-        $arrData['pid']                = $this->vb_archive;
-        $arrData['tstamp']            = time();
-        $arrData['title']            = $arrFormData['title'];
-        $arrData['creation_date']    = time();
-        $arrData['member_id']        = $this->Member->id;
-        $arrData['text']            = $arrFormData['text'];
-        
+        $objIdea = new Idea();
+        $objIdea->pid               = $this->vb_archive;
+        $objIdea->tstamp            = time();
+        $objIdea->title             = $arrFormData['title'];
+        $objIdea->creation_date     = time();
+        $objIdea->text              = $arrFormData['text'];
+
+        if (FE_USER_LOGGED_IN === true) {
+            $objIdea->member_id = \FrontendUser::getInstance()->id;
+        }
+
         // send notification if it is moderated
-        if ($this->arrArchiveData['moderate'] == 1)
-        {
+        if ($this->objArchive->moderate) {
             // @todo replace with mailtemplates
             /*$objEmail = new Email();
             $objEmail->from = $GLOBALS['TL_ADMIN_EMAIL'];
@@ -107,16 +109,11 @@ class NewIdea extends Votebox
             $objEmail->subject = 'New idea in votebox to moderate!';
             $objEmail->text = 'There\'s been a new idea submitted to your votebox. Because this votebox is moderated, you should go and see whether you want to publish this idea or not.';
             $objEmail->sendTo($this->arrArchiveData['receiver_mail']);*/
-        }
-        // only publish it directly if it is not moderated
-        else
-        {
-            $arrData['published']    = 1;
+        } else {
+            $objIdea->published = 1;
         }
 
-        \Database::getInstance()->prepare("INSERT INTO tl_votebox_ideas %s")
-                       ->set($arrData)
-                       ->execute();
+        $objIdea->save();
     }
 
 
