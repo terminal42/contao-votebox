@@ -48,16 +48,16 @@ class Reader extends Votebox
     protected $intIdeaId = 0;
 
     /**
-     * Member id
-     * @var int
-     */
-    protected $intMemberId = 0;
-
-    /**
      * Detail Template
      * @var object
      */
     protected $objDetailTemplate = null;
+
+    /**
+     * Messages
+     * @var array
+     */
+    protected $arrMessages = array();
 
 
     /**
@@ -81,8 +81,11 @@ class Reader extends Votebox
             return '';
         }
 
+        $this->intIdeaId = \Input::get('idea');
+
         return parent::generate();
     }
+
 
 
     /**
@@ -90,9 +93,6 @@ class Reader extends Votebox
      */
     protected function compile()
     {
-        $this->intMemberId = \FrontendUser::getInstance()->id;
-        $this->intIdeaId = \Input::get('idea');
-
         $objIdea = Idea::findPublishedByArchiveAndPk($this->objArchive, $this->intIdeaId);
 
         if ($objIdea === null) {
@@ -110,25 +110,14 @@ class Reader extends Votebox
 
         // detail template
         $this->objDetailTemplate = new \FrontendTemplate(($this->vb_reader_tpl) ? $this->vb_reader_tpl : 'votebox_reader_default');
+        $this->objDetailTemplate->id = $this->id;
 
-        // success messages
-        $this->objDetailTemplate->successStyle = 'display:none;';
-        $this->objDetailTemplate->unsuccessStyle = 'display:none;';
-        $this->objDetailTemplate->tooManyVotesStyle = 'display:none;';
-        if ($_SESSION['VOTEBOX_SUCCESSFULLY_VOTED'][$this->intIdeaId]) {
-            $this->objDetailTemplate->successStyle = '';
-        }
-        if ($_SESSION['VOTEBOX_SUCCESSFULLY_UNVOTED'][$this->intIdeaId]) {
-            $this->objDetailTemplate->unsuccessStyle = '';
-        }
-        if ($_SESSION['VOTEBOX_TOO_MANY_VOTES'][$this->intIdeaId]) {
-            $this->objDetailTemplate->tooManyVotesStyle = '';
+        if (\Environment::get('isAjaxRequest')) {
+            $this->objDetailTemplate->isAjax = true;
         }
 
-        // reset session data
-        unset($_SESSION['VOTEBOX_SUCCESSFULLY_VOTED'][$this->intIdeaId]);
-        unset($_SESSION['VOTEBOX_SUCCESSFULLY_UNVOTED'][$this->intIdeaId]);
-        unset($_SESSION['VOTEBOX_TOO_MANY_VOTES'][$this->intIdeaId]);
+        // messages
+        $this->objDetailTemplate->messages = $this->arrMessages;
 
         // idea
         $this->objDetailTemplate->arrIdea = $this->prepareIdea($objIdea);
@@ -138,41 +127,31 @@ class Reader extends Votebox
         $this->objDetailTemplate->vote_action = \Environment::get('request');
 
         // labels
-        $this->objDetailTemplate->lblVote = $GLOBALS['TL_LANG']['MSC']['vb_vote'];
-        $this->objDetailTemplate->lblUnvote = $GLOBALS['TL_LANG']['MSC']['vb_unvote'];
-        $this->objDetailTemplate->lblSuccessfullyVoted    = $GLOBALS['TL_LANG']['MSC']['vb_successfully_voted'];
-        $this->objDetailTemplate->lblSuccessfullyUnvoted = $GLOBALS['TL_LANG']['MSC']['vb_successfully_unvoted'];
-        $this->objDetailTemplate->lblTooManyVotes = $GLOBALS['TL_LANG']['MSC']['vb_too_many_votes'];
+        $this->objDetailTemplate->lblVote                   = $GLOBALS['TL_LANG']['MSC']['vb_vote'];
+        $this->objDetailTemplate->lblUnvote                 = $GLOBALS['TL_LANG']['MSC']['vb_unvote'];
+        $this->objDetailTemplate->lblSuccessfullyVoted      = $GLOBALS['TL_LANG']['MSC']['vb_successfully_voted'];
+        $this->objDetailTemplate->lblSuccessfullyUnvoted    = $GLOBALS['TL_LANG']['MSC']['vb_successfully_unvoted'];
+        $this->objDetailTemplate->lblTooManyVotes           = $GLOBALS['TL_LANG']['MSC']['vb_too_many_votes'];
 
-        // member id
-        $this->objDetailTemplate->memberId = $this->intMemberId;
-
-        // check if the user has already voted (useful for e.g. CSS classes)
-        /*if (Votebox::hasVoted($this->intIdeaId, $this->intMemberId))
-        {
-            $this->objDetailTemplate->hasVoted = true;
-        }
-        // check if the user can't vote anymore (limit exceeded)
-        if (!Votebox::canMemberVote($this->intIdeaId, $this->intMemberId))
-        {
+        if (!$objIdea->canVote()) {
             $this->objDetailTemplate->tooManyVotes = true;
-        }*/
-
-        // add a default CSS class to the container
-        if ($this->objDetailTemplate->hasVoted)
-        {
-            $this->objDetailTemplate->class = 'hasVoted';
-        }
-        else
-        {
-            $this->objDetailTemplate->class = 'notYetVoted';
         }
 
         // add comments
         $this->addComments($this->objDetailTemplate->arrIdea);
 
         // parse the detail template
-        $this->Template->content = $this->objDetailTemplate->parse();
+        $strBuffer = $this->objDetailTemplate->parse();
+
+        if (\Environment::get('isAjaxRequest') && $_POST['FORM_SUBMIT'] == 'vote_form_' . $this->id) {
+            ob_end_clean();
+            header('Content-Type: text/html');
+            header('Content-Length: ' . strlen($strBuffer));
+            echo $strBuffer;
+            exit;
+        }
+
+        $this->Template->content = $strBuffer;
     }
 
 
@@ -181,6 +160,8 @@ class Reader extends Votebox
      */
     protected function storeVote()
     {
+        $this->arrMessages['success'] = 'Successfully voted';
+        /*
         if (!Votebox::hasVoted($this->intIdeaId, $this->intMemberId)) {
             if (!Votebox::canMemberVote($this->intIdeaId, $this->intMemberId)) {
                 if (\Environment::get('isAjaxRequest')) {
@@ -210,7 +191,7 @@ class Reader extends Votebox
             } else {
                 $_SESSION['VOTEBOX_SUCCESSFULLY_UNVOTED'][$this->intIdeaId] = true;
             }
-        }
+        }*/
     }
 
 

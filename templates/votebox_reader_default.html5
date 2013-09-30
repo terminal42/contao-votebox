@@ -1,73 +1,50 @@
-<h1><?php echo $this->arrIdea['title']; ?></h1>
-<div class="idea">
-	<!-- indexer::stop -->
-	<div id="votebox_votes" class="<?php echo $this->class; ?>">
-		<p id="votebox_success" class="success" style="<?php echo $this->successStyle; ?>"><?php echo $this->lblSuccessfullyVoted; ?></p>
-		<p id="votebox_unsuccess" class="unsuccess" style="<?php echo $this->unsuccessStyle; ?>"><?php echo $this->lblSuccessfullyUnvoted; ?></p>
-		<p id="votebox_too_many_votes" class="too_many_votes" style="<?php echo $this->tooManyVotesStyle; ?>"><?php echo $this->lblTooManyVotes; ?></p>
-		<form action="<?php echo $this->vote_action; ?>" id="<?php echo $this->vote_formId; ?>" method="post">
-			<div class="formbody">
-				<input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->vote_formId; ?>">
-				<input type="hidden" name="REQUEST_TOKEN" value="<?php echo REQUEST_TOKEN; ?>">
-				<input id="votebox_vote" type="submit" class="submit vote<?php if ($this->hasVoted): ?> invisible<?php endif; ?>" value="<?php echo $this->lblVote; ?>">
-				<input id="votebox_unvote" type="submit" class="submit unvote<?php if (!$this->hasVoted): ?> invisible<?php endif; ?>" value="<?php echo $this->lblUnvote; ?>">
-			</div>
-		</form>
-	</div>
-	<!-- indexer::continue -->
-	<p class="votes">Votes: <span id="votebox_ajax_votecount"><?php echo $this->arrIdea['voteCount']; ?></span></p>
-	<p class="cr_date"><?php echo $this->arrIdea['creation_date']; ?></p>
-	<div class="text"><?php echo $this->arrIdea['text']; ?></div>
-	<p class="author"><?php echo $this->arrIdea['firstname']; ?> <?php echo $this->arrIdea['lastname']; ?></p>
+<?php if (!$this->isAjax): ?>
+<div id="votebox_ajax_container_<?php echo $this->id; ?>">
+<?php endif; ?>
+    <h1><?php echo $this->arrIdea['title']; ?></h1>
+    <div class="idea">
+        <!-- indexer::stop -->
+        <div class="<?php echo $this->class; ?>">
+            <?php foreach ($this->messages as $strClass => $strMessage): ?>
+            <p class="<?php echo $strClass; ?>"><?php echo $strMessage; ?></p>
+            <?php endforeach; ?>
+            <form action="<?php echo $this->vote_action; ?>" id="<?php echo $this->vote_formId; ?>" method="post">
+                <div class="formbody">
+                    <input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->vote_formId; ?>">
+                    <input type="hidden" name="REQUEST_TOKEN" value="<?php echo REQUEST_TOKEN; ?>">
+                    <input type="submit" class="submit vote<?php if ($this->hasVoted): ?> invisible<?php endif; ?>" value="<?php echo $this->lblVote; ?>">
+                    <input type="submit" class="submit unvote<?php if (!$this->hasVoted): ?> invisible<?php endif; ?>" value="<?php echo $this->lblUnvote; ?>">
+                </div>
+            </form>
+        </div>
+        <!-- indexer::continue -->
+        <p class="votes"><?php echo $this->arrIdea['voteCount']; ?></p>
+        <p class="cr_date"><?php echo $this->arrIdea['creation_date_formatted']; ?></p>
+        <div class="text"><?php echo $this->arrIdea['text']; ?></div>
+        <p class="author"><?php echo $this->arrIdea['firstname']; ?> <?php echo $this->arrIdea['lastname']; ?></p>
+    </div>
+<?php if (!$this->isAjax): ?>
 </div>
 
 <script>
 window.addEvent('domready', function() {
-	// register a request event on the ajax link
-	var hooked = false;
-	var sendRequest = function(e) {
-		e.preventDefault();
-		if (!hooked) {
-			document.id('<?php echo $this->vote_formId; ?>').set('send', {
-				onComplete: function(response) {
-					if (response == 'too_many_votes') {
-                        document.id('votebox_too_many_votes').setStyle('display', 'block');
-                        document.id('votebox_success').setStyle('display', 'none');
-                        document.id('votebox_unsuccess').setStyle('display', 'none');
-					}
-					else if (response == 'successfully_voted') {
-						document.id('votebox_votes').removeClass('notYetVoted').addClass('hasVoted');
-						document.id('votebox_success').setStyle('display', 'block');
-						document.id('votebox_unsuccess').setStyle('display', 'none');
-						document.id('votebox_too_many_votes').setStyle('display', 'none');
-						document.id('votebox_ajax_votecount').set('text', document.id('votebox_ajax_votecount').get('text').toInt() + 1);
-						document.id('votebox_unvote').removeClass('invisible');
-						document.id('votebox_vote').addClass('invisible');
-					}
-					else {
-						document.id('votebox_votes').removeClass('hasVoted').addClass('notYetVoted');
-						document.id('votebox_success').setStyle('display', 'none');
-                        document.id('votebox_too_many_votes').setStyle('display', 'none');
-						document.id('votebox_unsuccess').setStyle('display', 'block');
-						document.id('votebox_ajax_votecount').set('text', document.id('votebox_ajax_votecount').get('text').toInt() - 1);
-						document.id('votebox_unvote').addClass('invisible');
-						document.id('votebox_vote').removeClass('invisible');
-					}
-				}
-			});
-			
-			hooked = true;
-		}
+    var container = document.id('votebox_ajax_container_<?php echo $this->id; ?>');
+    var formId = '<?php echo $this->vote_formId; ?>';
 
-		document.id('<?php echo $this->vote_formId; ?>').send();
-	}
+    function applyAjax(form) {
+        new Form.Request(form, container, {
+            onSuccess: function() {
+                applyAjax(container.getElement('#' + formId));
+            }
+        });
+    }
 
-	document.id('votebox_vote').addEvent('click', sendRequest);
-	document.id('votebox_unvote').addEvent('click', sendRequest);
+    applyAjax(container.getElement('#' + formId));
 });
 </script>
 
 
+<!-- Comments start //-->
 <?php if ($this->allowComments && ($this->comments || !$this->requireLogin)): ?>
 
 <div class="ce_comments block">
@@ -123,4 +100,6 @@ window.scrollTo(null, ($('<?php echo $this->formId; ?>').getElement('p.error').g
 <?php endif; ?>
 
 </div>
+<?php endif; ?>
+<!-- Comments end //-->
 <?php endif; ?>
