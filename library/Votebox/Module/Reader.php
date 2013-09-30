@@ -30,6 +30,8 @@
 
 namespace Votebox\Module;
 
+use Votebox\Model\Idea;
+
 class Reader extends Votebox
 {
 
@@ -91,9 +93,9 @@ class Reader extends Votebox
         $this->intMemberId = \FrontendUser::getInstance()->id;
         $this->intIdeaId = \Input::get('idea');
 
-        $arrData = $this->getIdeas($this->vb_archive, $this->intIdeaId);
+        $objIdea = Idea::findPublishedByArchiveAndPk($this->objArchive, $this->intIdeaId);
 
-        if (!$arrData) {
+        if ($objIdea === null) {
             $this->Template->hasData = false;
             $this->Template->lblNoContent = $GLOBALS['TL_LANG']['MSC']['vb_no_idea'];
             return;
@@ -128,12 +130,12 @@ class Reader extends Votebox
         unset($_SESSION['VOTEBOX_SUCCESSFULLY_UNVOTED'][$this->intIdeaId]);
         unset($_SESSION['VOTEBOX_TOO_MANY_VOTES'][$this->intIdeaId]);
 
-            // idea
-        $this->objDetailTemplate->arrIdea = array_shift($arrData);
+        // idea
+        $this->objDetailTemplate->arrIdea = $this->prepareIdea($objIdea);
 
         // vote data
         $this->objDetailTemplate->vote_formId = 'vote_form_' . $this->id;
-        $this->objDetailTemplate->vote_action = $this->Environment->request;
+        $this->objDetailTemplate->vote_action = \Environment::get('request');
 
         // labels
         $this->objDetailTemplate->lblVote = $GLOBALS['TL_LANG']['MSC']['vb_vote'];
@@ -146,7 +148,7 @@ class Reader extends Votebox
         $this->objDetailTemplate->memberId = $this->intMemberId;
 
         // check if the user has already voted (useful for e.g. CSS classes)
-        if (Votebox::hasVoted($this->intIdeaId, $this->intMemberId))
+        /*if (Votebox::hasVoted($this->intIdeaId, $this->intMemberId))
         {
             $this->objDetailTemplate->hasVoted = true;
         }
@@ -154,7 +156,7 @@ class Reader extends Votebox
         if (!Votebox::canMemberVote($this->intIdeaId, $this->intMemberId))
         {
             $this->objDetailTemplate->tooManyVotes = true;
-        }
+        }*/
 
         // add a default CSS class to the container
         if ($this->objDetailTemplate->hasVoted)
