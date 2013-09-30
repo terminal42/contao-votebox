@@ -39,4 +39,55 @@ class Archive extends \Model
      * @var string
      */
     protected static $strTable = 'tl_votebox_archives';
+
+    /**
+     * Can the user vote on this archive?
+     * @return  boolean
+     */
+    public function canVote()
+    {
+        if (!$this->numberOfVotes) {
+            return true;
+        }
+
+        $arrValues = array();
+
+        $strQuery = 'SELECT
+                            COUNT(id) as voteCount
+                         FROM
+                            tl_votebox_votes AS votes
+                         INNER JOIN
+                            tl_votebox_ideas AS ideas
+                         ON
+                            votes.pid=ideas.id
+                         WHERE
+                            ideas.pid=?';
+
+        $arrValues[] = $this->id;
+
+        if ($this->mode == 'member') {
+            if (FE_USER_LOGGED_IN !== true) {
+                return false;
+            }
+
+            $strQuery .= ' AND member_id=?';
+            $arrValues[] = \FrontendUser::getInstance()->id;
+        } else {
+            $strQuery .= ' AND ip=?';
+            $arrValues[] = \Environment::get('ip');
+
+            if ($this->ipRestriction) {
+                $strQuery .= ' AND vote_date >=?';
+                $arrValues[] = (time() - $this->ipRestriction);
+            }
+        }
+
+        $intTotalVotes = \Database::getInstance()->prepare($strQuery)->execute($arrValues)->voteCount;
+
+        if ($intTotalVotes >= $this->numberOfVotes) {
+            return false;
+        }
+
+        return true;
+    }
 }
