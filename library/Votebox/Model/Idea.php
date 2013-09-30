@@ -80,9 +80,7 @@ class Idea extends \Model
                          FROM
                             tl_votebox_votes
                          WHERE
-                            pid=?
-                         AND
-                            memberId=?';
+                            pid=?';
 
         $arrValues[] = $this->id;
 
