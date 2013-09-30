@@ -32,6 +32,8 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['tl_votebox_archives']['title']             = array('Title', 'Please add a title for this archive.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['mode']              = array('Mode', 'Please choose the operation mode of the archive here.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['ipRestrictionTime'] = array('IP restriction time', 'Please enter the number of seconds a voting should be restricted for the same IP address.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['numberOfVotes']     = array('Maximum number of votes', 'Here you can enter a maximum number of votes per question. Leave it on 0 if you do not want to limit them.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['moderate']          = array('Moderate archive', 'Enable if ideas should not be published automatically.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['jumpTo']            = array('JumpTo page for the reader module', 'Choose the page on which the reader module is included.');
@@ -55,9 +57,11 @@ $GLOBALS['TL_LANG']['tl_votebox_archives']['comments_legend']    = 'Comments';
 /**
  * Reference
  */
-$GLOBALS['TL_LANG']['tl_votebox_archives']['notify_admin']  = 'System administrator';
-$GLOBALS['TL_LANG']['tl_votebox_archives']['notify_author'] = 'Author of the news item';
-$GLOBALS['TL_LANG']['tl_votebox_archives']['notify_both']   = 'Author and system administrator';
+$GLOBALS['TL_LANG']['tl_votebox_archives']['notify_admin']      = 'System administrator';
+$GLOBALS['TL_LANG']['tl_votebox_archives']['notify_author']     = 'Author of the news item';
+$GLOBALS['TL_LANG']['tl_votebox_archives']['notify_both']       = 'Author and system administrator';
+$GLOBALS['TL_LANG']['tl_votebox_archives']['mode']['member']    = 'Voting for members only';
+$GLOBALS['TL_LANG']['tl_votebox_archives']['mode']['guest']     = 'Voting for guests with IP restriction';
 
 
 /**

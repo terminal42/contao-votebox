@@ -32,6 +32,8 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['tl_votebox_archives']['title']                 = array('Titel', 'Geben Sie einen Titel für dieses Archiv ein.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['mode']                  = array('Modus', 'Wählen Sie hier den Betriebsmodus der Votebox aus.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['ipRestrictionTime']     = array('IP Sperrzeit', 'Geben Sie hier die Anzahl Sekunden ein, für die eine bestimmte IP für die Abstimmung gesperrt sein soll.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['numberOfVotes']         = array('Maximale Anzahl Stimmen', 'Hier können Sie die maximale Anzahl Stimmen pro Archiv einstellen.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['moderate']              = array('Archiv moderieren', 'Aktivieren Sie diese Checkbox wenn Sie die Ideen bei Erstellung nicht direkt veröffentlichen möchten.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['jumpTo']                = array('Weiterleitungsseite für den Leser', 'Wählen Sie die Seite aus auf der sich der Ideen-Leser befindet.');
@@ -57,6 +59,8 @@ $GLOBALS['TL_LANG']['tl_votebox_archives']['comments_legend']    = 'Kommentare';
 $GLOBALS['TL_LANG']['tl_votebox_archives']['notify']['notify_admin']  = 'Systemadministrator';
 $GLOBALS['TL_LANG']['tl_votebox_archives']['notify']['notify_author'] = 'Autor der Idee';
 $GLOBALS['TL_LANG']['tl_votebox_archives']['notify']['notify_both']   = 'Autor und Systemadministrator';
+$GLOBALS['TL_LANG']['tl_votebox_archives']['mode']['member']          = 'Abstimmen nur für Mitglieder';
+$GLOBALS['TL_LANG']['tl_votebox_archives']['mode']['guest']           = 'Abstimmen für Gäste mit IP-Einschränkung';
 
 
 /**
