@@ -48,7 +48,8 @@ $GLOBALS['TL_DCA']['tl_votebox_votes'] = array
             (
                 'id'            => 'primary',
                 'pid'           => 'index',
-                'member_id'     => 'index'
+                'member_id'     => 'index',
+                'ip'            => 'index'
             )
         )
     ),
@@ -80,15 +81,15 @@ $GLOBALS['TL_DCA']['tl_votebox_votes'] = array
     (
         'id' => array
         (
-            'sql'                 =>  "int(10) unsigned NOT NULL auto_increment",
+            'sql'                       =>  "int(10) unsigned NOT NULL auto_increment",
         ),
         'pid' => array
         (
-            'sql'                 =>  "int(10) unsigned NOT NULL default '0'",
+            'sql'                       =>  "int(10) unsigned NOT NULL default '0'",
         ),
         'tstamp' => array
         (
-            'sql'                 =>  "int(10) unsigned NOT NULL default '0'",
+            'sql'                       =>  "int(10) unsigned NOT NULL default '0'",
         ),
         'member_id' => array
         (
@@ -96,6 +97,12 @@ $GLOBALS['TL_DCA']['tl_votebox_votes'] = array
             'inputType'                 => 'text',
             'foreignKey'                => 'tl_member.name',
             'sql'                       => "int(10) unsigned NOT NULL default '0'"
+        ),
+        'ip' => array
+        (
+            'label'                     => &$GLOBALS['TL_LANG']['tl_votebox_votes']['ip'],
+            'inputType'                 => 'text',
+            'sql'                       => "varchar(255) NOT NULL default ''"
         ),
         'vote_date' => array
         (
@@ -117,6 +124,7 @@ class tl_votebox_votes extends \Backend
      */
     public function getLabel($row, $label)
     {
+        // @todo adjust
         $objMember = \Database::getInstance()->prepare('SELECT firstname,lastname,username FROM tl_member WHERE id=?')->execute($row['member_id']);
         return $objMember->lastname . ', ' . $objMember->firstname . ' <span style="color:#ccc">[' . $objMember->username . ']</span>';
     }
