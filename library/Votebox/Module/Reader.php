@@ -140,7 +140,7 @@ class Reader extends Votebox
 
         if (\Environment::get('isAjaxRequest') && $_POST['FORM_SUBMIT'] == 'vote_form_' . $this->id) {
             ob_end_clean();
-            header('Content-Type: text/html');
+            header('Content-Type: text/html; charset=' . $GLOBALS['TL_CONFIG']['characterSet']);
             header('Content-Length: ' . strlen($strBuffer));
             echo $strBuffer;
             exit;
