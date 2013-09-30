@@ -30,93 +30,64 @@
 
 namespace Votebox\Module;
 
+use Votebox\Model\Idea;
+
 class IdeaList extends Votebox
 {
 
-	/**
-	 * Template
-	 * @var string
-	 */
-	protected $strTemplate = 'mod_votebox_list';
+    /**
+     * Template
+     * @var string
+     */
+    protected $strTemplate = 'mod_votebox_list';
 
 
-	/**
-	 * Display a wildcard in the back end
-	 * @return string
-	 */
-	public function generate()
-	{
-		if (TL_MODE == 'BE')
-		{
-			$objTemplate = new \BackendTemplate('be_wildcard');
-			$objTemplate->wildcard = '### VOTEBOX: LIST ###';
-			$objTemplate->title = $this->headline;
-			$objTemplate->id = $this->id;
-			$objTemplate->link = $this->name;
-			$objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
-
-			return $objTemplate->parse();
-		}
-
-		return parent::generate();
-	}
-
-
-	/**
-	 * Generate module
-	 */
-	protected function compile()
-	{
-        // determine order
-        $strOrderBy = '';
-
-        switch ($this->vb_orderBy)
+    /**
+     * Display a wildcard in the back end
+     * @return string
+     */
+    public function generate()
+    {
+        if (TL_MODE == 'BE')
         {
-            case 'votes_asc':
-                $strOrderBy = 'voteCount ASC';
-                break;
-            case 'votes_desc':
-                $strOrderBy = 'voteCount DESC';
-                break;
-            case 'date_asc':
-                $strOrderBy = 'creation_date ASC';
-                break;
-            case 'date_desc':
-                $strOrderBy = 'creation_date DESC';
-                break;
-            default:
-                if (isset($GLOBALS['TL_HOOKS']['voteBoxListOrderBy']) && is_array($GLOBALS['TL_HOOKS']['voteBoxListOrderBy']))
-                {
-                    foreach ($GLOBALS['TL_HOOKS']['voteBoxListOrderBy'] as $callback)
-                    {
-                        $this->import($callback[0]);
-                        $strOrderBy = $this->$callback[0]->$callback[1]($this->vb_orderBy);
-                    }
-                }
+            $objTemplate = new \BackendTemplate('be_wildcard');
+            $objTemplate->wildcard = '### VOTEBOX: LIST ###';
+            $objTemplate->title = $this->headline;
+            $objTemplate->id = $this->id;
+            $objTemplate->link = $this->name;
+            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+
+            return $objTemplate->parse();
         }
 
-        $arrData = $this->getIdeas($this->vb_archive, false, $this->vb_reader_jumpTo, $strOrderBy);
+        return parent::generate();
+    }
 
-        if (!$arrData)
-        {
+
+    /**
+     * Generate module
+     */
+    protected function compile()
+    {
+        //;
+        $intTotal = Idea::countPublishedByArchive($this->objArchive);
+
+        if ($intTotal == 0) {
             $this->Template->hasData = false;
             $this->Template->lblNoContent = $GLOBALS['TL_LANG']['MSC']['vb_no_ideas'];
             return;
         }
 
-        $total = count($arrData);
-        $offset = 0;
-        $limit = null;
+        $intOffset = 0;
+        $intLimit = 0;
 
         // Split the results
-        if ($this->perPage > 0)
-        {
+        if ($this->perPage > 0) {
             // Get the current page
-            $page = $this->Input->get('page') ? $this->Input->get('page') : 1;
+            $intPage = \Input::get('page') ? \Input::get('page') : 1;
 
             // Do not index or cache the page if the page number is outside the range
-            if ($page < 1 || $page > ceil($total/$this->perPage))
-            {
+            if ($intPage < 1 || $intPage > ceil($intTotal/$this->perPage)) {
                 global $objPage;
                 $objPage->noSearch = 1;
                 $objPage->cache = 0;
@@ -127,26 +98,76 @@ class IdeaList extends Votebox
             }
 
             // Set limit and offset
-            $limit = $this->perPage;
-            $offset = (max($page, 1) - 1) * $this->perPage;
+            $intLimit = $this->perPage;
+            $intOffset = (max($intPage, 1) - 1) * $this->perPage;
 
             // Overall limit
-            if ($offset + $limit > $total)
-            {
-                $limit = $total - $offset;
+            if ($intOffset + $intLimit > $intTotal) {
+                $intLimit = $intTotal - $intOffset;
             }
 
             // Add the pagination menu
-            $objPagination = new \Pagination($total, $this->perPage);
+            $objPagination = new \Pagination($intTotal, $this->perPage);
             $this->Template->pagination = $objPagination->generate("\n  ");
         }
 
-        $arrData = $this->getIdeas($this->vb_archive, false, $this->vb_reader_jumpTo, $strOrderBy, array('offset'=>$offset,'limit'=>$limit));
-
-		$this->Template->hasData = true;
-		$objTemplate = new \FrontendTemplate(($this->vb_list_tpl) ? $this->vb_list_tpl : 'votebox_list_default');
-		$objTemplate->arrIdeas = $arrData;
+        $this->Template->hasData = true;
+        $objTemplate = new \FrontendTemplate(($this->vb_list_tpl) ? $this->vb_list_tpl : 'votebox_list_default');
+        $objTemplate->arrIdeas = $this->prepareIdeas($this->getIdeas($intLimit, $intOffset), $intTotal);
         $objTemplate->readOn = $GLOBALS['TL_LANG']['MSC']['more'];
-		$this->Template->content = $objTemplate->parse();
-	}
+        $this->Template->content = $objTemplate->parse();
+    }
+
+
+    protected function getIdeas($intLimit=0, $intOffset=0)
+    {
+        $arrOptions = array();
+        switch ($this->vb_orderBy) {
+            // @todo implement
+            /*case 'votes_asc':
+                $arrOptions['order'] = Idea::getTable() . '.voteCount ASC';
+                break;
+            case 'votes_desc':
+                $arrOptions['order'] = Idea::getTable() . '.voteCount DESC';
+                break;*/
+            case 'date_asc':
+                $arrOptions['order'] = Idea::getTable() . '.creation_date ASC';
+                break;
+            case 'date_desc':
+                $arrOptions['order'] = Idea::getTable() . '.creation_date DESC';
+                break;
+
+
+        }
+
+        $arrOptions['limit']  = $intLimit;
+        $arrOptions['offset'] = $intOffset;
+
+        return Idea::findPublishedByArchive($this->objArchive, $arrOptions);
+    }
+
+
+    protected function prepareIdeas($objIdeas, $intTotal)
+    {
+        $arrIdeas = array();
+        $i = 0;
+        while ($objIdeas->next()) {
+            $arrIdeas[$objIdeas->id] = $this->prepareIdea($objIdeas->current());
+
+            $strClass = ($i % 2 === 0) ? 'odd' : 'even';
+
+            if ($i === 0) {
+                $strClass .= ' first';
+            }
+            if ($i === ($intTotal - 1)) {
+                $strClass .= ' last';
+            }
+
+            $arrIdeas[$objIdeas->id]['class'] = $strClass;
+
+            $i++;
+        }
+
+        return $arrIdeas;
+    }
 }
