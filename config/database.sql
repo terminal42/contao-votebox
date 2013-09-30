@@ -69,20 +69,3 @@ CREATE TABLE `tl_votebox_votes` (
   KEY `pid` (`pid`),
   KEY `member_id` (`member_id`),
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
--- --------------------------------------------------------
-
--- 
--- Table `tl_module`
--- 
-
-CREATE TABLE `tl_module` (
-  `vb_archive` int(10) unsigned NOT NULL default '0',
-  `vb_reader_jumpTo` int(10) unsigned NOT NULL default '0',
-  `vb_list_tpl` varchar(255) NOT NULL default '',
-  `vb_reader_tpl` varchar(255) NOT NULL default '',
-  `vb_orderBy` varchar(255) NOT NULL default '',
-  `vb_new_idea_jumpTo` int(10) unsigned NOT NULL default '0',
-  `vb_new_idea_tpl` varchar(255) NOT NULL default '',
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;

@@ -31,142 +31,146 @@
 /**
  * Palettes
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['votebox_list']			= '{title_legend},name,headline,type;{config_legend},perPage,vb_archive,vb_orderBy;{redirect_legend},vb_reader_jumpTo;{template_legend},vb_list_tpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['votebox_reader']		= '{title_legend},name,headline,type;{config_legend},vb_archive;{template_legend},vb_reader_tpl;{comment_legend},com_template;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['votebox_new_idea']		= '{title_legend},name,headline,type;{config_legend},vb_archive;{redirect_legend},vb_new_idea_jumpTo;{template_legend},vb_new_idea_tpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['votebox_list']     = '{title_legend},name,headline,type;{config_legend},perPage,vb_archive,vb_orderBy;{redirect_legend},vb_reader_jumpTo;{template_legend},vb_list_tpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['votebox_reader']   = '{title_legend},name,headline,type;{config_legend},vb_archive;{template_legend},vb_reader_tpl;{comment_legend},com_template;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['votebox_new_idea'] = '{title_legend},name,headline,type;{config_legend},vb_archive;{redirect_legend},vb_new_idea_jumpTo;{template_legend},vb_new_idea_tpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
 /**
  * Fields
  */
 $GLOBALS['TL_DCA']['tl_module']['fields']['vb_archive'] = array
 (
-	'label'						=> &$GLOBALS['TL_LANG']['tl_module']['vb_archive'],
-	'exclude'					=> true,
-	'inputType'					=> 'radio',
-	'foreignKey'				=> 'tl_votebox_archives.title',
-	'eval'						=> array('mandatory'=>true, 'tl_class'=>'clr'),
+    'label'                         => &$GLOBALS['TL_LANG']['tl_module']['vb_archive'],
+    'exclude'                       => true,
+    'inputType'                     => 'radio',
+    'foreignKey'                    => 'tl_votebox_archives.title',
+    'eval'                          => array('mandatory'=>true, 'tl_class'=>'clr'),
+    'sql'                           => "int(10) unsigned NOT NULL default '0'"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['vb_reader_jumpTo'] = array
 (
-	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['vb_reader_jumpTo'],
-	'exclude'                 => true,
-	'inputType'               => 'pageTree',
-	'explanation'             => 'jumpTo',
-	'eval'                    => array('fieldType'=>'radio', 'mandatory'=>true)
+    'label'                         => &$GLOBALS['TL_LANG']['tl_module']['vb_reader_jumpTo'],
+    'exclude'                       => true,
+    'inputType'                     => 'pageTree',
+    'explanation'                   => 'jumpTo',
+    'eval'                          => array('fieldType'=>'radio', 'mandatory'=>true),
+    'sql'                           => "int(10) unsigned NOT NULL default '0'"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['vb_list_tpl'] = array
 (
-	'label'						=> &$GLOBALS['TL_LANG']['tl_module']['vb_list_tpl'],
-	'exclude'					=> true,
-	'default'					=> 'votebox_list_default',
-	'inputType'					=> 'select',
-	'options_callback'			=> array('tl_module_votebox', 'getListTemplates'),
-	'eval'						=> array('mandatory'=>true, 'tl_class'=>'w50')
+    'label'                         => &$GLOBALS['TL_LANG']['tl_module']['vb_list_tpl'],
+    'exclude'                       => true,
+    'default'                       => 'votebox_list_default',
+    'inputType'                     => 'select',
+    'options_callback'              => array('tl_module_votebox', 'getListTemplates'),
+    'eval'                          => array('mandatory'=>true, 'tl_class'=>'w50'),
+    'sql'                           => "varchar(255) NOT NULL default ''"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['vb_reader_tpl'] = array
 (
-	'label'						=> &$GLOBALS['TL_LANG']['tl_module']['vb_reader_tpl'],
-	'exclude'					=> true,
-	'default'					=> 'votebox_reader_default',
-	'inputType'					=> 'select',
-	'options_callback'			=> array('tl_module_votebox', 'getReaderTemplates'),
-	'eval'						=> array('mandatory'=>true, 'tl_class'=>'w50')
+    'label'                         => &$GLOBALS['TL_LANG']['tl_module']['vb_reader_tpl'],
+    'exclude'                       => true,
+    'default'                       => 'votebox_reader_default',
+    'inputType'                     => 'select',
+    'options_callback'              => array('tl_module_votebox', 'getReaderTemplates'),
+    'eval'                          => array('mandatory'=>true, 'tl_class'=>'w50'),
+    'sql'                           => "varchar(255) NOT NULL default ''"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['vb_new_idea_jumpTo'] = array
 (
-	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['vb_new_idea_jumpTo'],
-	'exclude'                 => true,
-	'inputType'               => 'pageTree',
-	'explanation'             => 'jumpTo',
-	'eval'                    => array('fieldType'=>'radio', 'mandatory'=>true)
+    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['vb_new_idea_jumpTo'],
+    'exclude'                 => true,
+    'inputType'               => 'pageTree',
+    'explanation'             => 'jumpTo',
+    'eval'                    => array('fieldType'=>'radio', 'mandatory'=>true),
+    'sql'                           => "int(10) unsigned NOT NULL default '0'"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['vb_new_idea_tpl'] = array
 (
-	'label'						=> &$GLOBALS['TL_LANG']['tl_module']['vb_new_idea_tpl'],
-	'exclude'					=> true,
-	'default'					=> 'votebox_new_idea_default',
-	'inputType'					=> 'select',
-	'options_callback'			=> array('tl_module_votebox', 'getNewIdeaTemplates'),
-	'eval'						=> array('mandatory'=>true, 'tl_class'=>'w50')
+    'label'                        => &$GLOBALS['TL_LANG']['tl_module']['vb_new_idea_tpl'],
+    'exclude'                    => true,
+    'default'                    => 'votebox_new_idea_default',
+    'inputType'                    => 'select',
+    'options_callback'            => array('tl_module_votebox', 'getNewIdeaTemplates'),
+    'eval'                        => array('mandatory'=>true, 'tl_class'=>'w50'),
+    'sql'                           => "varchar(255) NOT NULL default ''"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['vb_orderBy'] = array
 (
-	'label'						=> &$GLOBALS['TL_LANG']['tl_module']['vb_orderBy'],
-	'exclude'					=> true,
-	'inputType'					=> 'select',
-	'options'					=> array
-	(
-		'votes_asc',
-		'votes_desc',
-		'date_asc',
-		'date_desc'
-	),
-	'reference'					=> &$GLOBALS['TL_LANG']['tl_module']['vb_orderBy'],
-	'eval'						=> array('mandatory'=>true, 'tl_class'=>'w50')
+    'label'                        => &$GLOBALS['TL_LANG']['tl_module']['vb_orderBy'],
+    'exclude'                    => true,
+    'inputType'                    => 'select',
+    'options'                    => array
+    (
+        'votes_asc',
+        'votes_desc',
+        'date_asc',
+        'date_desc'
+    ),
+    'reference'                    => &$GLOBALS['TL_LANG']['tl_module']['vb_orderBy'],
+    'eval'                        => array('mandatory'=>true, 'tl_class'=>'w50'),
+    'sql'                           => "varchar(255) NOT NULL default ''"
 );
 
 
-class tl_module_votebox extends Backend
+class tl_module_votebox extends \Backend
 {
-	/**
-	 * Initialize the object
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
-	
+    /**
+     * Initialize the object
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+    
 
-	/**
-	 * Return list templates as array
-	 * @param DataContainer
-	 * @return array
-	 */
-	public function getListTemplates(DataContainer $dc)
-	{
-		$intPid = $dc->activeRecord->pid;
+    /**
+     * Return list templates as array
+     * @param DataContainer
+     * @return array
+     */
+    public function getListTemplates(DataContainer $dc)
+    {
+        $intPid = $dc->activeRecord->pid;
 
-		if ($this->Input->get('act') == 'overrideAll')
-		{
-			$intPid = $this->Input->get('id');
-		}
+        if (\Input::get('act') == 'overrideAll') {
+            $intPid = \Input::get('id');
+        }
 
-		return $this->getTemplateGroup('votebox_list_', $intPid);
-	}
-	
+        return $this->getTemplateGroup('votebox_list_', $intPid);
+    }
+    
 
-	/**
-	 * Return reader templates as array
-	 * @param DataContainer
-	 * @return array
-	 */
-	public function getReaderTemplates(DataContainer $dc)
-	{
-		$intPid = $dc->activeRecord->pid;
+    /**
+     * Return reader templates as array
+     * @param DataContainer
+     * @return array
+     */
+    public function getReaderTemplates(DataContainer $dc)
+    {
+        $intPid = $dc->activeRecord->pid;
 
-		if ($this->Input->get('act') == 'overrideAll')
-		{
-			$intPid = $this->Input->get('id');
-		}
+        if (\Input::get('act') == 'overrideAll') {
+            $intPid = \Input::get('id');
+        }
 
-		return $this->getTemplateGroup('votebox_reader_', $intPid);
-	}
-	
+        return $this->getTemplateGroup('votebox_reader_', $intPid);
+    }
+    
 
-	/**
-	 * Return new idea templates as array
-	 * @param DataContainer
-	 * @return array
-	 */
-	public function getNewIdeaTemplates(DataContainer $dc)
-	{
-		$intPid = $dc->activeRecord->pid;
+    /**
+     * Return new idea templates as array
+     * @param DataContainer
+     * @return array
+     */
+    public function getNewIdeaTemplates(DataContainer $dc)
+    {
+        $intPid = $dc->activeRecord->pid;
 
-		if ($this->Input->get('act') == 'overrideAll')
-		{
-			$intPid = $this->Input->get('id');
-		}
+        if (\Input::get('act') == 'overrideAll') {
+            $intPid = \Input::get('id');
+        }
 
-		return $this->getTemplateGroup('votebox_new_idea_', $intPid);
-	}
+        return $this->getTemplateGroup('votebox_new_idea_', $intPid);
+    }
 }
