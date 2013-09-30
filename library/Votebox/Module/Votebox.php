@@ -46,18 +46,11 @@ abstract class Votebox extends \Module
      */
     public function generate()
     {
-        if (TL_MODE == 'FE')
-        {
-            if (FE_USER_LOGGED_IN !== true)
-            {
-                $this->log('Votebox can only be accessed when logged in', __METHOD__, TL_ERROR);
-                return '';
-            }
-            // check for the votebox
+        if (TL_MODE == 'FE') {
+            // Check for the votebox
             $objVoteBox = \Database::getInstance()->prepare("SELECT * FROM tl_votebox_archives WHERE id=?")->limit(1)->execute($this->vb_archive);
 
-            if (!$objVoteBox->numRows)
-            {
+            if (!$objVoteBox->numRows) {
                 $this->log('Votebox archive with ID "' . $this->vb_archive . '" does not exist', __METHOD__, TL_ERROR);
                 return '';
             }
