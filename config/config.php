@@ -52,3 +52,4 @@ $GLOBALS['FE_MOD']['votebox'] = array
  * Models
  */
 $GLOBALS['TL_MODELS']['tl_votebox_archives']    = 'Votebox\Model\Archive';
+$GLOBALS['TL_MODELS']['tl_votebox_ideas']       = 'Votebox\Model\Idea';
