@@ -33,7 +33,7 @@
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['votebox_list']     = '{title_legend},name,headline,type;{config_legend},perPage,vb_archive,vb_orderBy;{template_legend},vb_list_tpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['votebox_reader']   = '{title_legend},name,headline,type;{config_legend},vb_archive;{template_legend},vb_reader_tpl;{comment_legend},com_template;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['votebox_new_idea'] = '{title_legend},name,headline,type;{config_legend},vb_archive;{redirect_legend},vb_new_idea_jumpTo;{template_legend},vb_new_idea_tpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['votebox_new_idea'] = '{title_legend},name,headline,type;{config_legend},vb_archive;{redirect_legend},vb_new_idea_jumpTo;{template_legend},vb_new_idea_tpl,admin_mail_template;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
 /**
  * Fields

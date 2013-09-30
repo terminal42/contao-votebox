@@ -108,13 +108,8 @@ class NewIdea extends Votebox
 
         // send notification if it is moderated
         if ($this->objArchive->moderate) {
-            // @todo replace with mailtemplates
-            /*$objEmail = new Email();
-            $objEmail->from = $GLOBALS['TL_ADMIN_EMAIL'];
-            $objEmail->fromName = $GLOBALS['TL_ADMIN_NAME'];
-            $objEmail->subject = 'New idea in votebox to moderate!';
-            $objEmail->text = 'There\'s been a new idea submitted to your votebox. Because this votebox is moderated, you should go and see whether you want to publish this idea or not.';
-            $objEmail->sendTo($this->arrArchiveData['receiver_mail']);*/
+            $objEmail = new \EmailTemplate($this->admin_mail_template);
+            $objEmail->send($GLOBALS['TL_ADMIN_EMAIL'], $objIdea->row());
         } else {
             $objIdea->published = 1;
         }
