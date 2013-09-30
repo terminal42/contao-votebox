@@ -77,7 +77,7 @@ class NewIdea extends Votebox
         }
 
         $objTemplate = new \FrontendTemplate(($this->vb_new_idea_tpl) ? $this->vb_new_idea_tpl : 'votebox_new_idea_default');
-        $objTemplate->form    = $objForm->generate();
+        $objTemplate->form = $objForm->generate();
         
         $this->Template->content = $objTemplate->parse();
     }

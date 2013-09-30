@@ -4,12 +4,12 @@
 <<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
 <?php endif; ?>
 
-<?php if($this->hasData): ?>
-	<?php echo $this->content; ?>
+<?php if ($this->hasData): ?>
+    <?php echo $this->content; ?>
 <?php else: ?>
-	<div class="no_content">
-		<?php echo $this->lblNoContent; ?>
-	</div>
+    <div class="no_content">
+        <?php echo $this->lblNoContent; ?>
+    </div>
 <?php endif; ?>
 </div>
 <!-- indexer::continue -->
