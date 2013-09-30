@@ -66,8 +66,7 @@ abstract class Votebox extends \Module
         $arrIdea['creation_date_formatted'] = \System::parseDate($GLOBALS['TL_CONFIG']['datimFormat'], $objIdea->creation_date);
         $arrIdea['reader_url']              = $objIdea->getUrl();
         $arrIdea['voteCount']               = $objIdea->getVotes();
-        // @todo implement
-        //$arrData[$k]['hasVoted'] = \Votebox\Votebox::hasVoted($arrRow['id'], \FrontendUser::getInstance()->id);
+        $arrIdea['hasVoted']                = !$objIdea->canVote();
 
         return $arrIdea;
     }

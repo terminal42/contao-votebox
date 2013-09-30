@@ -56,9 +56,53 @@ class Idea extends \Model
      */
     public function getVotes()
     {
-        return (int) \Database::getInstance()->prepare('SELECT COUNT(id) FROM tl_votebox_votes AS votes WHERE votes.pid=?')
+        return (int) \Database::getInstance()->prepare('SELECT COUNT(id) AS voteCount FROM tl_votebox_votes WHERE pid=?')
                                              ->execute($this->id)
-                                             ->votes;
+                                             ->voteCount;
+    }
+
+    /**
+     * Can the user vote for this idea?
+     * @return  boolean
+     */
+    public function canVote()
+    {
+        $objArchive = $this->getRelated('pid');
+        if ($objArchive->mode == 'member') {
+            if (FE_USER_LOGGED_IN !== true) {
+                return false;
+            }
+
+            $strQuery = 'SELECT
+                            COUNT(id) as voteCount
+                         FROM
+                            tl_votebox_votes
+                         WHERE
+                            pid=?
+                         AND
+                            memberId=?';
+
+            $arrValues = array($this->id, \FrontendUser::getInstance()->id);
+        } else {
+            $strQuery = 'SELECT
+                            COUNT(id) as voteCount
+                         FROM
+                            tl_votebox_votes
+                         WHERE
+                            pid=?
+                         AND
+                            ip=?';
+
+            $arrValues = array($this->id, \Environment::get('ip'));
+
+            if ($objArchive->ipRestriction) {
+                $strQuery .= ' AND vote_date >=?';
+                $arrValues[] = time() - $objArchive->ipRestriction;
+            }
+        }
+
+
+        return !(boolean) \Database::getInstance()->prepare($strQuery)->execute($arrValues)->voteCount;
     }
 
     /**
