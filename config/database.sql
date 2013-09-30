@@ -51,21 +51,3 @@ CREATE TABLE `tl_votebox_ideas` (
   KEY `pid` (`pid`),
   KEY `member_id` (`member_id`),
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
--- --------------------------------------------------------
-
--- 
--- Table `tl_votebox_votes`
--- 
-
-CREATE TABLE `tl_votebox_votes` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `pid` int(10) unsigned NOT NULL default '0',
-  `tstamp` int(10) unsigned NOT NULL default '0',
-  `vote_date` int(10) unsigned NOT NULL default '0',
-  `member_id` int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `pid` (`pid`),
-  KEY `member_id` (`member_id`),
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;

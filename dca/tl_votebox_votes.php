@@ -34,67 +34,90 @@
 $GLOBALS['TL_DCA']['tl_votebox_votes'] = array
 (
 
-	// Config
-	'config' => array
-	(
-		'dataContainer'				=> 'Table',
-		'ptable'					=> 'tl_votebox_ideas',
-		'closed'					=> true,
-		'notDeletable'				=> true,
-		'notEditable'				=> true
-	),
+    // Config
+    'config' => array
+    (
+        'dataContainer'                 => 'Table',
+        'ptable'                        => 'tl_votebox_ideas',
+        'closed'                        => true,
+        'notDeletable'                  => true,
+        'notEditable'                   => true,
+        'sql' => array
+        (
+            'keys' => array
+            (
+                'id'            => 'primary',
+                'pid'           => 'index',
+                'member_id'     => 'index'
+            )
+        ),
+    ),
 
-	// List
-	'list' => array
-	(
-		'sorting' => array
-		(
-			'mode'					=> 1,
-			'fields'				=> array('vote_date'),
-			'flag'					=> 5
-		),
-		'label' => array
-		(
-			'fields'				=> array('member_id', 'vote_date'),
-			'format'				=> '%s (%s)',
-			'label_callback'		=> array('tl_votebox_votes', 'getLabel')
-		),
-		'global_operations' => array
-		(
-			'' => array() // dummy array to display the back button *sigh*
-		)
-	),
+    // List
+    'list' => array
+    (
+        'sorting' => array
+        (
+            'mode'                      => 1,
+            'fields'                    => array('vote_date'),
+            'flag'                      => 5
+        ),
+        'label' => array
+        (
+            'fields'                => array('member_id', 'vote_date'),
+            'format'                => '%s (%s)',
+            'label_callback'        => array('tl_votebox_votes', 'getLabel')
+        ),
+        'global_operations' => array
+        (
+            '' => array() // dummy array to display the back button *sigh*
+        )
+    ),
 
 
-	// Fields
-	'fields' => array
-	(
-		'member_id' => array
-		(
-			'label'					=> &$GLOBALS['TL_LANG']['tl_votebox_votes']['member_id'],
-			'inputType'				=> 'text',
-			'foreignKey'			=> 'tl_member.name'
-		),
-		'vote_date' => array
-		(
-			'label'					=> &$GLOBALS['TL_LANG']['tl_votebox_votes']['vote_date'],
-			'inputType'				=> 'text',
-			'eval'					=> array('rgxp'=>'date')
-		)
-	)
+    // Fields
+    'fields' => array
+    (
+        'id' => array
+        (
+            'sql'                 =>  "int(10) unsigned NOT NULL auto_increment",
+        ),
+        'pid' => array
+        (
+            'sql'                 =>  "int(10) unsigned NOT NULL default '0'",
+        ),
+        'tstamp' => array
+        (
+            'sql'                 =>  "int(10) unsigned NOT NULL default '0'",
+        ),
+        'member_id' => array
+        (
+            'label'                     => &$GLOBALS['TL_LANG']['tl_votebox_votes']['member_id'],
+            'inputType'                 => 'text',
+            'foreignKey'                => 'tl_member.name',
+            'sql'                       => "int(10) unsigned NOT NULL default '0'"
+        ),
+        'vote_date' => array
+        (
+            'label'                     => &$GLOBALS['TL_LANG']['tl_votebox_votes']['vote_date'],
+            'inputType'                 => 'text',
+            'eval'                      => array('rgxp'=>'date'),
+            'sql'                       => "int(10) unsigned NOT NULL default '0'"
+        )
+    )
 );
 
-class tl_votebox_votes extends Backend
+class tl_votebox_votes extends \Backend
 {
-	/**
-	 * Generate label
-	 * @param array
-	 * @param string
-	 * @return string
-	 */
-	public function getLabel($row, $label)
-	{
-		$objMember = $this->Database->prepare('SELECT firstname,lastname,username FROM tl_member WHERE id=?')->execute($row['member_id']);
-		return $objMember->lastname . ', ' . $objMember->firstname . ' <span style="color:#ccc">[' . $objMember->username . ']</span>';
-	}
+    /**
+     * Generate label
+     * @param array
+     * @param string
+     * @return string
+     */
+    public function getLabel($row, $label)
+    {
+        $objMember = \Database::getInstance()->prepare('SELECT firstname,lastname,username FROM tl_member WHERE id=?')->execute($row['member_id']);
+        return $objMember->lastname . ', ' . $objMember->firstname . ' <span style="color:#ccc">[' . $objMember->username . ']</span>';
+    }
 }
