@@ -117,7 +117,7 @@ $GLOBALS['TL_DCA']['tl_votebox_archives'] = array
     'palettes' => array
     (
         '__selector__'                => array('moderate','allowComments'),
-        'default'                     => '{archive_legend},title,numberOfVotes,moderate;{comments_legend},allowComments;'
+        'default'                     => '{archive_legend},title,numberOfVotes,moderate,jumpTo;{comments_legend},allowComments;'
     ),
 
     // Subpalettes
@@ -164,6 +164,15 @@ $GLOBALS['TL_DCA']['tl_votebox_archives'] = array
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr'),
             'sql'                     => "char(1) NOT NULL default ''"
+        ),
+        'jumpTo' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_votebox_archives']['jumpTo'],
+            'exclude'                 => true,
+            'inputType'               => 'pageTree',
+            'explanation'             => 'jumpTo',
+            'eval'                    => array('fieldType'=>'radio', 'mandatory'=>true),
+            'sql'                     => "int(10) unsigned NOT NULL default '0'"
         ),
         'receiver_mail' => array
         (

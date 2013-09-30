@@ -31,7 +31,7 @@
 /**
  * Palettes
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['votebox_list']     = '{title_legend},name,headline,type;{config_legend},perPage,vb_archive,vb_orderBy;{redirect_legend},vb_reader_jumpTo;{template_legend},vb_list_tpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['votebox_list']     = '{title_legend},name,headline,type;{config_legend},perPage,vb_archive,vb_orderBy;{template_legend},vb_list_tpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['votebox_reader']   = '{title_legend},name,headline,type;{config_legend},vb_archive;{template_legend},vb_reader_tpl;{comment_legend},com_template;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['votebox_new_idea'] = '{title_legend},name,headline,type;{config_legend},vb_archive;{redirect_legend},vb_new_idea_jumpTo;{template_legend},vb_new_idea_tpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
@@ -45,15 +45,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['vb_archive'] = array
     'inputType'                     => 'radio',
     'foreignKey'                    => 'tl_votebox_archives.title',
     'eval'                          => array('mandatory'=>true, 'tl_class'=>'clr'),
-    'sql'                           => "int(10) unsigned NOT NULL default '0'"
-);
-$GLOBALS['TL_DCA']['tl_module']['fields']['vb_reader_jumpTo'] = array
-(
-    'label'                         => &$GLOBALS['TL_LANG']['tl_module']['vb_reader_jumpTo'],
-    'exclude'                       => true,
-    'inputType'                     => 'pageTree',
-    'explanation'                   => 'jumpTo',
-    'eval'                          => array('fieldType'=>'radio', 'mandatory'=>true),
     'sql'                           => "int(10) unsigned NOT NULL default '0'"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['vb_list_tpl'] = array
@@ -78,37 +69,37 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['vb_reader_tpl'] = array
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['vb_new_idea_jumpTo'] = array
 (
-    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['vb_new_idea_jumpTo'],
-    'exclude'                 => true,
-    'inputType'               => 'pageTree',
-    'explanation'             => 'jumpTo',
-    'eval'                    => array('fieldType'=>'radio', 'mandatory'=>true),
+    'label'                         => &$GLOBALS['TL_LANG']['tl_module']['vb_new_idea_jumpTo'],
+    'exclude'                       => true,
+    'inputType'                     => 'pageTree',
+    'explanation'                   => 'jumpTo',
+    'eval'                          => array('fieldType'=>'radio', 'mandatory'=>true),
     'sql'                           => "int(10) unsigned NOT NULL default '0'"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['vb_new_idea_tpl'] = array
 (
-    'label'                        => &$GLOBALS['TL_LANG']['tl_module']['vb_new_idea_tpl'],
-    'exclude'                    => true,
-    'default'                    => 'votebox_new_idea_default',
-    'inputType'                    => 'select',
-    'options_callback'            => array('tl_module_votebox', 'getNewIdeaTemplates'),
-    'eval'                        => array('mandatory'=>true, 'tl_class'=>'w50'),
+    'label'                         => &$GLOBALS['TL_LANG']['tl_module']['vb_new_idea_tpl'],
+    'exclude'                       => true,
+    'default'                       => 'votebox_new_idea_default',
+    'inputType'                     => 'select',
+    'options_callback'              => array('tl_module_votebox', 'getNewIdeaTemplates'),
+    'eval'                          => array('mandatory'=>true, 'tl_class'=>'w50'),
     'sql'                           => "varchar(255) NOT NULL default ''"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['vb_orderBy'] = array
 (
-    'label'                        => &$GLOBALS['TL_LANG']['tl_module']['vb_orderBy'],
-    'exclude'                    => true,
-    'inputType'                    => 'select',
-    'options'                    => array
+    'label'                         => &$GLOBALS['TL_LANG']['tl_module']['vb_orderBy'],
+    'exclude'                       => true,
+    'inputType'                     => 'select',
+    'options'                       => array
     (
         'votes_asc',
         'votes_desc',
         'date_asc',
         'date_desc'
     ),
-    'reference'                    => &$GLOBALS['TL_LANG']['tl_module']['vb_orderBy'],
-    'eval'                        => array('mandatory'=>true, 'tl_class'=>'w50'),
+    'reference'                     => &$GLOBALS['TL_LANG']['tl_module']['vb_orderBy'],
+    'eval'                          => array('mandatory'=>true, 'tl_class'=>'w50'),
     'sql'                           => "varchar(255) NOT NULL default ''"
 );
 

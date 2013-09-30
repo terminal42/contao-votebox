@@ -31,24 +31,25 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_votebox_archives']['title']				= array('Titel', 'Geben Sie einen Titel für dieses Archiv ein.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['numberOfVotes']		= array('Maximale Anzahl Stimmen', 'Hier können Sie die maximale Anzahl Stimmen pro Archiv einstellen.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['moderate']			= array('Archiv moderieren', 'Aktivieren Sie diese Checkbox wenn Sie die Ideen bei Erstellung nicht direkt veröffentlichen möchten.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['receiver_mail']		= array('E-Mail-Adresse Benachrichtigter', 'Wählen Sie die E-Mail-Adresse an die eine Benachrichtigung gesendet werden soll, wenn eine neue Idee freizuschalten ist.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['allowComments']  	= array('Kommentare aktivieren', 'Besuchern das Kommentieren von Nachrichtenbeiträgen erlauben.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['notify']         	= array('Benachrichtigung an', 'Bitte legen Sie fest, wer beim Hinzufügen neuer Kommentare benachrichtigt wird.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['sortOrder']      	= array('Sortierung', 'Standardmäßig werden Kommentare aufsteigend sortiert, beginnend mit dem ältesten.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['perPage']        	= array('Kommentare pro Seite', 'Anzahl an Kommentaren pro Seite. Geben Sie 0 ein, um den automatischen Seitenumbruch zu deaktivieren.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['comments_moderate']	= array('Kommentare moderieren', 'Kommentare erst nach Bestätigung auf der Webseite veröffentlichen.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['bbcode']         	= array('BBCode erlauben', 'Besuchern das Formatieren ihrer Kommentare mittels BBCode erlauben.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['disableCaptcha'] 	= array('Sicherheitsfrage deaktivieren', 'Wählen Sie diese Option nur, wenn das Erstellen von Kommentaren auf authentifizierte Benutzer beschränkt ist.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['title']                 = array('Titel', 'Geben Sie einen Titel für dieses Archiv ein.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['numberOfVotes']         = array('Maximale Anzahl Stimmen', 'Hier können Sie die maximale Anzahl Stimmen pro Archiv einstellen.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['moderate']              = array('Archiv moderieren', 'Aktivieren Sie diese Checkbox wenn Sie die Ideen bei Erstellung nicht direkt veröffentlichen möchten.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['jumpTo']                = array('Weiterleitungsseite für den Leser', 'Wählen Sie die Seite aus auf der sich der Ideen-Leser befindet.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['receiver_mail']         = array('E-Mail-Adresse Benachrichtigter', 'Wählen Sie die E-Mail-Adresse an die eine Benachrichtigung gesendet werden soll, wenn eine neue Idee freizuschalten ist.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['allowComments']         = array('Kommentare aktivieren', 'Besuchern das Kommentieren von Nachrichtenbeiträgen erlauben.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['notify']                = array('Benachrichtigung an', 'Bitte legen Sie fest, wer beim Hinzufügen neuer Kommentare benachrichtigt wird.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['sortOrder']             = array('Sortierung', 'Standardmäßig werden Kommentare aufsteigend sortiert, beginnend mit dem ältesten.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['perPage']               = array('Kommentare pro Seite', 'Anzahl an Kommentaren pro Seite. Geben Sie 0 ein, um den automatischen Seitenumbruch zu deaktivieren.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['comments_moderate']     = array('Kommentare moderieren', 'Kommentare erst nach Bestätigung auf der Webseite veröffentlichen.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['bbcode']                = array('BBCode erlauben', 'Besuchern das Formatieren ihrer Kommentare mittels BBCode erlauben.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['disableCaptcha']        = array('Sicherheitsfrage deaktivieren', 'Wählen Sie diese Option nur, wenn das Erstellen von Kommentaren auf authentifizierte Benutzer beschränkt ist.');
 
 
 /**
  * Legends
  */
-$GLOBALS['TL_LANG']['tl_votebox_archives']['archive_legend'] 	= 'Votebox Archiv Einstellungen';
-$GLOBALS['TL_LANG']['tl_votebox_archives']['comments_legend']	= 'Kommentare';
+$GLOBALS['TL_LANG']['tl_votebox_archives']['archive_legend']     = 'Votebox Archiv Einstellungen';
+$GLOBALS['TL_LANG']['tl_votebox_archives']['comments_legend']    = 'Kommentare';
 
 /**
  * Reference

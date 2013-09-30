@@ -32,7 +32,6 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['tl_module']['vb_archive']					= array('Votebox archive', 'Choose the Votebox archive for this module.');
-$GLOBALS['TL_LANG']['tl_module']['vb_reader_jumpTo']			= array('JumpTo page for the reader module', 'Choose the page on which the reader module is included.');
 $GLOBALS['TL_LANG']['tl_module']['vb_orderBy']					= array('Sorting', 'Choose the sorting of the ideas here.');
 $GLOBALS['TL_LANG']['tl_module']['vb_list_tpl']					= array('Template', 'Please choose a template.');
 $GLOBALS['TL_LANG']['tl_module']['vb_reader_tpl']				= array('Template', 'Please choose a template.');

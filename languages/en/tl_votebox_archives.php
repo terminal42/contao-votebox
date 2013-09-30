@@ -31,10 +31,11 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_votebox_archives']['title']				= array('Title', 'Please add a title for this archive.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['numberOfVotes']		= array('Maximum number of votes', 'Here you can enter a maximum number of votes per question. Leave it on 0 if you do not want to limit them.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['moderate']			= array('Moderate archive', 'Enable if ideas should not be published automatically.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['receiver_mail']		= array('Email address', 'Enter the email address to which the notification that there is a new idea to publish should be sent.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['title']             = array('Title', 'Please add a title for this archive.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['numberOfVotes']     = array('Maximum number of votes', 'Here you can enter a maximum number of votes per question. Leave it on 0 if you do not want to limit them.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['moderate']          = array('Moderate archive', 'Enable if ideas should not be published automatically.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['jumpTo']            = array('JumpTo page for the reader module', 'Choose the page on which the reader module is included.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['receiver_mail']     = array('Email address', 'Enter the email address to which the notification that there is a new idea to publish should be sent.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['allowComments']     = array('Enable comments', 'Allow visitors to comment news items.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['notify']            = array('Notify', 'Please choose whom to notify when comments are added.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['sortOrder']         = array('Sort order', 'By default, comments are sorted ascending, starting with the oldest one.');
@@ -48,8 +49,8 @@ $GLOBALS['TL_LANG']['tl_votebox_archives']['disableCaptcha']    = array('Disable
 /**
  * Legends
  */
-$GLOBALS['TL_LANG']['tl_votebox_archives']['archive_legend'] 	= 'Votebox archive settings';
-$GLOBALS['TL_LANG']['tl_votebox_archives']['comments_legend']	= 'Comments';
+$GLOBALS['TL_LANG']['tl_votebox_archives']['archive_legend']     = 'Votebox archive settings';
+$GLOBALS['TL_LANG']['tl_votebox_archives']['comments_legend']    = 'Comments';
 
 /**
  * Reference
