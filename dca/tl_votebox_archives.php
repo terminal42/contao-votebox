@@ -116,13 +116,14 @@ $GLOBALS['TL_DCA']['tl_votebox_archives'] = array
     // Palettes
     'palettes' => array
     (
-        '__selector__'                => array('moderate','allowComments'),
-        'default'                     => '{archive_legend},title,numberOfVotes,moderate,jumpTo;{comments_legend},allowComments;'
+        '__selector__'                => array('mode','moderate','allowComments'),
+        'default'                     => '{archive_legend},title,numberOfVotes,mode,moderate,jumpTo;{comments_legend},allowComments;'
     ),
 
     // Subpalettes
     'subpalettes' => array
     (
+        'mode_guest'                  => 'ipRestrictionTime',
         'moderate'                    => 'receiver_mail',
         'allowComments'               => 'notify,sortOrder,perPage,comments_moderate,bbcode,disableCaptcha'
     ),
@@ -146,6 +147,26 @@ $GLOBALS['TL_DCA']['tl_votebox_archives'] = array
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
             'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'mode' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_votebox_archives']['mode'],
+            'exclude'                 => true,
+            'filter'                  => true,
+            'inputType'               => 'radio',
+            'options'                 => array('member', 'guest'),
+            'reference'               => &$GLOBALS['TL_LANG']['tl_votebox_archives']['mode'],
+            'eval'                    => array('mandatory'=>true, 'tl_class'=>'w50', 'submitOnChange'=>true),
+            'sql'                     => "varchar(6) NOT NULL default 'member'"
+        ),
+        'ipRestrictionTime' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_votebox_archives']['ipRestrictionTime'],
+            'exclude'                 => true,
+            'inputType'               => 'text',
+            'default'                 => 86400,
+            'eval'                    => array('mandatory'=>true, 'rgxp'=>'digit', 'tl_class'=>'w50'),
+            'sql'                     =>  "int(10) unsigned NOT NULL default '0'",
         ),
         'numberOfVotes' => array
         (
