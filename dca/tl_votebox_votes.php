@@ -50,7 +50,7 @@ $GLOBALS['TL_DCA']['tl_votebox_votes'] = array
                 'pid'           => 'index',
                 'member_id'     => 'index'
             )
-        ),
+        )
     ),
 
     // List

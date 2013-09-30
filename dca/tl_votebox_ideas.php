@@ -256,7 +256,7 @@ class tl_votebox_ideas extends \Backend
         // Check permissions to publish
         if (!\BackendUser::getInstance()->isAdmin && !\BackendUser::getInstance()->hasAccess('tl_votebox_ideas::published', 'alexf')) {
             $this->log('Not enough permissions to publish/unpublish idea ID "'.$intId.'"', 'tl_votebox_ideas toggleVisibility', TL_ERROR);
-            \Controller::redirect(('contao/main.php?act=error');
+            \Controller::redirect('contao/main.php?act=error');
         }
 
         $this->createInitialVersion('tl_votebox_ideas', $intId);
