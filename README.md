@@ -9,3 +9,5 @@ vote and comment on them.
 The following Contao extensions are required to run the votebox:
 - https://github.com/terminal42/contao-NamespaceClassLoader
 - https://github.com/codefog/contao-haste
+
+- ajax (won't be anymore in 2.0)
