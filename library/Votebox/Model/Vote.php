@@ -59,6 +59,15 @@ class Vote extends \Model
     }
 
     /**
+     * Returns the table
+     * @return  string
+     */
+    public static function getTable()
+    {
+        return static::$strTable;
+    }
+
+    /**
      * Find by idea and user
      * @param   Idea
      * @param   array

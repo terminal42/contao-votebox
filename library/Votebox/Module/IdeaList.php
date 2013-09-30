@@ -31,6 +31,7 @@
 namespace Votebox\Module;
 
 use Votebox\Model\Idea;
+use Votebox\Model\Vote;
 
 class IdeaList extends Votebox
 {
@@ -121,20 +122,22 @@ class IdeaList extends Votebox
 
     protected function getIdeas($intLimit=0, $intOffset=0)
     {
+        $it = Idea::getTable();
+        $vt = Vote::getTable();
         $arrOptions = array();
+
         switch ($this->vb_orderBy) {
-            // @todo implement
-            /*case 'votes_asc':
-                $arrOptions['order'] = Idea::getTable() . '.voteCount ASC';
+            case 'votes_asc':
+                $arrOptions['order'] = "(SELECT COUNT(id) FROM $vt WHERE $it.id=$vt.pid) ASC";
                 break;
             case 'votes_desc':
-                $arrOptions['order'] = Idea::getTable() . '.voteCount DESC';
-                break;*/
+                $arrOptions['order'] = "(SELECT COUNT(id) FROM $vt WHERE $it.id=$vt.pid) DESC";
+                break;
             case 'date_asc':
-                $arrOptions['order'] = Idea::getTable() . '.creation_date ASC';
+                $arrOptions['order'] = "$it.creation_date ASC";
                 break;
             case 'date_desc':
-                $arrOptions['order'] = Idea::getTable() . '.creation_date DESC';
+                $arrOptions['order'] = "$it.creation_date DESC";
                 break;
 
 
