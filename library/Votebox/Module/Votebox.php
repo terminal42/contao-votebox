@@ -54,7 +54,7 @@ abstract class Votebox extends \Module
 				return '';
 			}
 			// check for the votebox
-			$objVoteBox = $this->Database->prepare("SELECT * FROM tl_votebox_archives WHERE id=?")->limit(1)->execute($this->vb_archive);
+			$objVoteBox = \Database::getInstance()->prepare("SELECT * FROM tl_votebox_archives WHERE id=?")->limit(1)->execute($this->vb_archive);
 
 			if (!$objVoteBox->numRows)
 			{
@@ -63,7 +63,6 @@ abstract class Votebox extends \Module
 			}
 
 			$this->arrArchiveData = $objVoteBox->fetchAssoc();
-			$this->import('FrontendUser', 'Member');
 		}
 
 		return parent::generate();
@@ -100,7 +99,7 @@ abstract class Votebox extends \Module
 		}
 
 		// get ideas for this votebox
-		$objIdeas = $this->Database->prepare("SELECT
+		$objIdeas = \Database::getInstance()->prepare("SELECT
 												vb.id AS id,
 												vb.title AS title,
 												vb.creation_date AS creation_date,
@@ -135,17 +134,17 @@ abstract class Votebox extends \Module
 		// get jumpTo page data
 		if ($intJumpToId)
 		{
-			$objJumpTo = $this->Database->prepare("SELECT id,alias FROM tl_page WHERE id=?")->limit(1)->execute($this->vb_reader_jumpTo);
+			$objJumpTo = \Database::getInstance()->prepare("SELECT id,alias FROM tl_page WHERE id=?")->limit(1)->execute($this->vb_reader_jumpTo);
 		}
 
 		foreach ($arrData as $k => $arrRow)
 		{
-			$arrData[$k]['creation_date']	= $this->parseDate($GLOBALS['TL_CONFIG']['datimFormat'], $arrRow['creation_date']);
-			$arrData[$k]['hasVoted'] = Votebox::hasVoted($arrRow['id'], $this->Member->id);
+			$arrData[$k]['creation_date']	= \System::parseDate($GLOBALS['TL_CONFIG']['datimFormat'], $arrRow['creation_date']);
+			$arrData[$k]['hasVoted'] = \Votebox\Votebox::hasVoted($arrRow['id'], \FrontendUser::getInstance()->id);
 
 			if ($intJumpToId)
 			{
-				$arrData[$k]['reader_url']	= $this->generateFrontendUrl($objJumpTo->row(), '/idea/' . $arrRow['id']);
+				$arrData[$k]['reader_url']	= \Controller::generateFrontendUrl($objJumpTo->row(), '/idea/' . $arrRow['id']);
 			}
 		}
 

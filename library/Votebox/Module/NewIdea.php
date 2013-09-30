@@ -47,7 +47,7 @@ class NewIdea extends Votebox
 	{
 		if (TL_MODE == 'BE')
 		{
-			$objTemplate = new BackendTemplate('be_wildcard');
+			$objTemplate = new \BackendTemplate('be_wildcard');
 			$objTemplate->wildcard = '### VOTEBOX: NEW IDEA ###';
 			$objTemplate->title = $this->headline;
 			$objTemplate->id = $this->id;
@@ -116,7 +116,7 @@ class NewIdea extends Votebox
 			$arrData['published']	= 1;
 		}
 
-		$this->Database->prepare("INSERT INTO tl_votebox_ideas %s")
+        \Database::getInstance()->prepare("INSERT INTO tl_votebox_ideas %s")
 					   ->set($arrData)
 					   ->execute();
 	}
@@ -149,7 +149,7 @@ class NewIdea extends Votebox
 			'eval'						=> array('mandatory'=>true)
 		);
 
-		$objForm = new HasteForm('vb_new_idea', $arrFields);
+		$objForm = new \HasteForm('vb_new_idea', $arrFields);
 		$objForm->submit = $GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['submit'];
 
 		return $objForm;

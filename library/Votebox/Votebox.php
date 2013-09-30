@@ -41,7 +41,7 @@ class Votebox extends \Controller
 	 */
 	public static function hasVoted($intIdeaId, $intMemberId)
 	{
-		$objVote = Database::getInstance()->prepare("SELECT id FROM tl_votebox_votes WHERE pid=? AND member_id=?")->limit(1)->executeUncached($intIdeaId, $intMemberId);
+		$objVote = \Database::getInstance()->prepare("SELECT id FROM tl_votebox_votes WHERE pid=? AND member_id=?")->limit(1)->executeUncached($intIdeaId, $intMemberId);
 		if ($objVote->numRows)
 		{
 			return true;
@@ -59,8 +59,8 @@ class Votebox extends \Controller
 	 */
 	public static function canMemberVote($intIdeaId, $intMemberId)
 	{
-		$objArchive = Database::getInstance()->prepare("SELECT * FROM tl_votebox_archives WHERE id=(SELECT pid FROM tl_votebox_ideas WHERE id=?)")->executeUncached($intIdeaId);
-		$intVotes = Database::getInstance()->prepare("SELECT COUNT(*) AS total FROM tl_votebox_votes WHERE pid IN (SELECT id FROM tl_votebox_ideas WHERE pid=?) AND member_id=?")->executeUncached($objArchive->id, $intMemberId)->total;
+		$objArchive = \Database::getInstance()->prepare("SELECT * FROM tl_votebox_archives WHERE id=(SELECT pid FROM tl_votebox_ideas WHERE id=?)")->executeUncached($intIdeaId);
+		$intVotes = \Database::getInstance()->prepare("SELECT COUNT(*) AS total FROM tl_votebox_votes WHERE pid IN (SELECT id FROM tl_votebox_ideas WHERE pid=?) AND member_id=?")->executeUncached($objArchive->id, $intMemberId)->total;
 
 		return ($objArchive->numberOfVotes && ($objArchive->numberOfVotes <= $intVotes)) ? false : true;
 	}
@@ -78,8 +78,8 @@ class Votebox extends \Controller
 		$arrData['tstamp']			= time();
 		$arrData['vote_date']		= time();
 		$arrData['member_id']		= $intMemberId;
-		
-		Database::getInstance()->prepare("INSERT INTO tl_votebox_votes %s")->set($arrData)->execute();
+
+        \Database::getInstance()->prepare("INSERT INTO tl_votebox_votes %s")->set($arrData)->execute();
 	}
 
 
@@ -90,7 +90,7 @@ class Votebox extends \Controller
 	 */
 	public static function deleteVote($intIdeaId, $intMemberId)
 	{
-		Database::getInstance()->prepare("DELETE FROM tl_votebox_votes WHERE pid=? AND member_id=?")->execute($intIdeaId, $intMemberId);
+        \Database::getInstance()->prepare("DELETE FROM tl_votebox_votes WHERE pid=? AND member_id=?")->execute($intIdeaId, $intMemberId);
 	}
 }
 

@@ -66,7 +66,7 @@ class Reader extends Votebox
 	{
 		if (TL_MODE == 'BE')
 		{
-			$objTemplate = new BackendTemplate('be_wildcard');
+			$objTemplate = new \BackendTemplate('be_wildcard');
 			$objTemplate->wildcard = '### VOTEBOX: READER ###';
 			$objTemplate->title = $this->headline;
 			$objTemplate->id = $this->id;
@@ -76,7 +76,7 @@ class Reader extends Votebox
 			return $objTemplate->parse();
 		}
 
-		if ($this->Input->get('idea') == '')
+		if (\Input::get('idea') == '')
 		{
 			return '';
 		}
@@ -90,9 +90,8 @@ class Reader extends Votebox
 	 */
 	protected function compile()
 	{
-		$this->import('FrontendUser', 'Member');
-		$this->intMemberId = $this->Member->id;
-		$this->intIdeaId = $this->Input->get('idea');
+		$this->intMemberId = \FrontendUser::getInstance()->id;
+		$this->intIdeaId = \Input::get('idea');
 
 		$arrData = $this->getIdeas($this->vb_archive, $this->intIdeaId);
 
@@ -112,7 +111,7 @@ class Reader extends Votebox
 		$this->Template->hasData = true;
 
 		// detail template
-		$this->objDetailTemplate = new FrontendTemplate(($this->vb_reader_tpl) ? $this->vb_reader_tpl : 'votebox_reader_default');
+		$this->objDetailTemplate = new \FrontendTemplate(($this->vb_reader_tpl) ? $this->vb_reader_tpl : 'votebox_reader_default');
 
 		// success messages
 		$this->objDetailTemplate->successStyle = 'display:none;';
@@ -261,7 +260,7 @@ class Reader extends Votebox
 			$intHl = min(intval(str_replace('h', '', $this->hl)), 5);
 			$this->objDetailTemplate->hlc = 'h' . ($intHl + 1);
 
-			$objConfig = new stdClass();
+			$objConfig = new \stdClass();
 			$objConfig->requireLogin = true;
 			$objConfig->perPage = $this->arrArchiveData['perPage'];
 			$objConfig->order = $this->arrArchiveData['sortOrder'];

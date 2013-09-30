@@ -33,8 +33,8 @@
  */
 $GLOBALS['BE_MOD']['content']['votebox'] = array
 (
-	'tables'       => array('tl_votebox_archives', 'tl_votebox_ideas', 'tl_votebox_votes'),
-	'icon'         => 'system/modules/votebox/assets/be_mod_icon.png'
+    'tables'       => array('tl_votebox_archives', 'tl_votebox_ideas', 'tl_votebox_votes'),
+    'icon'         => 'system/modules/votebox/assets/be_mod_icon.png'
 );
 
 
@@ -43,9 +43,9 @@ $GLOBALS['BE_MOD']['content']['votebox'] = array
  */
 $GLOBALS['FE_MOD']['votebox'] = array
 (
-	'votebox_list'		=> 'ModuleVoteboxList',
-	'votebox_reader'	=> 'ModuleVoteboxReader',
-	'votebox_new_idea'	=> 'ModuleVoteboxNewIdea'
+    'votebox_list'		=> 'Votebox\Module\IdeaList',
+    'votebox_new_idea'	=> 'Votebox\Module\NewIdea',
+    'votebox_reader'	=> 'Votebox\Module\Reader',
 );
 
 /**

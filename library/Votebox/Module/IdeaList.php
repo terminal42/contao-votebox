@@ -48,7 +48,7 @@ class IdeaList extends Votebox
 	{
 		if (TL_MODE == 'BE')
 		{
-			$objTemplate = new BackendTemplate('be_wildcard');
+			$objTemplate = new \BackendTemplate('be_wildcard');
 			$objTemplate->wildcard = '### VOTEBOX: LIST ###';
 			$objTemplate->title = $this->headline;
 			$objTemplate->id = $this->id;
@@ -137,14 +137,14 @@ class IdeaList extends Votebox
             }
 
             // Add the pagination menu
-            $objPagination = new Pagination($total, $this->perPage);
+            $objPagination = new \Pagination($total, $this->perPage);
             $this->Template->pagination = $objPagination->generate("\n  ");
         }
 
         $arrData = $this->getIdeas($this->vb_archive, false, $this->vb_reader_jumpTo, $strOrderBy, array('offset'=>$offset,'limit'=>$limit));
 
 		$this->Template->hasData = true;
-		$objTemplate = new FrontendTemplate(($this->vb_list_tpl) ? $this->vb_list_tpl : 'votebox_list_default');
+		$objTemplate = new \FrontendTemplate(($this->vb_list_tpl) ? $this->vb_list_tpl : 'votebox_list_default');
 		$objTemplate->arrIdeas = $arrData;
         $objTemplate->readOn = $GLOBALS['TL_LANG']['MSC']['more'];
 		$this->Template->content = $objTemplate->parse();
