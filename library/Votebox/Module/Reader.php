@@ -115,6 +115,8 @@ class Reader extends Votebox
         // detail template
         $this->objDetailTemplate = new \FrontendTemplate(($this->vb_reader_tpl) ? $this->vb_reader_tpl : 'votebox_reader_default');
         $this->objDetailTemplate->id = $this->id;
+        $this->objDetailTemplate->vote_formId = 'vote_form_' . $this->id;
+        $this->objDetailTemplate->vote_action = \Environment::get('request');
 
         if (\Environment::get('isAjaxRequest')) {
             $this->objDetailTemplate->isAjax = true;
@@ -126,18 +128,9 @@ class Reader extends Votebox
         // idea
         $this->objDetailTemplate->arrIdea = $this->prepareIdea($this->objIdea);
 
-        // vote data
-        $this->objDetailTemplate->vote_formId = 'vote_form_' . $this->id;
-        $this->objDetailTemplate->vote_action = \Environment::get('request');
-
         // labels
         $this->objDetailTemplate->lblVote                   = $GLOBALS['TL_LANG']['MSC']['vb_vote'];
         $this->objDetailTemplate->lblUnvote                 = $GLOBALS['TL_LANG']['MSC']['vb_unvote'];
-        $this->objDetailTemplate->lblTooManyVotes           = $GLOBALS['TL_LANG']['MSC']['vb_too_many_votes'];
-
-        if (!$this->objIdea->canVote()) {
-            $this->objDetailTemplate->tooManyVotes = true;
-        }
 
         // add comments
         $this->addComments($this->objDetailTemplate->arrIdea);
@@ -167,11 +160,6 @@ class Reader extends Votebox
             $objVote->pid       = $this->objIdea->id;
             $objVote->tstamp    = time();
             $objVote->vote_date = time();
-
-            if (FE_USER_LOGGED_IN === true) {
-                $objVote->member_id = \FrontendUser::getInstance()->id;
-            }
-
             $objVote->save();
             $this->arrMessages['success'] = $GLOBALS['TL_LANG']['MSC']['vb_successfully_voted'];
         } else {
