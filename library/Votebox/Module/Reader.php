@@ -31,6 +31,7 @@
 namespace Votebox\Module;
 
 use Votebox\Model\Idea;
+use Votebox\Model\Vote;
 
 class Reader extends Votebox
 {
@@ -101,7 +102,12 @@ class Reader extends Votebox
 
         // check if the user has voted and store it
         if ($_POST['FORM_SUBMIT'] == 'vote_form_' . $this->id) {
-            $this->storeVote();
+            if (isset($_POST['vote'])) {
+                $this->vote();
+            }
+            if (isset($_POST['unvote'])) {
+                $this->unvote();
+            }
         }
 
         $this->Template->hasData = true;
@@ -127,8 +133,6 @@ class Reader extends Votebox
         // labels
         $this->objDetailTemplate->lblVote                   = $GLOBALS['TL_LANG']['MSC']['vb_vote'];
         $this->objDetailTemplate->lblUnvote                 = $GLOBALS['TL_LANG']['MSC']['vb_unvote'];
-        $this->objDetailTemplate->lblSuccessfullyVoted      = $GLOBALS['TL_LANG']['MSC']['vb_successfully_voted'];
-        $this->objDetailTemplate->lblSuccessfullyUnvoted    = $GLOBALS['TL_LANG']['MSC']['vb_successfully_unvoted'];
         $this->objDetailTemplate->lblTooManyVotes           = $GLOBALS['TL_LANG']['MSC']['vb_too_many_votes'];
 
         if (!$this->objIdea->canVote()) {
@@ -154,42 +158,37 @@ class Reader extends Votebox
 
 
     /**
-     * Store or delete vote (may also be an ajax request) if everything is fine
+     * Vote
      */
-    protected function storeVote()
+    protected function vote()
     {
-        $this->arrMessages['success'] = 'Successfully voted';
-        /*
-        if (!Votebox::hasVoted($this->intIdeaId, $this->intMemberId)) {
-            if (!Votebox::canMemberVote($this->intIdeaId, $this->intMemberId)) {
-                if (\Environment::get('isAjaxRequest')) {
-                    echo 'too_many_votes';
-                    exit;
-                } else {
-                    $_SESSION['VOTEBOX_TOO_MANY_VOTES'][$this->intIdeaId] = true;
-                }
-                return;
+        if ($this->objIdea->canVote()) {
+            $objVote = new Vote();
+            $objVote->pid       = $this->objIdea->id;
+            $objVote->tstamp    = time();
+            $objVote->vote_date = time();
+
+            if (FE_USER_LOGGED_IN === true) {
+                $objVote->member_id = \FrontendUser::getInstance()->id;
             }
 
-            Votebox::storeVote($this->intIdeaId, $this->intMemberId);
+            $objVote->save();
+            $this->arrMessages['success'] = $GLOBALS['TL_LANG']['MSC']['vb_successfully_voted'];
+        }
+    }
 
-            if ($this->Environment->isAjaxRequest) {
-                echo 'successfully_voted';
-                exit;
+    /**
+     * Unvote
+     */
+    protected function unvote()
+    {
+        // @todo check if already voted
+        if (true) {
+            if (($objVote = Vote::findByIdeaAndUser($this->objIdea)) !== null) {
+                $objVote->delete();
+                $this->arrMessages['success'] = $GLOBALS['TL_LANG']['MSC']['vb_successfully_unvoted'];
             }
-            else {
-                $_SESSION['VOTEBOX_SUCCESSFULLY_VOTED'][$this->intIdeaId] = true;
-            }
-        } else {
-            Votebox::deleteVote($this->intIdeaId, $this->intMemberId);
-
-            if ($this->Environment->isAjaxRequest) {
-                echo 'successfully_unvoted';
-                exit;
-            } else {
-                $_SESSION['VOTEBOX_SUCCESSFULLY_UNVOTED'][$this->intIdeaId] = true;
-            }
-        }*/
+        }
     }
 
 
@@ -200,18 +199,18 @@ class Reader extends Votebox
     {
         $this->objDetailTemplate->allowComments = false;
 
-        if ($this->arrArchiveData['allowComments'] == 1) {
+        if ($this->objArchive->allowComments == 1) {
             $this->objDetailTemplate->allowComments = true;
             $this->import('Comments');
             $arrNotifies = array();
 
             // Notify system administrator
-            if ($this->arrArchiveData['notify'] != 'notify_author') {
+            if ($this->objArchive->notify != 'notify_author') {
                 $arrNotifies[] = $GLOBALS['TL_ADMIN_EMAIL'];
             }
 
             // Notify author
-            if ($this->arrArchiveData['notify'] != 'notify_admin'
+            if ($this->objArchive->notify != 'notify_admin'
                 && $arrIdea['email'] != ''
                 && !$this->isValidEmailAddress($arrIdea['email'])) {
                 $arrNotifies[] = $arrIdea['email'];
@@ -223,12 +222,12 @@ class Reader extends Votebox
 
             $objConfig = new \stdClass();
             $objConfig->requireLogin = true;
-            $objConfig->perPage = $this->arrArchiveData['perPage'];
-            $objConfig->order = $this->arrArchiveData['sortOrder'];
+            $objConfig->perPage = $this->objArchive->perPage;
+            $objConfig->order = $this->objArchive->sortOrder;
             $objConfig->template = $this->com_template;
-            $objConfig->disableCaptcha = $this->arrArchiveData['disableCaptcha'];
-            $objConfig->bbcode = $this->arrArchiveData['bbcode'];
-            $objConfig->moderate = $this->arrArchiveData['comments_moderate'];
+            $objConfig->disableCaptcha = $this->objArchive->disableCaptcha;
+            $objConfig->bbcode = $this->objArchive->bbcode;
+            $objConfig->moderate = $this->objArchive->comments_moderate;
 
             $this->Comments->addCommentsToTemplate(
                 $this->objDetailTemplate,
