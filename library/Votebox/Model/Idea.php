@@ -51,6 +51,17 @@ class Idea extends \Model
     }
 
     /**
+     * Get number of votes
+     * @return  int
+     */
+    public function getVotes()
+    {
+        return (int) \Database::getInstance()->prepare('SELECT COUNT(id) FROM tl_votebox_votes AS votes WHERE votes.pid=?')
+                                             ->execute($this->id)
+                                             ->votes;
+    }
+
+    /**
      * Returns the table
      * @return  string
      */
