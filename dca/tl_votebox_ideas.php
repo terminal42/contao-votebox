@@ -28,6 +28,8 @@
  * @filesource
  */
 
+\System::loadLanguageFile('tl_member');
+
 /**
  * Table tl_votebox_ideas 
  */
@@ -42,7 +44,8 @@ $GLOBALS['TL_DCA']['tl_votebox_ideas'] = array
         'ctable'                        => array('tl_votebox_votes'),
         'onload_callback'               => array
         (
-            array('tl_votebox_ideas', 'cleanUpVoteTable')
+            array('tl_votebox_ideas', 'cleanUpVoteTable'),
+            array('tl_votebox_ideas', 'adjustPalette')
         ),
         'sql' => array
         (
@@ -155,6 +158,30 @@ $GLOBALS['TL_DCA']['tl_votebox_ideas'] = array
             'exclude'                 => true,
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'firstname' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_member']['firstname'],
+            'exclude'                 => true,
+            'inputType'               => 'text',
+            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'lastname' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_member']['lastname'],
+            'exclude'                 => true,
+            'inputType'               => 'text',
+            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'email' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG']['tl_member']['email'],
+            'exclude'                 => true,
+            'inputType'               => 'text',
+            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50', 'rgxp'=>'digit'),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'creation_date' => array
@@ -290,5 +317,21 @@ class tl_votebox_ideas extends \Backend
         }
 
         \Database::getInstance()->query('DELETE FROM tl_votebox_votes WHERE pid NOT IN (' . implode(',', $arrIdeas) . ')');
+    }
+
+    /**
+     * Adjusts the palette depending on the archive settings
+     * @param \DataContainer
+     */
+    public function adjustPalette(\DataContainer $dc)
+    {
+        $objArchive = \Votebox\Model\Idea::findByPk($dc->id)->getRelated('pid');
+
+        if ($objArchive->mode == 'guest') {
+            $GLOBALS['TL_DCA']['tl_votebox_ideas']['palettes']['default'] = str_replace(
+                'member_id',
+                'firstname,lastname,email',
+                $GLOBALS['TL_DCA']['tl_votebox_ideas']['palettes']['default']);
+        }
     }
 }

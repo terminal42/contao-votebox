@@ -96,8 +96,14 @@ class NewIdea extends Votebox
         $objIdea->creation_date     = time();
         $objIdea->text              = $arrFormData['text'];
 
-        if (FE_USER_LOGGED_IN === true) {
+        if ($this->objArchive->mode == 'member') {
             $objIdea->member_id = \FrontendUser::getInstance()->id;
+        }
+
+        if ($this->objArchive->mode == 'guest') {
+            $objIdea->firstname     = $arrFormData['firstname'];
+            $objIdea->lastname      = $arrFormData['lastname'];
+            $objIdea->email         = $arrFormData['email'];
         }
 
         // send notification if it is moderated
@@ -125,17 +131,39 @@ class NewIdea extends Votebox
     {
         $arrFields = array();
 
+        if ($this->objArchive->mode == 'guest') {
+            \System::loadLanguageFile('tl_member');
+            $arrFields['firstname'] = array
+            (
+                'label'                        => &$GLOBALS['TL_LANG']['tl_member']['firstname'],
+                'inputType'                    => 'text',
+                'eval'                         => array('mandatory'=>true)
+            );
+            $arrFields['lastname'] = array
+            (
+                'label'                        => &$GLOBALS['TL_LANG']['tl_member']['lastname'],
+                'inputType'                    => 'text',
+                'eval'                         => array('mandatory'=>true)
+            );
+            $arrFields['email'] = array
+            (
+                'label'                        => &$GLOBALS['TL_LANG']['tl_member']['email'],
+                'inputType'                    => 'text',
+                'eval'                         => array('mandatory'=>true, 'rgxp'=>'email')
+            );
+        }
+
         $arrFields['title'] = array
         (
             'label'                        => &$GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['title'],
             'inputType'                    => 'text',
-            'eval'                        => array('mandatory'=>true)
+            'eval'                         => array('mandatory'=>true)
         );
         $arrFields['text'] = array
         (
             'label'                        => &$GLOBALS['TL_LANG']['MSC']['form_votebox_new_idea']['text'],
             'inputType'                    => 'textarea',
-            'eval'                        => array('rte'=>'tinyMCE', 'mandatory'=>true)
+            'eval'                         => array('rte'=>'tinyMCE', 'mandatory'=>true)
         );
 
         $objForm = new \Haste\Form('vb_new_idea', 'POST', function($objHaste) {

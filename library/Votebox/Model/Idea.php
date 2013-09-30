@@ -96,7 +96,7 @@ class Idea extends \Model
             $arrValues[] = \Environment::get('ip');
 
             if ($objArchive->ipRestrictionTime) {
-                $strQuery .= ' AND vote_date >=?';
+                $strQuery .= ' AND vote_date>=?';
                 $arrValues[] = (time() - $objArchive->ipRestrictionTime);
             }
         }
