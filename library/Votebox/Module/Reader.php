@@ -42,10 +42,10 @@ class Reader extends Votebox
     protected $strTemplate = 'mod_votebox_reader';
 
     /**
-     * Idea id
-     * @var int
+     * Idea model
+     * @var Idea
      */
-    protected $intIdeaId = 0;
+    protected $objIdea = null;
 
     /**
      * Detail Template
@@ -81,8 +81,6 @@ class Reader extends Votebox
             return '';
         }
 
-        $this->intIdeaId = \Input::get('idea');
-
         return parent::generate();
     }
 
@@ -93,9 +91,9 @@ class Reader extends Votebox
      */
     protected function compile()
     {
-        $objIdea = Idea::findPublishedByArchiveAndPk($this->objArchive, $this->intIdeaId);
+        $this->objIdea = Idea::findPublishedByArchiveAndPk($this->objArchive, \Input::get('idea'));
 
-        if ($objIdea === null) {
+        if ($this->objIdea === null) {
             $this->Template->hasData = false;
             $this->Template->lblNoContent = $GLOBALS['TL_LANG']['MSC']['vb_no_idea'];
             return;
@@ -120,7 +118,7 @@ class Reader extends Votebox
         $this->objDetailTemplate->messages = $this->arrMessages;
 
         // idea
-        $this->objDetailTemplate->arrIdea = $this->prepareIdea($objIdea);
+        $this->objDetailTemplate->arrIdea = $this->prepareIdea($this->objIdea);
 
         // vote data
         $this->objDetailTemplate->vote_formId = 'vote_form_' . $this->id;
@@ -133,7 +131,7 @@ class Reader extends Votebox
         $this->objDetailTemplate->lblSuccessfullyUnvoted    = $GLOBALS['TL_LANG']['MSC']['vb_successfully_unvoted'];
         $this->objDetailTemplate->lblTooManyVotes           = $GLOBALS['TL_LANG']['MSC']['vb_too_many_votes'];
 
-        if (!$objIdea->canVote()) {
+        if (!$this->objIdea->canVote()) {
             $this->objDetailTemplate->tooManyVotes = true;
         }
 
