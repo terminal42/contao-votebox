@@ -47,8 +47,3 @@ $GLOBALS['FE_MOD']['votebox'] = array
     'votebox_new_idea'	=> 'Votebox\Module\NewIdea',
     'votebox_reader'	=> 'Votebox\Module\Reader',
 );
-
-/**
- * Hooks
- */
-$GLOBALS['TL_HOOKS']['dispatchAjax'][] = array('Votebox', 'dispatchAjax');
