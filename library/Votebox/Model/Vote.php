@@ -28,29 +28,31 @@
  * @filesource
  */
 
-/**
- * Back end modules
- */
-$GLOBALS['BE_MOD']['content']['votebox'] = array
-(
-    'tables'       => array('tl_votebox_archives', 'tl_votebox_ideas', 'tl_votebox_votes'),
-    'icon'         => 'system/modules/votebox/assets/be_mod_icon.png'
-);
+namespace Votebox\Model;
 
 
-/**
- * Front end modules
- */
-$GLOBALS['FE_MOD']['votebox'] = array
-(
-    'votebox_list'          => 'Votebox\Module\IdeaList',
-    'votebox_new_idea'      => 'Votebox\Module\NewIdea',
-    'votebox_reader'        => 'Votebox\Module\Reader'
-);
+class Vote extends \Model
+{
 
-/**
- * Models
- */
-$GLOBALS['TL_MODELS']['tl_votebox_archives']    = 'Votebox\Model\Archive';
-$GLOBALS['TL_MODELS']['tl_votebox_ideas']       = 'Votebox\Model\Idea';
-$GLOBALS['TL_MODELS']['tl_votebox_votes']       = 'Votebox\Model\Vote';
+    /**
+     * Table name
+     * @var string
+     */
+    protected static $strTable = 'tl_votebox_votes';
+
+
+
+    /**
+     * Set IP if not already done
+     * @param   array The data array
+     * @return  array The modified data array
+     */
+    protected function preSave(array $arrSet)
+    {
+        if (!$arrSet['ip']) {
+            $arrSet['ip'] = \Environment::get('ip');
+        }
+
+        return $arrSet;
+    }
+}
