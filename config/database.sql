@@ -30,24 +30,3 @@ CREATE TABLE `tl_votebox_archives` (
   `disableCaptcha` char(1) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
--- --------------------------------------------------------
-
--- 
--- Table `tl_votebox_ideas`
--- 
-
-CREATE TABLE `tl_votebox_ideas` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `pid` int(10) unsigned NOT NULL default '0',
-  `tstamp` int(10) unsigned NOT NULL default '0',
-  `title` varchar(255) NOT NULL default '', 
-  `creation_date` int(10) unsigned NOT NULL default '0',
-  `member_id` int(10) unsigned NOT NULL default '0',
-  `text` text NULL,
-  `published` char(1) NOT NULL default '',
-  PRIMARY KEY  (`id`),
-  KEY `pid` (`pid`),
-  KEY `member_id` (`member_id`),
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
