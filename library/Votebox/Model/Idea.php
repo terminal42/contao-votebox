@@ -68,12 +68,14 @@ class Idea extends \Model
     public function canVote()
     {
         $objArchive = $this->getRelated('pid');
-        if ($objArchive->mode == 'member') {
-            if (FE_USER_LOGGED_IN !== true) {
-                return false;
-            }
 
-            $strQuery = 'SELECT
+        if (!$objArchive->canVote()) {
+            return false;
+        }
+
+        $arrValues = array();
+
+        $strQuery = 'SELECT
                             COUNT(id) as voteCount
                          FROM
                             tl_votebox_votes
@@ -82,26 +84,26 @@ class Idea extends \Model
                          AND
                             memberId=?';
 
-            $arrValues = array($this->id, \FrontendUser::getInstance()->id);
+        $arrValues[] = $this->id;
+
+        if ($objArchive->mode == 'member') {
+            if (FE_USER_LOGGED_IN !== true) {
+                return false;
+            }
+
+            $strQuery .= ' AND member_id=?';
+            $arrValues[] = \FrontendUser::getInstance()->id;
         } else {
-            $strQuery = 'SELECT
-                            COUNT(id) as voteCount
-                         FROM
-                            tl_votebox_votes
-                         WHERE
-                            pid=?
-                         AND
-                            ip=?';
+            $strQuery .= ' AND ip=?';
+            $arrValues[] = \Environment::get('ip');
 
-            $arrValues = array($this->id, \Environment::get('ip'));
-
-            if ($objArchive->ipRestriction) {
+            if ($this->ipRestriction) {
                 $strQuery .= ' AND vote_date >=?';
-                $arrValues[] = time() - $objArchive->ipRestriction;
+                $arrValues[] = (time() - $this->ipRestriction);
             }
         }
 
-
+        // if 1 we can't vote anymore so we inverse boolean
         return !(boolean) \Database::getInstance()->prepare($strQuery)->execute($arrValues)->voteCount;
     }
 
