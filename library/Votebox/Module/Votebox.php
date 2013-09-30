@@ -60,87 +60,16 @@ abstract class Votebox extends \Module
         return parent::generate();
     }
 
-
-    /**
-     * Gets an array of ideas
-     * @param int archive id
-     * @param int idea id
-     * @param int jumpTo page id
-     * @param string ORDER BY definition
-     * @param array limit in style array('offset'=>0,'limit'=>10)
-     * @return array|false
-     */
-    public function getIdeas($intArchiveId, $intIdeaId=false, $intJumpToId=false, $strOrderBy=false, $arrLimit=false)
+    protected function prepareIdea($objIdea)
     {
-        $strWhere = ' WHERE vb.pid=? AND vb.published=?';
-        $arrExecute = array($intArchiveId, 1);
+        $arrIdea = $objIdea->row();
+        $arrIdea['creation_date_formatted'] = \System::parseDate($GLOBALS['TL_CONFIG']['datimFormat'], $objIdea->creation_date);
+        $arrIdea['reader_url']              = $objIdea->getUrl();
+        $arrIdea['voteCount']               = $objIdea->getVotes();
+        // @todo implement
+        //$arrData[$k]['hasVoted'] = \Votebox\Votebox::hasVoted($arrRow['id'], \FrontendUser::getInstance()->id);
 
-        if ($intIdeaId)
-        {
-            $strWhere .= ' AND vb.id=? LIMIT 1';
-            $arrExecute[] = $intIdeaId;
-        }
-
-        if (!$strOrderBy)
-        {
-            $strOrderBy = '';
-        }
-        else
-        {
-            $strOrderBy = ' ORDER BY ' . $strOrderBy;
-        }
-
-        // get ideas for this votebox
-        $objIdeas = \Database::getInstance()->prepare("SELECT
-                                                vb.id AS id,
-                                                vb.title AS title,
-                                                vb.creation_date AS creation_date,
-                                                vb.text AS text,
-                                                m.firstname AS firstname,
-                                                m.lastname AS lastname,
-                                                m.email AS email,
-                                                (
-                                                    SELECT COUNT(id) FROM tl_votebox_votes AS votes WHERE vb.id=votes.pid
-                                                ) AS voteCount
-                                            FROM
-                                                tl_votebox_ideas AS vb
-                                            LEFT JOIN
-                                                tl_member AS m
-                                            ON
-                                                vb.member_id=m.id" . $strWhere . $strOrderBy);
-
-        if ($arrLimit)
-        {
-            $objIdeas->limit($arrLimit['limit'], $arrLimit['offset']);
-        }
-
-        $objIdeas = $objIdeas->execute($arrExecute);
-
-        if (!$objIdeas->numRows)
-        {
-            return false;
-        }
-
-        $arrData = $objIdeas->fetchAllAssoc();
-
-        // get jumpTo page data
-        if ($intJumpToId)
-        {
-            $objJumpTo = \Database::getInstance()->prepare("SELECT id,alias FROM tl_page WHERE id=?")->limit(1)->execute($this->vb_reader_jumpTo);
-        }
-
-        foreach ($arrData as $k => $arrRow)
-        {
-            $arrData[$k]['creation_date']    = \System::parseDate($GLOBALS['TL_CONFIG']['datimFormat'], $arrRow['creation_date']);
-            $arrData[$k]['hasVoted'] = \Votebox\Votebox::hasVoted($arrRow['id'], \FrontendUser::getInstance()->id);
-
-            if ($intJumpToId)
-            {
-                $arrData[$k]['reader_url']    = \Controller::generateFrontendUrl($objJumpTo->row(), '/idea/' . $arrRow['id']);
-            }
-        }
-
-        return $arrData;
+        return $arrIdea;
     }
 }
 
