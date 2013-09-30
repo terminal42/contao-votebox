@@ -174,6 +174,8 @@ class Reader extends Votebox
 
             $objVote->save();
             $this->arrMessages['success'] = $GLOBALS['TL_LANG']['MSC']['vb_successfully_voted'];
+        } else {
+            $this->arrMessages['error'] = $GLOBALS['TL_LANG']['MSC']['vb_already_voted'];
         }
     }
 
