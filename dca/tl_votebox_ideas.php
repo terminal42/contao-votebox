@@ -141,7 +141,9 @@ $GLOBALS['TL_DCA']['tl_votebox_ideas'] = array
         ),
         'pid' => array
         (
+            'foreignKey'          => 'tl_votebox_archives.title',
             'sql'                 =>  "int(10) unsigned NOT NULL default '0'",
+            'relation'            => array('type'=>'belongsTo', 'load'=>'lazy')
         ),
         'tstamp' => array
         (

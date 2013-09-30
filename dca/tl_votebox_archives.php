@@ -170,9 +170,11 @@ $GLOBALS['TL_DCA']['tl_votebox_archives'] = array
             'label'                   => &$GLOBALS['TL_LANG']['tl_votebox_archives']['jumpTo'],
             'exclude'                 => true,
             'inputType'               => 'pageTree',
+            'foreignKey'              => 'tl_page.title',
             'explanation'             => 'jumpTo',
             'eval'                    => array('fieldType'=>'radio', 'mandatory'=>true),
-            'sql'                     => "int(10) unsigned NOT NULL default '0'"
+            'sql'                     => "int(10) unsigned NOT NULL default '0'",
+            'relation'                => array('type'=>'belongsTo', 'load'=>'lazy')
         ),
         'receiver_mail' => array
         (
