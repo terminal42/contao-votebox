@@ -184,12 +184,9 @@ class Reader extends Votebox
      */
     protected function unvote()
     {
-        // @todo check if already voted
-        if (true) {
-            if (($objVote = Vote::findByIdeaAndUser($this->objIdea)) !== null) {
-                $objVote->delete();
-                $this->arrMessages['success'] = $GLOBALS['TL_LANG']['MSC']['vb_successfully_unvoted'];
-            }
+        if (($objVote = Vote::findByIdeaAndUser($this->objIdea)) !== null) {
+            $objVote->delete();
+            $this->arrMessages['success'] = $GLOBALS['TL_LANG']['MSC']['vb_successfully_unvoted'];
         }
     }
 
