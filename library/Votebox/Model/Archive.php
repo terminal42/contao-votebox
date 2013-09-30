@@ -28,27 +28,15 @@
  * @filesource
  */
 
-/**
- * Back end modules
- */
-$GLOBALS['BE_MOD']['content']['votebox'] = array
-(
-    'tables'       => array('tl_votebox_archives', 'tl_votebox_ideas', 'tl_votebox_votes'),
-    'icon'         => 'system/modules/votebox/assets/be_mod_icon.png'
-);
+namespace Votebox\Model;
 
 
-/**
- * Front end modules
- */
-$GLOBALS['FE_MOD']['votebox'] = array
-(
-    'votebox_list'          => 'Votebox\Module\IdeaList',
-    'votebox_new_idea'      => 'Votebox\Module\NewIdea',
-    'votebox_reader'        => 'Votebox\Module\Reader'
-);
+class Archive extends \Model
+{
 
-/**
- * Models
- */
-$GLOBALS['TL_MODELS']['tl_votebox_archives']    = 'Votebox\Model\Archive';
+    /**
+     * Table name
+     * @var string
+     */
+    protected static $strTable = 'tl_votebox_archives';
+}

@@ -30,14 +30,16 @@
 
 namespace Votebox\Module;
 
+use Votebox\Model\Archive;
+
 abstract class Votebox extends \Module
 {
 
     /**
-     * Votebox archive data
-     * @var array
+     * Votebox archive model
+     * @var Votebox\Model\Archive
      */
-    protected $arrArchiveData = array();
+    protected $objArchive = null;
 
 
     /**
@@ -47,15 +49,12 @@ abstract class Votebox extends \Module
     public function generate()
     {
         if (TL_MODE == 'FE') {
-            // Check for the votebox
-            $objVoteBox = \Database::getInstance()->prepare("SELECT * FROM tl_votebox_archives WHERE id=?")->limit(1)->execute($this->vb_archive);
 
-            if (!$objVoteBox->numRows) {
+            // Check for the votebox archive
+            if (($this->objArchive = Archive::findByPk($this->vb_archive)) === null) {
                 $this->log('Votebox archive with ID "' . $this->vb_archive . '" does not exist', __METHOD__, TL_ERROR);
                 return '';
             }
-
-            $this->arrArchiveData = $objVoteBox->fetchAssoc();
         }
 
         return parent::generate();
