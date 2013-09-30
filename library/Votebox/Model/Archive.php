@@ -76,9 +76,9 @@ class Archive extends \Model
             $strQuery .= ' AND ip=?';
             $arrValues[] = \Environment::get('ip');
 
-            if ($this->ipRestriction) {
+            if ($this->ipRestrictionTime) {
                 $strQuery .= ' AND vote_date >=?';
-                $arrValues[] = (time() - $this->ipRestriction);
+                $arrValues[] = (time() - $this->ipRestrictionTime);
             }
         }
 
