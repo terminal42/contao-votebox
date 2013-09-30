@@ -57,7 +57,8 @@ $GLOBALS['TL_DCA']['tl_votebox_archives'] = array
         (
             'mode'                    => 1,
             'fields'                  => array('title'),
-            'flag'                    => 1
+            'flag'                    => 1,
+            'panelLayout'             => 'filter;search,limit'
         ),
         'label' => array
         (
@@ -141,6 +142,7 @@ $GLOBALS['TL_DCA']['tl_votebox_archives'] = array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_votebox_archives']['title'],
             'exclude'                 => true,
+            'search'                  => true,
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
             'sql'                     => "varchar(255) NOT NULL default ''"
@@ -149,6 +151,7 @@ $GLOBALS['TL_DCA']['tl_votebox_archives'] = array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_votebox_archives']['numberOfVotes'],
             'exclude'                 => true,
+            'filter'                  => true,
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>true, 'maxlength'=>5, 'rgxp'=>'digit', 'tl_class'=>'w50'),
             'sql'                     => "smallint(5) unsigned NOT NULL default '0'"
@@ -157,6 +160,7 @@ $GLOBALS['TL_DCA']['tl_votebox_archives'] = array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_votebox_archives']['moderate'],
             'exclude'                 => true,
+            'filter'                  => true,
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr'),
             'sql'                     => "char(1) NOT NULL default ''"

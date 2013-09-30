@@ -32,11 +32,11 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['tl_votebox_archives']['title']				= array('Title', 'Please add a title for this archive.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['numberOfVotes']		= array('Maximum number of votes', 'Here you can eneter a maximum number of votes per question.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['numberOfVotes']		= array('Maximum number of votes', 'Here you can enter a maximum number of votes per question. Leave it on 0 if you do not want to limit them.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['moderate']			= array('Moderate archive', 'Enable if ideas should not be published automatically.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['receiver_mail']		= array('Email address', 'Enter the email address to which the notification that there is a new idea to publish should be sent.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['allowComments']     = array('Enable comments', 'Allow visitors to comment news items.');
-$GLOBALS['TL_LANG']['tl_votebox_archives']['notify']            = array('Notify', 'Please choose who to notify when comments are added.');
+$GLOBALS['TL_LANG']['tl_votebox_archives']['notify']            = array('Notify', 'Please choose whom to notify when comments are added.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['sortOrder']         = array('Sort order', 'By default, comments are sorted ascending, starting with the oldest one.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['perPage']           = array('Comments per page', 'Number of comments per page. Set to 0 to disable pagination.');
 $GLOBALS['TL_LANG']['tl_votebox_archives']['moderate']          = array('Moderate comments', 'Approve comments before they are published on the website.');
