@@ -181,7 +181,7 @@ $GLOBALS['TL_DCA']['tl_votebox_ideas'] = array
             'label'                   => &$GLOBALS['TL_LANG']['tl_member']['email'],
             'exclude'                 => true,
             'inputType'               => 'text',
-            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50', 'rgxp'=>'digit'),
+            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50', 'rgxp'=>'friendly'),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'creation_date' => array
