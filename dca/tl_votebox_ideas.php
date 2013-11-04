@@ -181,7 +181,7 @@ $GLOBALS['TL_DCA']['tl_votebox_ideas'] = array
             'label'                   => &$GLOBALS['TL_LANG']['tl_member']['email'],
             'exclude'                 => true,
             'inputType'               => 'text',
-            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50', 'rgxp'=>'digit'),
+            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50', 'rgxp'=>'friendly'),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'creation_date' => array
@@ -325,7 +325,12 @@ class tl_votebox_ideas extends \Backend
      */
     public function adjustPalette(\DataContainer $dc)
     {
-        $objArchive = \Votebox\Model\Idea::findByPk($dc->id)->getRelated('pid');
+    	$objFindItemsByPk = \Votebox\Model\Idea::findByPk($dc->id);
+    	
+    	if($objFindItemsByPk)
+    	{
+    		$objArchive = $objFindItemsByPk->getRelated('pid');
+    	}
 
         if ($objArchive->mode == 'guest') {
             $GLOBALS['TL_DCA']['tl_votebox_ideas']['palettes']['default'] = str_replace(
