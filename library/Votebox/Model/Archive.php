@@ -90,4 +90,27 @@ class Archive extends \Model
 
         return true;
     }
+
+    /**
+     * Find archive by ID of an idea
+     * @param   int
+     * @param   array
+     * @return  Archive|null
+     */
+    public static function findByIdeaId($intId, array $arrOptions=array())
+    {
+        $t = static::$strTable;
+
+        $arrOptions = array_merge(
+            array(
+                'column'    => array("$t.id=(SELECT pid FROM " . Idea::getTable() . " WHERE id=?)"),
+                'value'     => array($intId),
+                'limit'     => 1,
+                'return'    => 'Model',
+            ),
+            $arrOptions
+        );
+
+        return static::find($arrOptions);
+    }
 }

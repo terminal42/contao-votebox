@@ -325,9 +325,9 @@ class tl_votebox_ideas extends \Backend
      */
     public function adjustPalette(\DataContainer $dc)
     {
-        $objArchive = \Votebox\Model\Idea::findByPk($dc->id)->getRelated('pid');
+        $objArchive = \Votebox\Model\Archive::findByIdeaId($dc->id);
 
-        if ($objArchive->mode == 'guest') {
+        if ($objArchive !== null && $objArchive->mode == 'guest') {
             $GLOBALS['TL_DCA']['tl_votebox_ideas']['palettes']['default'] = str_replace(
                 'member_id',
                 'firstname,lastname,email',
