@@ -31,7 +31,7 @@
 \System::loadLanguageFile('tl_member');
 
 /**
- * Table tl_votebox_ideas 
+ * Table tl_votebox_ideas
  */
 $GLOBALS['TL_DCA']['tl_votebox_ideas'] = array
 (
@@ -232,7 +232,7 @@ class tl_votebox_ideas extends \Backend
     public function listIdea($arrRow)
     {
         $isPublished = $arrRow['published'] == 1;
-        
+
         $strText = '<div class="cte_type ' . (($isPublished) ? 'published' : 'unpublished') . '"><strong>' . $arrRow['title'] . '</strong> - ' . \System::parseDate($GLOBALS['TL_CONFIG']['datimFormat'], $arrRow['creation_date']) . '</div>';
         $strText .= '<div class="limit_height h64 block">' . $arrRow['text'] . '</div>';
         return $strText;
@@ -289,7 +289,7 @@ class tl_votebox_ideas extends \Backend
         }
 
         $this->createInitialVersion('tl_votebox_ideas', $intId);
-    
+
         // Trigger the save_callback
         if (is_array($GLOBALS['TL_DCA']['tl_votebox_ideas']['fields']['published']['save_callback'])) {
             foreach ($GLOBALS['TL_DCA']['tl_votebox_ideas']['fields']['published']['save_callback'] as $callback) {
